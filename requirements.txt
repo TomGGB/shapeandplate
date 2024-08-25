@@ -6,3 +6,4 @@ cryptography
 google-generativeai
 gunicorn
 djangorestframework
+whitenoise
