@@ -1,0 +1,6 @@
+django
+google-cloud-bigquery
+python-dotenv
+PyJWT
+cryptography
+google-generativeai
