@@ -119,31 +119,5 @@
 
         <button type="submit">Generar Rutina</button>
     </form>
-    <h1>Rutina Personalizada</h1>
-    {% if rutina %}
-        <h2>Datos del Usuario</h2>
-        <p>Edad: {{ usuario.edad }}</p>
-        <p>Altura: {{ usuario.altura }}</p>
-        <p>Peso: {{ usuario.peso }}</p>
-        <p>Ejercicio Semanal: {{ usuario.ejercicio_semanal }}</p>
-        <p>Dieta: {{ usuario.dieta }}</p>
-
-        <h2>Rutina</h2>
-        <ul>
-            {% for ejercicio in rutina %}
-                <li>
-                    <h3>{{ ejercicio.nombre }}</h3>
-                    <p>Duración: {{ ejercicio.duracion }}</p>
-                    <p>Repeticiones: {{ ejercicio.rep }}</p>
-                    <p>Sesiones: {{ ejercicio.sesiones }}</p>
-                    <p>Intensidad: {{ ejercicio.i }}</p>
-                    <p>Descripción: {{ ejercicio.desc }}</p>
-                    <img src="{{ ejercicio.url }}" alt="Imagen del ejercicio">
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No se ha generado ninguna rutina aún.</p>
-    {% endif %}
 </body>
 </html>
