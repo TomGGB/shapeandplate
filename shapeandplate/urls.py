@@ -17,10 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include
-from workout import views
-from perfil import views
+from workout import views 
 
 urlpatterns = [
+    #redireccionar a workout
     path('', include('workout.urls')),
     path('admin/', admin.site.urls),
     path('perfil/', include('perfil.urls')),

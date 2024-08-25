@@ -7,6 +7,10 @@ import google.generativeai as genai
 # Carga las variables de entorno desde el archivo .env
 load_dotenv()
 
+def index(request):
+    #redireccionar a workout
+    return redirect('workout')
+
 def workout(request):
     return render(request, 'workout.html')
 

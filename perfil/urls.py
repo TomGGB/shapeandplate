@@ -1,5 +1,6 @@
 from django.urls import path, include
 from . import views
+from workout import views as workout_views
 
 urlpatterns = [
     path('', views.login, name='login'),
