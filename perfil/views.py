@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, redirect
 from .models import Usuario  # Asegúrate de tener un modelo llamado Usuario
 from django.views.decorators.csrf import csrf_exempt  # Importa csrf_exempt
@@ -6,11 +5,23 @@ from google.cloud import bigquery
 from dotenv import load_dotenv
 import os
 import uuid
+import tempfile
+import json
 
 # Carga las variables de entorno desde el archivo .env
 load_dotenv()
+
+# Decodifica el JSON de las credenciales de Google Cloud
+credentials_json = os.getenv("GOOGLE_APPLICATION_CREDENTIALS_JSON")
+credentials_dict = json.loads(credentials_json)
+
+# Crea un archivo temporal para las credenciales de Google Cloud
+with tempfile.NamedTemporaryFile(delete=False, mode='w') as temp_file:
+    json.dump(credentials_dict, temp_file)
+    temp_file_path = temp_file.name
+
 # Configura la variable de entorno para las credenciales de Google Cloud
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = temp_file_path
 
 # Inicializa un cliente para interactuar con BigQuery
 client = bigquery.Client()
@@ -23,8 +34,6 @@ def logout(request):
 
 def signup(request):
     return render(request, 'signup.html')
-    
-
 
 @csrf_exempt
 def save_data(request):
