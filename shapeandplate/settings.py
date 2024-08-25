@@ -14,6 +14,11 @@ ALLOWED_HOSTS = [
     'shapeandplate-production.up.railway.app'
 ]
 
+# Agregar CSRF_TRUSTED_ORIGINS
+CSRF_TRUSTED_ORIGINS = [
+    'https://shapeandplate-production.up.railway.app'
+]
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
