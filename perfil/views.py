@@ -23,12 +23,6 @@ def logout(request):
 
 def signup(request):
     return render(request, 'signup.html')
-
-def socialaccount_login(request):
-    return render(request, 'socialaccount_login.html')
-
-def socialaccount_signup(request):
-    return render(request, 'socialaccount_signup.html')
     
 
 
