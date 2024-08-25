@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
+{% load static %}
 <head>
+    <title>Generar Rutina de Ejercicio</title>
+    <link rel="icon" href="{% static 'img/Logo.png' %}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario de Rutina de Ejercicio</title>
     <style>
         /* Estilos generales */
         body {
@@ -94,6 +96,9 @@
 </head>
 <body>
     <h1>Generar Rutina de Ejercicio</h1>
+    <div style="text-align: center;">
+        <img src="{% static 'img/Logo.png' %}" alt="Logo" style="max-width: 150px; margin-bottom: 20px;">
+    </div>
     <form action="{% url 'generate_workout' %}" method="post">
         {% csrf_token %}
         <label for="edad">Edad:</label>

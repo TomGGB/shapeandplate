@@ -11,12 +11,13 @@ SECRET_KEY = 'django-insecure-h5g!v%*t)-y(j%4p4d218ihigtu2y$e2_6-)er#w5_)ea(ih!i
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'shapeandplate-production.up.railway.app'
+    'shapeandplate-production.up.railway.app',
+    '127.0.0.1'
 ]
 
 # Agregar CSRF_TRUSTED_ORIGINS
 CSRF_TRUSTED_ORIGINS = [
-    'https://shapeandplate-production.up.railway.app'
+    'https://shapeandplate-production.up.railway.app',
 ]
 
 INSTALLED_APPS = [
@@ -46,9 +47,6 @@ ROOT_URLCONF = 'shapeandplate.urls'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
-
-
-
 
 TEMPLATES = [
     {
@@ -98,6 +96,11 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+# Agregar STATICFILES_DIRS para incluir la ruta de archivos estáticos
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
