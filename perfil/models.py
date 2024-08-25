@@ -4,8 +4,8 @@ from django.db import models
 class Usuario(models.Model):
     username = models.CharField(max_length=100, blank=True, null=True, unique=True)
     id = models.CharField(max_length=100, primary_key=True)
-    name = models.CharField(max_length=100, blank=True, null=True)
-    last_name = models.CharField(max_length=100, blank=True, null=True)
+    nombre = models.CharField(max_length=100, blank=True, null=True)
+    apellidos = models.CharField(max_length=100, blank=True, null=True)
     edad = models.IntegerField(blank=True, null=True)
     altura = models.FloatField(blank=True, null=True)
     ejercicio = models.IntegerField(blank=True, null=True)
