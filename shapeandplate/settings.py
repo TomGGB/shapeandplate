@@ -10,7 +10,9 @@ SECRET_KEY = 'django-insecure-h5g!v%*t)-y(j%4p4d218ihigtu2y$e2_6-)er#w5_)ea(ih!i
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'shapeandplate-production.up.railway.app'
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
