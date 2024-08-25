@@ -19,7 +19,7 @@ ALLOWED_HOSTS = [
 # Agregar CSRF_TRUSTED_ORIGINS
 CSRF_TRUSTED_ORIGINS = [
     'https://shapeandplate-production.up.railway.app',
-    'https://shapeandplate.tech/',
+    'https://shapeandplate.tech',
 ]
 
 INSTALLED_APPS = [
