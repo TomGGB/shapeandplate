@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 <body>
+    <div id="loading-screen" class="loading-screen">
+        <div class="spinner"></div>
+    </div>
     <div class="container">
         {% block content %}{% endblock %}
     </div>
@@ -22,5 +25,26 @@
             <img aria-hidden="true" alt="profile" src="{% static 'navbar/profile.svg' %}" class="h-6 w-6 text-primary-foreground" />
         </button>
     </nav>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("loading-screen").style.display = "none";
+
+            // Mostrar pantalla de carga al enviar formularios
+            const forms = document.querySelectorAll("form");
+            forms.forEach(form => {
+                form.addEventListener("submit", function() {
+                    document.getElementById("loading-screen").style.display = "flex";
+                });
+            });
+
+            // Mostrar pantalla de carga al hacer clic en enlaces de navegación
+            const links = document.querySelectorAll("a");
+            links.forEach(link => {
+                link.addEventListener("click", function() {
+                    document.getElementById("loading-screen").style.display = "flex";
+                });
+            });
+        });
+    </script>
 </body>
 </html>
