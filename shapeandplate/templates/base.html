@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Shape&Plate{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/x-icon">
 </head>
 <body>
     <div id="loading-screen" class="loading-screen">
@@ -21,7 +22,7 @@
         <button class="focus:outline-none rounded-full" onclick="window.location.href='/plate'">
             <img aria-hidden="true" alt="fork" src="{% static 'navbar/fork.svg' %}" class="h-6 w-6 text-primary-foreground" />
         </button>
-        <button class="focus:outline-none rounded-full" onclick="window.location.href='/perfil/profile/'">
+        <button class="focus:outline-none rounded-full" onclick="window.location.href='/perfil/'">
             <img aria-hidden="true" alt="profile" src="{% static 'navbar/profile.svg' %}" class="h-6 w-6 text-primary-foreground" />
         </button>
     </nav>
