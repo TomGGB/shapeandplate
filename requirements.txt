@@ -8,4 +8,3 @@ gunicorn
 djangorestframework
 whitenoise
 django-pwa
-mysqlclient
