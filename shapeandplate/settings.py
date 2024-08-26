@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-h5g!v%*t)-y(j%4p4d218ihigtu2y$e2_6-)er#w5_)ea(ih!i'
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'shapeandplate-production.up.railway.app',
@@ -36,8 +36,11 @@ INSTALLED_APPS = [
     'perfil',
     'pwa',
     'plate',
+    'core',
 ]
 
+LOGIN_URL = '/perfil/login/'
+AUTH_USER_MODEL = 'core.User'
 
 
 PWA_APP_NAME = 'Shape and Plate'
@@ -97,8 +100,12 @@ WSGI_APPLICATION = 'shapeandplate.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv('MYSQLDATABASE'),
+        'USER': os.getenv('MYSQLUSER'),
+        'PASSWORD': os.getenv('MYSQLPASSWORD'),
+        'HOST': os.getenv('MYSQLHOST'),
+        'PORT': os.getenv('MYSQLPORT'),
     }
 }
 
