@@ -6,8 +6,8 @@
 .logo {
     display: block;
     margin: 0 auto;
-    width: 200px;
-    height: 200px;
+    width: 100px;
+    height: 100px;
 }
 
 @media (min-width: 768px) {
@@ -32,6 +32,13 @@ body {
 .container {
     flex: 1;
     padding: 20px;
+}
+
+@media (max-width: 767px) {
+    .container {
+        margin-bottom: 4rem;
+        /* Ajusta este valor según la altura de tu navbar */
+    }
 }
 
 /* Estilos para encabezados h1 */
