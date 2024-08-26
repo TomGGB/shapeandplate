@@ -119,9 +119,11 @@ input[type="submit"]:hover {
 
 /* Estilos para botones */
 button {
-    background: none;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: var(--primary-foreground-color);
     border: none;
-    outline: none;
+    border-radius: 4px;
     cursor: pointer;
 }
 
