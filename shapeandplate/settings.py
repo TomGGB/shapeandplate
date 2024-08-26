@@ -54,6 +54,7 @@ PWA_APP_DIR = 'ltr'
 PWA_APP_LANG = 'es'
         
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -75,7 +76,7 @@ AUTHENTICATION_BACKENDS = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'shapeandplate' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

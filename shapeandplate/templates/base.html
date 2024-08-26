@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Shape&Plate{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+<body>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+    <nav class="fixed bottom-0 left-0 right-0 bg-primary py-4 px-4 flex justify-around items-center md:hidden rounded-t-lg">
+        <button class="focus:outline-none rounded-full" onclick="window.location.href='/workout/'">
+            <img aria-hidden="true" alt="dumbbell" src="{% static 'navbar/dumbbell.svg' %}" class="h-6 w-6 text-primary-foreground" />
+        </button>
+        <button class="focus:outline-none rounded-full" onclick="window.location.href='/'">
+            <img aria-hidden="true" alt="fork" src="{% static 'navbar/fork.svg' %}" class="h-6 w-6 text-primary-foreground" />
+        </button>
+        <button class="focus:outline-none rounded-full" onclick="window.location.href='/perfil/signup/'">
+            <img aria-hidden="true" alt="profile" src="{% static 'navbar/profile.svg' %}" class="h-6 w-6 text-primary-foreground" />
+        </button>
+    </nav>
+</body>
+</html>

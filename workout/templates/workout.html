@@ -1,139 +1,32 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 {% load static %}
-<head>
-    <title>Generar Rutina de Ejercicio</title>
-    <link rel="manifest" href="{% static 'pwa/manifest.json' %}">
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/static/serviceworker.js')
-            .then(function(registration) {
-                console.log('Service Worker registered with scope:', registration.scope);
-            }).catch(function(error) {
-                console.log('Service Worker registration failed:', error);
-            });
-        }
-    </script>
-    <link rel="icon" type="image/png" href="{% static 'img/faviconblanco.png' %}">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        /* Estilos generales */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
 
-        h1 {
-            text-align: center;
-            color: #333;
-        }
+{% block title %}Generar Rutina de Ejercicio{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/workout/workout.css' %}">
+{% endblock %}
 
-        form {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-        }
-
-        input, select, button {
-            width: 90%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        button {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #218838;
-        }
-
-        /* Estilos para la rutina */
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        li {
-            background: #fff;
-            margin: 10px 0;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-        }
-
-        /* Media queries para dispositivos móviles */
-        @media (max-width: 600px) {
-            form, ul {
-                padding: 10px;
-            }
-
-            h1 {
-                font-size: 1.5em;
-            }
-
-            label, input, select, button {
-                font-size: 1em;
-            }
-
-            li {
-                padding: 10px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <h1>Generar Rutina de Ejercicio</h1>
-    <div style="text-align: center;">
-        <img src="{% static 'img/favicon.png' %}" alt="Logo" style="max-width: 150px; margin-bottom: 20px;">
-    </div>
-    <form action="{% url 'generate_workout' %}" method="post">
-        {% csrf_token %}
-        <label for="edad">Edad:</label>
-        <input type="number" id="edad" name="edad" required><br><br>
-
-        <label for="altura">Altura (cm):</label>
-        <input type="number" id="altura" name="altura" required><br><br>
-
-        <label for="peso">Peso (kg):</label>
-        <input type="number" id="peso" name="peso" required><br><br>
-
-        <label for="ejercicio_semanal">Ejercicio semanal (horas):</label>
-        <input type="number" id="ejercicio_semanal" name="ejercicio_semanal" required><br><br>
-
-        <label for="dieta">Tipo de dieta:</label>
-        <select id="dieta" name="dieta" required>
-            <option value="omnivora">Omnívora</option>
-            <option value="vegetariana">Vegetariana</option>
-            <option value="vegana">Vegana</option>
-            <option value="cetogenica">Cetogénica</option>
-            <option value="paleo">Paleo</option>
-        </select><br><br>
-
-        <button type="submit">Generar Rutina</button>
-    </form>
-</body>
-</html>
+{% block content %}
+<h1>Generar Rutina de Ejercicio</h1>
+<form action="{% url 'generate_workout' %}" method="post">
+    <img class='logo' src="{% static 'img/favicon.png' %}" alt="Imagen de una persona haciendo ejercicio">
+    {% csrf_token %}
+    <label for="edad">Edad:</label>
+    <input type="number" id="edad" name="edad" required><br><br>
+    <label for="altura">Altura (cm):</label>
+    <input type="number" id="altura" name="altura" required><br><br>
+    <label for="peso">Peso (kg):</label>
+    <input type="number" id="peso" name="peso" required><br><br>
+    <label for="ejercicio_semanal">Ejercicio semanal (horas):</label>
+    <input type="number" id="ejercicio_semanal" name="ejercicio_semanal" required><br><br>
+    <label for="dieta">Tipo de dieta:</label>
+    <select id="dieta" name="dieta" required>
+        <option value="omnivora">Omnívora</option>
+        <option value="vegetariana">Vegetariana</option>
+        <option value="vegana">Vegana</option>
+        <option value="cetogenica">Cetogénica</option>
+        <option value="paleo">Paleo</option>
+    </select><br><br>
+    <button type="submit">Generar Rutina</button>
+</form>
+{% endblock %}

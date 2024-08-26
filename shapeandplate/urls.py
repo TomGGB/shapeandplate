@@ -7,4 +7,5 @@ urlpatterns = [
     path('workout/', include('workout.urls')),
     path('', RedirectView.as_view(url='workout/')),
     path('' , include('pwa.urls')),
+    path('perfil/', include('perfil.urls')),
 ]

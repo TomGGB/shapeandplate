@@ -1,0 +1,159 @@
+:root {
+    --primary-color: #242424; /* Color primario */
+    --primary-foreground-color: #d4d4d4; /* Color de primer plano primario */
+}
+
+.logo {
+    display: block;
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+}
+
+@media (min-width: 768px) {
+    .logo {
+        width: 300px;
+        height: 300px;
+    }
+}
+
+/* Estilos generales del cuerpo */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Contenedor principal */
+.container {
+    flex: 1;
+    padding: 20px;
+}
+
+/* Estilos para encabezados h1 */
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+/* Estilos para etiquetas de formulario */
+label {
+    display: block;
+    margin-top: 10px;
+    color: #555;
+}
+
+/* Estilos para inputs y selects */
+input, select {
+    width: 90%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Estilos para el botón de submit */
+input[type="submit"] {
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/* Estilos para el botón de submit en hover */
+input[type="submit"]:hover {
+    background-color: #4cae4c;
+}
+
+/* Estilos para la sección de login social */
+.social-login {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Estilos para los enlaces de login social */
+.social-login a {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px 20px;
+    background-color: #4285F4;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+/* Estilos para elementos con posición fija */
+/* Estilos para elementos con posición fija */
+.fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--primary-color);
+    padding: 1rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+}
+
+/* Ocultar el navbar en pantallas más grandes */
+@media (min-width: 768px) {
+    .fixed {
+        display: none;
+    }
+}
+
+/* Estilos para botones */
+button {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+/* Estilos para imágenes dentro de botones */
+button img {
+    height: 1.5rem;
+    width: 1.5rem;
+    color: var(--primary-foreground-color);
+}
+
+/* Contenedor de datos */
+.data-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para secciones de ejercicios */
+.exercise {
+    margin-bottom: 20px;
+}
+
+/* Estilos para encabezados h3 dentro de ejercicios */
+.exercise h3 {
+    margin: 0;
+    color: #28a745;
+}
+
+/* Estilos para párrafos dentro de ejercicios */
+.exercise p {
+    margin: 5px 0;
+}
+
+/* Estilos para imágenes dentro de ejercicios */
+.exercise img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}

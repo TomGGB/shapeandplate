@@ -1,77 +1,36 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
+
 {% load static %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="{% static 'img/faviconblanco.png' %}">
-    <title>Rutina generada</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
 
-        h1 {
-            text-align: center;
-            color: #333;
-        }
+{% block title %}Rutina generada{% endblock %}
 
-        .data-container {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/workout/data_preview.css' %}">
+{% endblock %}
 
-        .exercise {
-            margin-bottom: 20px;
-        }
+{% block content %}
+<h1>Rutina Personalizada</h1>
+<div class="data-container">
+    <h2>Datos del Usuario:</h2>
+    <p>Edad: {{ data.usuario.edad }}</p>
+    <p>Altura: {{ data.usuario.altura }} cm</p>
+    <p>Peso: {{ data.usuario.peso }} kg</p>
+    <p>Ejercicio Semanal: {{ data.usuario.ejercicio_semanal }} horas</p>
+    <p>Dieta: {{ data.usuario.dieta }}</p>
 
-        .exercise h3 {
-            margin: 0;
-            color: #28a745;
-        }
-
-        .exercise p {
-            margin: 5px 0;
-        }
-
-        .exercise img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Rutina Personalizada</h1>
-    <div class="data-container">
-        <h2>Datos del Usuario:</h2>
-        <p>Edad: {{ data.usuario.edad }}</p>
-        <p>Altura: {{ data.usuario.altura }} cm</p>
-        <p>Peso: {{ data.usuario.peso }} kg</p>
-        <p>Ejercicio Semanal: {{ data.usuario.ejercicio_semanal }} horas</p>
-        <p>Dieta: {{ data.usuario.dieta }}</p>
-
-        <h2>Rutina de Ejercicios:</h2>
-        {% for ejercicio in data.rutina.rutina %}
-            <div class="exercise">
-                <h3>{{ ejercicio.nombre }}</h3>
-                <p>Duración: {{ ejercicio.duracion }}</p>
-                <p>Repeticiones: {{ ejercicio.rep }}</p>
-                <p>Sesiones: {{ ejercicio.sesiones }}</p>
-                <p>Intensidad: {{ ejercicio.i }}</p>
-                <p>Descripción: {{ ejercicio.desc }}</p>
-                {% if ejercicio.url %}
-                    <img src="{{ ejercicio.url }}" alt="Imagen del ejercicio">
-                {% endif %}
-            </div>
-        {% endfor %}
-    </div>
-</body>
-</html>
+    <h2>Rutina de Ejercicios:</h2>
+    {% for ejercicio in data.rutina.rutina %}
+        <div class="exercise">
+            <h3>{{ ejercicio.nombre }}</h3>
+            <p>Duración: {{ ejercicio.duracion }}</p>
+            <p>Repeticiones: {{ ejercicio.rep }}</p>
+            <p>Sesiones: {{ ejercicio.sesiones }}</p>
+            <p>Intensidad: {{ ejercicio.i }}</p>
+            <p>Descripción: {{ ejercicio.desc }}</p>
+            {% if ejercicio.url %}
+                <img src="{{ ejercicio.url }}" alt="Imagen del ejercicio">
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
