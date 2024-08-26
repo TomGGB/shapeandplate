@@ -17,10 +17,11 @@ ALLOWED_HOSTS = [
     'localhost'
 ]
 
-# Agregar CSRF_TRUSTED_ORIGINS
 CSRF_TRUSTED_ORIGINS = [
     'https://shapeandplate-production.up.railway.app',
     'https://shapeandplate.tech',
+    'http://127.0.0.1',
+    'http://localhost',
 ]
 
 INSTALLED_APPS = [
@@ -36,6 +37,8 @@ INSTALLED_APPS = [
     'pwa',
     'plate',
 ]
+
+
 
 PWA_APP_NAME = 'Shape and Plate'
 PWA_APP_DESCRIPTION = 'Shape and Plate es una aplicación web que te ayuda a generar rutinas de ejercicio personalizadas y te da recetas de acuerdo a tus datos y rutina.'
@@ -134,3 +137,5 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SITE_ID = 2 
