@@ -35,6 +35,8 @@ def logout(request):
 def signup(request):
     return render(request, 'signup.html')
 
+def profile(request):
+    return render(request, 'profile.html')
 @csrf_exempt
 def save_data(request):
     if request.method == 'POST':

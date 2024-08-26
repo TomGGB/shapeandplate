@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Recetas Personalizadas{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/plate.css' %}">
+{% endblock %}
+{% block content %}
+<div class="construction-warning">
+    <p>⚠️ Esta página está en construcción. Algunas funcionalidades pueden no estar disponibles.</p>
+</div>
+<div id="recipes-content" class="recipes-content">
+    <div class="skeleton-loader">
+        <div class="skeleton-recipe"></div>
+        <div class="skeleton-recipe"></div>
+        <div class="skeleton-recipe"></div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Simular una carga de datos
+        setTimeout(function() {
+            document.querySelector(".skeleton-loader").style.display = "none";
+            document.getElementById("recipes-content").innerHTML = `
+                <h1>Recetas Personalizadas</h1>
+                <div class="recipe">
+                    <h2>Ensalada de Quinoa</h2>
+                    <p>Ingredientes: Quinoa, tomate, pepino, cebolla, aceite de oliva, limón, sal.</p>
+                    <p>Instrucciones: Cocina la quinoa según las instrucciones del paquete. Mezcla con los demás ingredientes y aliña al gusto.</p>
+                </div>
+                <div class="recipe">
+                    <h2>Pollo al Curry</h2>
+                    <p>Ingredientes: Pechuga de pollo, curry en polvo, leche de coco, cebolla, ajo, jengibre, sal.</p>
+                    <p>Instrucciones: Sofríe la cebolla, el ajo y el jengibre. Añade el pollo y el curry. Cocina hasta que el pollo esté hecho y añade la leche de coco. Cocina a fuego lento hasta que la salsa espese.</p>
+                </div>
+                <div class="recipe">
+                    <h2>Batido de Proteínas</h2>
+                    <p>Ingredientes: Leche, plátano, proteína en polvo, mantequilla de maní, miel.</p>
+                    <p>Instrucciones: Mezcla todos los ingredientes en una licuadora hasta obtener una consistencia suave.</p>
+                </div>
+            `;
+        }, 2000); // Simula un retraso de 2 segundos
+    });
+</script>
+{% endblock %}

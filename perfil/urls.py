@@ -4,6 +4,7 @@ from workout import views as workout_views
 
 urlpatterns = [
     path('', views.login, name='login'),
+    path('profile/', views.profile, name='profile'),
     path('logout/', views.logout, name='logout'),
     path('signup/', views.signup, name='signup'),
     path('signup/save_data/', views.save_data, name='save_data'),

@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'workout',
     'perfil',
     'pwa',
+    'plate',
 ]
 
 PWA_APP_NAME = 'Shape and Plate'
