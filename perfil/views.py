@@ -31,8 +31,13 @@ client = bigquery.Client()
 
 def user_login(request):
     if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
+        email = request.POST.get('email', None)
+        password = request.POST.get('password', None)
+        
+        if email is None or password is None:
+            messages.error(request, 'Correo electrónico y contraseña son requeridos.')
+            return render(request, 'login.html')
+        
         user = authenticate(request, email=email, password=password)
         if user is not None:
             auth_login(request, user)
@@ -116,3 +121,6 @@ def profile(request):
         'weekly_exercise_hours': user.weekly_exercise_hours,
     }
     return render(request, 'profile.html', context)
+
+def password_reset(request):
+    return render(request, 'password_reset.html')

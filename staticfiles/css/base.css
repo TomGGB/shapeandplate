@@ -1,26 +1,35 @@
 :root {
-    --primary-color: #242424; /* Color primario */
-    --primary-foreground-color: #d4d4d4; /* Color de primer plano primario */
+    --primary-color: #6200ee; /* Color primario */
+    --primary-foreground-color: #ffffff; /* Color de primer plano primario */
+    --secondary-color: #03dac6; /* Color secundario */
+    --background-color: #f4f4f4; /* Color de fondo */
+    --surface-color: #ffffff; /* Color de superficie */
+    --error-color: #b00020; /* Color de error */
+    --on-primary-color: #ffffff; /* Color sobre primario */
+    --on-secondary-color: #000000; /* Color sobre secundario */
+    --on-background-color: #000000; /* Color sobre fondo */
+    --on-surface-color: #000000; /* Color sobre superficie */
+    --on-error-color: #ffffff; /* Color sobre error */
 }
 
-.logo {
-    display: block;
-    margin: 0 auto;
-    width: 100px;
-    height: 100px;
+:root[data-theme='dark'] {
+    --primary-color: #212121;
+    --primary-foreground-color: #ffffff;
+    --secondary-color: #333333;
+    --background-color: #121212;
+    --surface-color: #1e1e1e;
+    --error-color: #cf6679;
+    --on-primary-color: #ffffff;
+    --on-secondary-color: #ffffff;
+    --on-background-color: #ffffff;
+    --on-surface-color: #ffffff;
+    --on-error-color: #000000;
 }
 
-@media (min-width: 768px) {
-    .logo {
-        width: 300px;
-        height: 300px;
-    }
-}
-
-/* Estilos generales del cuerpo */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    color: var(--on-background-color);
     margin: 0;
     padding: 0;
     display: flex;
@@ -28,74 +37,57 @@ body {
     min-height: 100vh;
 }
 
-/* Contenedor principal */
 .container {
     flex: 1;
     padding: 20px;
+    background-color: var(--surface-color);
+    border-radius: 24px; /* Cambiado a 24px */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 80px;
 }
 
-@media (max-width: 767px) {
-    .container {
-        margin-bottom: 4rem;
-        /* Ajusta este valor según la altura de tu navbar */
-    }
+h1, h2, h3, h4, h5, h6 {
+    color: var(--on-surface-color);
+    font-weight: 500;
 }
 
-/* Estilos para encabezados h1 */
-h1 {
-    text-align: center;
-    color: #333;
-}
-
-/* Estilos para etiquetas de formulario */
-label {
-    display: block;
-    margin-top: 10px;
-    color: #555;
-}
-
-/* Estilos para inputs y selects */
-input, select {
-    width: 90%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-/* Estilos para el botón de submit */
-input[type="submit"] {
-    background-color: #5cb85c;
-    color: white;
-    border: none;
-    cursor: pointer;
-    margin-top: 20px;
-}
-
-/* Estilos para el botón de submit en hover */
-input[type="submit"]:hover {
-    background-color: #4cae4c;
-}
-
-/* Estilos para la sección de login social */
-.social-login {
-    text-align: center;
-    margin-top: 20px;
-}
-
-/* Estilos para los enlaces de login social */
-.social-login a {
-    display: inline-block;
-    margin: 5px;
+button {
     padding: 10px 20px;
-    background-color: #4285F4;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
+    background-color: var(--primary-color);
+    color: var(--on-primary-color);
+    border: none;
+    border-radius: 24px; /* Cambiado a 24px */
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Estilos para elementos con posición fija */
-/* Estilos para elementos con posición fija */
+button:hover {
+    background-color: var(--primary-color);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+    background-color: var(--primary-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 24px; /* Cambiado a 24px */
+    background-color: var(--surface-color);
+    color: var(--on-surface-color);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus, select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(98, 0, 238, 0.2);
+    outline: none;
+}
+
 .fixed {
     position: fixed;
     bottom: 0;
@@ -106,106 +98,74 @@ input[type="submit"]:hover {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem;
+    border-top-left-radius: 24px; /* Cambiado a 24px */
+    border-top-right-radius: 24px; /* Cambiado a 24px */
 }
 
-/* Ocultar el navbar en pantallas más grandes */
 @media (min-width: 768px) {
     .fixed {
         display: none;
     }
 }
 
-/* Estilos para botones */
-button {
+.logout-button {
     padding: 10px 20px;
-    background-color: var(--primary-color);
-    color: var(--primary-foreground-color);
+    background-color: var(--error-color);
+    color: var(--on-error-color);
     border: none;
-    border-radius: 4px;
+    border-radius: 24px; /* Cambiado a 24px */
     cursor: pointer;
+    font-size: 1rem;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
 }
 
-/* Estilos para imágenes dentro de botones */
-button img {
-    height: 1.5rem;
-    width: 1.5rem;
-    color: var(--primary-foreground-color);
+.logout-button:hover {
+    background-color: #9b0000;
 }
 
-/* Contenedor de datos */
+.logout-button:active {
+    background-color: #b00020;
+}
+
 .data-container {
     max-width: 600px;
     margin: 20px auto;
     padding: 20px;
-    background: #fff;
-    border-radius: 8px;
+    background: var(--surface-color);
+    border-radius: 24px; /* Cambiado a 24px */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilos para secciones de ejercicios */
 .exercise {
     margin-bottom: 20px;
 }
 
-/* Estilos para encabezados h3 dentro de ejercicios */
 .exercise h3 {
     margin: 0;
-    color: #28a745;
+    color: var(--secondary-color);
 }
 
-/* Estilos para párrafos dentro de ejercicios */
 .exercise p {
     margin: 5px 0;
+    color: var(--on-surface-color);
 }
 
-/* Estilos para imágenes dentro de ejercicios */
 .exercise img {
     max-width: 100%;
     height: auto;
-    border-radius: 8px;
+    border-radius: 24px; /* Cambiado a 24px */
 }
 
-/* Estilos para la pantalla de carga */
-.loading-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-.spinner {
-    border: 8px solid #f3f3f3;
-    border-top: 8px solid var(--primary-color);
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Estilos para la advertencia de construcción */
 .construction-warning {
-    background-color: #ffcc00;
-    color: #333;
+    background-color: var(--secondary-color);
+    color: var(--on-secondary-color);
     padding: 10px;
     text-align: center;
-    border-radius: 4px;
+    border-radius: 24px; /* Cambiado a 24px */
     margin-bottom: 20px;
 }
 
-/* Estilos para el skeleton loader */
 .skeleton-loader {
     display: flex;
     flex-direction: column;
@@ -217,34 +177,33 @@ button img {
     width: 100px;
     height: 100px;
     background-color: #ddd;
-    border-radius: 50%;
+    border-radius: 24px; /* Cambiado a 24px */
 }
 
 .skeleton-text {
     width: 80%;
     height: 20px;
     background-color: #ddd;
-    border-radius: 4px;
+    border-radius: 24px; /* Cambiado a 24px */
 }
 
 .skeleton-text.short {
     width: 60%;
 }
 
-/* Estilos para las recetas */
 .recipe {
-    background-color: #fff;
+    background-color: var(--surface-color);
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 24px; /* Cambiado a 24px */
     padding: 20px;
     margin-bottom: 20px;
 }
 
 .recipe h2 {
     margin-top: 0;
-    color: #333;
+    color: var(--on-surface-color);
 }
 
 .recipe p {
-    color: #555;
+    color: var(--on-surface-color);
 }

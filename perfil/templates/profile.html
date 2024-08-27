@@ -1,15 +1,20 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Perfil de Usuario{% endblock %}
-{% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
-{% endblock %}
 {% block content %}
 <div class="construction-warning bg-yellow-300 text-gray-800 p-4 text-center rounded-md mb-6">
     <p>⚠️ Esta página está en construcción. Algunas funcionalidades pueden no estar disponibles.</p>
 </div>
-<div id="profile-content" class="profile-content max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
-    <h1 class="text-center text-2xl font-bold text-gray-800">Perfil de Usuario</h1>
+<div id="profile-content" class="profile-content max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md relative">
+    <div class="flex items-center justify-between mb-6">
+        <button class="theme-toggle bg-gray-800 text-white p-2 rounded-full" onclick="toggleTheme()">
+            <i class="fa fa-adjust"></i>
+        </button>
+        <h1 class="text-center text-2xl font-bold text-gray-800 flex-grow">Perfil de Usuario</h1>
+        <a href="{% url 'logout' %}" class="logout-button bg-gray-800 text-white p-2 rounded-full">
+            <i class="fa fa-sign-out-alt"></i>
+        </a>
+    </div>
     <form method="post" action="{% url 'profile' %}">
         {% csrf_token %}
         <label for="first_name" class="block mt-4 text-gray-600">Nombre:</label>
