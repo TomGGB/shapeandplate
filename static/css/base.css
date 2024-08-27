@@ -1,7 +1,7 @@
 :root {
-    --primary-color: #6200ee; /* Color primario */
+    --primary-color: #312727; /* Color primario */
     --primary-foreground-color: #ffffff; /* Color de primer plano primario */
-    --secondary-color: #03dac6; /* Color secundario */
+    --secondary-color: #ffffff; /* Color secundario */
     --background-color: #f4f4f4; /* Color de fondo */
     --surface-color: #ffffff; /* Color de superficie */
     --error-color: #b00020; /* Color de error */
@@ -28,6 +28,8 @@ body {
     background-color: var(--surface-color);
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 80px;
+
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -48,12 +50,12 @@ button {
 }
 
 button:hover {
-    background-color: #3700b3;
+    background-color: #c9fca0;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 button:active {
-    background-color: #6200ee;
+    background-color: #c9fca0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -258,3 +260,5 @@ input:focus, select:focus {
 .recipe p {
     color: #555;
 }
+
+/* Clase para agregar margen inferior al contenedor principal */

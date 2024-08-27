@@ -12,6 +12,28 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#343d42', // Color primario
+                        'primary-foreground': '#ffffff', // Color de primer plano primario
+                        secondary: '#03dac6', // Color secundario
+                        background: '#f4f4f4', // Color de fondo
+                        surface: '#ffffff', // Color de superficie
+                        error: '#b00020', // Color de error
+                        'on-primary': '#ffffff', // Color sobre primario
+                        'on-secondary': '#000000', // Color sobre secundario
+                        'on-background': '#000000', // Color sobre fondo
+                        'on-surface': '#000000', // Color sobre superficie
+                        'on-error': '#ffffff', // Color sobre error
+                    },
+                },
+            },
+        }
+    </script>
 </head>
 <body>
     <div id="loading-screen" class="loading-screen">
