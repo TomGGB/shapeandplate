@@ -27,6 +27,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     height = models.IntegerField(("height in cm"), blank=True, null=True)
     smoker = models.BooleanField(default=False)
     weekly_exercise_hours = models.IntegerField(("weekly exercise hours"), blank=True, null=True)
+    imc = models.FloatField(("imc"), blank=True, null=True)
+    goal = models.CharField(max_length=100, blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
