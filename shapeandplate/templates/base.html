@@ -4,9 +4,14 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Last-Modified" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache, mustrevalidate">
+    <meta http-equiv="Pragma" content="no-cache">
     <title>{% block title %}Shape&Plate{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
     <div id="loading-screen" class="loading-screen">
@@ -16,14 +21,14 @@
         {% block content %}{% endblock %}
     </div>
     <nav class="fixed bottom-0 left-0 right-0 bg-primary py-4 px-4 flex justify-around items-center md:hidden rounded-t-lg">
-        <button class="focus:outline-none rounded-full" onclick="window.location.href='/workout/'">
-            <img aria-hidden="true" alt="dumbbell" src="{% static 'navbar/dumbbell.svg' %}" class="h-6 w-6 text-primary-foreground" />
+        <button class="focus:outline-none rounded-full nav-item {% if request.path == '/workout/' %}active{% endif %}" onclick="window.location.href='/workout/'">
+            <span class="material-icons text-primary-foreground">fitness_center</span>
         </button>
-        <button class="focus:outline-none rounded-full" onclick="window.location.href='/plate'">
-            <img aria-hidden="true" alt="fork" src="{% static 'navbar/fork.svg' %}" class="h-6 w-6 text-primary-foreground" />
+        <button class="focus:outline-none rounded-full nav-item {% if request.path == '/plate' %}active{% endif %}" onclick="window.location.href='/plate'">
+            <span class="material-icons text-primary-foreground">restaurant</span>
         </button>
-        <button class="focus:outline-none rounded-full" onclick="window.location.href='/perfil/'">
-            <img aria-hidden="true" alt="profile" src="{% static 'navbar/profile.svg' %}" class="h-6 w-6 text-primary-foreground" />
+        <button class="focus:outline-none rounded-full nav-item {% if request.path == '/perfil/' %}active{% endif %}" onclick="window.location.href='/perfil/'">
+            <span class="material-icons text-primary-foreground">person</span>
         </button>
     </nav>
     <script>
@@ -43,6 +48,14 @@
             links.forEach(link => {
                 link.addEventListener("click", function() {
                     document.getElementById("loading-screen").style.display = "flex";
+                });
+            });
+
+            // Manejar la activación de los elementos de la barra de navegación
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
                 });
             });
         });

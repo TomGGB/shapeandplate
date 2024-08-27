@@ -1,26 +1,20 @@
 :root {
-    --primary-color: #242424; /* Color primario */
-    --primary-foreground-color: #d4d4d4; /* Color de primer plano primario */
+    --primary-color: #6200ee; /* Color primario */
+    --primary-foreground-color: #ffffff; /* Color de primer plano primario */
+    --secondary-color: #03dac6; /* Color secundario */
+    --background-color: #f4f4f4; /* Color de fondo */
+    --surface-color: #ffffff; /* Color de superficie */
+    --error-color: #b00020; /* Color de error */
+    --on-primary-color: #ffffff; /* Color sobre primario */
+    --on-secondary-color: #000000; /* Color sobre secundario */
+    --on-background-color: #000000; /* Color sobre fondo */
+    --on-surface-color: #000000; /* Color sobre superficie */
+    --on-error-color: #ffffff; /* Color sobre error */
 }
 
-.logo {
-    display: block;
-    margin: 0 auto;
-    width: 100px;
-    height: 100px;
-}
-
-@media (min-width: 768px) {
-    .logo {
-        width: 300px;
-        height: 300px;
-    }
-}
-
-/* Estilos generales del cuerpo */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
     margin: 0;
     padding: 0;
     display: flex;
@@ -28,146 +22,58 @@ body {
     min-height: 100vh;
 }
 
-/* Contenedor principal */
 .container {
     flex: 1;
     padding: 20px;
+    background-color: var(--surface-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-@media (max-width: 767px) {
-    .container {
-        margin-bottom: 4rem;
-        /* Ajusta este valor según la altura de tu navbar */
-    }
+h1, h2, h3, h4, h5, h6 {
+    color: var(--on-surface-color);
+    font-weight: 500;
 }
 
-/* Estilos para encabezados h1 */
-h1 {
-    text-align: center;
-    color: #333;
-}
-
-/* Estilos para etiquetas de formulario */
-label {
-    display: block;
-    margin-top: 10px;
-    color: #555;
-}
-
-/* Estilos para inputs y selects */
-input, select {
-    width: 90%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-/* Estilos para el botón de submit */
-input[type="submit"] {
-    background-color: #5cb85c;
-    color: white;
-    border: none;
-    cursor: pointer;
-    margin-top: 20px;
-}
-
-/* Estilos para el botón de submit en hover */
-input[type="submit"]:hover {
-    background-color: #4cae4c;
-}
-
-/* Estilos para la sección de login social */
-.social-login {
-    text-align: center;
-    margin-top: 20px;
-}
-
-/* Estilos para los enlaces de login social */
-.social-login a {
-    display: inline-block;
-    margin: 5px;
-    padding: 10px 20px;
-    background-color: #4285F4;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-}
-
-/* Estilos para elementos con posición fija */
-/* Estilos para elementos con posición fija */
-.fixed {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: var(--primary-color);
-    padding: 1rem;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem;
-}
-
-/* Ocultar el navbar en pantallas más grandes */
-@media (min-width: 768px) {
-    .fixed {
-        display: none;
-    }
-}
-
-/* Estilos para botones */
 button {
     padding: 10px 20px;
     background-color: var(--primary-color);
-    color: var(--primary-foreground-color);
+    color: var(--on-primary-color);
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 1rem;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Estilos para imágenes dentro de botones */
-button img {
-    height: 1.5rem;
-    width: 1.5rem;
-    color: var(--primary-foreground-color);
+button:hover {
+    background-color: #3700b3;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* Contenedor de datos */
-.data-container {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+button:active {
+    background-color: #6200ee;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Estilos para secciones de ejercicios */
-.exercise {
-    margin-bottom: 20px;
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: var(--surface-color);
+    color: var(--on-surface-color);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Estilos para encabezados h3 dentro de ejercicios */
-.exercise h3 {
-    margin: 0;
-    color: #28a745;
+input:focus, select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(98, 0, 238, 0.2);
+    outline: none;
 }
 
-/* Estilos para párrafos dentro de ejercicios */
-.exercise p {
-    margin: 5px 0;
-}
-
-/* Estilos para imágenes dentro de ejercicios */
-.exercise img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-}
-
-/* Estilos para la pantalla de carga */
 .loading-screen {
     position: fixed;
     top: 0;
@@ -195,7 +101,113 @@ button img {
     100% { transform: rotate(360deg); }
 }
 
-/* Estilos para la advertencia de construcción */
+/* Barra de navegación */
+.fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--primary-color);
+    padding: 1rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--primary-foreground-color);
+    transition: color 0.3s ease;
+}
+
+.nav-item .material-icons {
+    font-size: 24px;
+    margin-bottom: 4px;
+}
+
+.nav-item.active {
+    color: var(--secondary-color);
+}
+
+.nav-item.active .material-icons {
+    animation: bounce 0.3s;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Ocultar el navbar en pantallas más grandes */
+@media (min-width: 768px) {
+    .fixed {
+        display: none;
+    }
+}
+
+.logout-button {
+    padding: 10px 20px;
+    background-color: var(--error-color);
+    color: var(--on-error-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #9b0000;
+}
+
+.logout-button:active {
+    background-color: #b00020;
+}
+
+.data-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: var(--surface-color);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.exercise {
+    margin-bottom: 20px;
+}
+
+.exercise h3 {
+    margin: 0;
+    color: var(--secondary-color);
+}
+
+.exercise p {
+    margin: 5px 0;
+    color: var(--on-surface-color);
+}
+
+.exercise img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
 .construction-warning {
     background-color: #ffcc00;
     color: #333;
@@ -205,7 +217,6 @@ button img {
     margin-bottom: 20px;
 }
 
-/* Estilos para el skeleton loader */
 .skeleton-loader {
     display: flex;
     flex-direction: column;
@@ -231,9 +242,8 @@ button img {
     width: 60%;
 }
 
-/* Estilos para las recetas */
 .recipe {
-    background-color: #fff;
+    background-color: var(--surface-color);
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 20px;
@@ -242,34 +252,9 @@ button img {
 
 .recipe h2 {
     margin-top: 0;
-    color: #333;
+    color: var(--on-surface-color);
 }
 
 .recipe p {
     color: #555;
-}
-
-/* Estilos para el botón de logout */
-.logout-button {
-    padding: 10px 20px;
-    background-color: #ff4d4d;
-    /* Color de fondo rojo */
-    color: white;
-    /* Color del texto blanco */
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    text-transform: uppercase;
-    transition: background-color 0.3s ease;
-}
-
-.logout-button:hover {
-    background-color: #e60000;
-    /* Color de fondo más oscuro al pasar el ratón */
-}
-
-.logout-button:active {
-    background-color: #cc0000;
-    /* Color de fondo aún más oscuro al hacer clic */
 }
