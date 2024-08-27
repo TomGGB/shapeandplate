@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-h5g!v%*t)-y(j%4p4d218ihigtu2y$e2_6-)er#w5_)ea(ih!i'
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'shapeandplate-production.up.railway.app',
@@ -106,6 +106,9 @@ DATABASES = {
         'PASSWORD': os.getenv('MYSQLPASSWORD'),
         'HOST': os.getenv('MYSQLHOST'),
         'PORT': os.getenv('MYSQLPORT'),
+        'OPTIONS': {
+            'connect_timeout': 60,
+            }
     }
 }
 
