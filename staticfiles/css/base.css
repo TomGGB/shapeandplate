@@ -1,29 +1,37 @@
 :root {
-    --primary-color: #6200ea;
-    --primary-foreground-color: #ffffff;
-    --secondary-color: #03dac6;
-    --background-color: #ffffff;
-    --surface-color: #ffffff;
-    --error-color: #b00020;
-    --on-primary-color: #ffffff;
-    --on-secondary-color: #000000;
-    --on-background-color: #383838;
-    --on-surface-color: #000000;
-    --on-error-color: #ffffff;
+    --primary-color: #039992 !important;
+    --primary-foreground-color: #000000 !important;
+    --primary-light: #66c2b9 !important;
+    --primary-dark: #02665e !important;
+    --primary-lighter: #99d9d1 !important;
+    --primary-darker: #014a47 !important;
+    --secondary-color: #03dac6 !important;
+    --background-color: #ffffff !important;
+    --surface-color: #ffffff !important;
+    --error-color: #b00020 !important;
+    --on-primary-color: #ffffff !important;
+    --on-secondary-color: #000000 !important;
+    --on-background-color: #383838 !important;
+    --on-surface-color: #000000 !important;
+    --on-error-color: #ffffff !important;
 }
 
 :root[data-theme='dark'] {
-    --primary-color: #bb86fc;
-    --primary-foreground-color: #000000;
-    --secondary-color: #03dac6;
-    --background-color: #292929;
-    --surface-color: #121212;
-    --error-color: #cf6679;
-    --on-primary-color: #000000;
-    --on-secondary-color: #000000;
-    --on-background-color: #d6d6d6;
-    --on-surface-color: #ffffff;
-    --on-error-color: #000000;
+    --primary-color: #014a47 !important;
+    --primary-foreground-color: #ffffff !important;
+    --primary-light: #02665e !important;
+    --primary-dark: #012f2d !important;
+    --primary-lighter: #039992 !important;
+    --primary-darker: #011f1e !important;
+    --secondary-color: #03dac6 !important;
+    --background-color: #292929 !important;
+    --surface-color: #121212 !important;
+    --error-color: #cf6679 !important;
+    --on-primary-color: #000000 !important;
+    --on-secondary-color: #000000 !important;
+    --on-background-color: #d6d6d6 !important;
+    --on-surface-color: #ffffff !important;
+    --on-error-color: #000000 !important;
 }
 
 body {
@@ -90,10 +98,10 @@ body {
 
 button {
     padding: 10px 20px;
-    background-color: var(--primary-color);
-    color: var(--on-primary-color);
+    background-color: var(--primary-color) !important;
+    color: var(--on-primary-color) !important;
     border: none;
-    border-radius: 24px;
+    border-radius: 24px !important;
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -370,11 +378,11 @@ input:focus, select:focus {
 }
 
 .navbar-high-zindex {
-    background-color: var(--primary-color);
-    color: var(--on-primary-color);
+    background-color: var(--primary-color) !important;
+    color: var(--on-primary-color) !important;
     z-index: 2000 !important;
 }
 
 .nav-item .material-icons {
-    color: var(--primary-foreground-color);
+    color: var(--primary-foreground-color) !important;
 }
