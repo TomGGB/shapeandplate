@@ -54,7 +54,7 @@
     <div class="container">
         {% block content %}{% endblock %}
     </div>
-    <nav class="fixed bottom-0 left-0 right-0 bg-primary py-4 px-4 flex justify-around items-center md:hidden rounded-t-lg">
+    <nav class="fixed bottom-0 left-0 right-0 bg-primary py-4 px-4 flex justify-around items-center md:hidden rounded-t-lg navbar-high-zindex">
         <button class="focus:outline-none rounded-full nav-item {% if request.path == '/workout/' %}active{% endif %}" onclick="window.location.href='/workout/'">
             <span class="material-icons text-primary-foreground">fitness_center</span>
         </button>

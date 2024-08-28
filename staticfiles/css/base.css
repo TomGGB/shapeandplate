@@ -380,3 +380,7 @@ input:focus, select:focus {
     padding: 20px;
     margin-bottom: 20px;
 }
+
+.navbar-high-zindex {
+    z-index: 2000 !important;
+}
