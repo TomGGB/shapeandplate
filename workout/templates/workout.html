@@ -6,64 +6,50 @@
 {% endblock %}
 {% block content %}
 <h1 class="text-center text-2xl font-bold text-gray-800 ">Generar Rutina de Ejercicio</h1>
-<form action="{% url 'generate_workout' %}" method="post" class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md border-radius-24">
-    <img class="block mx-auto w-24 h-24 md:w-48 md:h-48" src="{% static 'img/favicon.png' %}" alt="Logo">
-    {% csrf_token %}
-    <label for="edad" class="block mt-4 text-gray-600">Edad:</label>
-    <input type="number" id="edad" name="edad" required class="w-full p-2 mt-1 border border-gray-300 rounded-md border-radius-24">
-    
-    <label for="altura" class="block mt-4 text-gray-600">Altura (cm):</label>
-    <input type="number" id="altura" name="altura" required class="w-full p-2 mt-1 border border-gray-300 rounded-md border-radius-24">
-    
-    <label for="peso" class="block mt-4 text-gray-600">Peso (kg):</label>
-    <input type="number" id="peso" name="peso" required class="w-full p-2 mt-1 border border-gray-300 rounded-md border-radius-24">
-    
-    <label for="ejercicio_semanal" class="block mt-4 text-gray-600">¿Cuanto ejercicio haces en la semana? (horas):</label>
-    <input type="number" id="ejercicio_semanal" name="ejercicio_semanal" required class="w-full p-2 mt-1 border border-gray-300 rounded-md border-radius-24">
-    
-    <label for="dieta" class="block mt-4 text-gray-600">Tipo de dieta:</label>
-    <select id="dieta" name="dieta" required class="w-full p-2 mt-1 border border-gray-300 rounded-md border-radius-24">
-        <option value="omnivora">Omnívora</option>
-        <option value="vegana">Vegana</option>
-        <option value="vegetariana">Vegetariana</option>
-        <option value="paleo">Paleo</option>
-        <option value="cetogenica">Cetogénica</option>
-    </select>
-    
-    <label for="imc" class="block mt-4 text-gray-600">IMC:</label>
-    <input type="text" id="imc" name="imc" readonly class="w-full p-2 mt-1 border border-gray-300 rounded-md border-radius-24">
-    
-    <label for="objetivo" class="block mt-4 text-gray-600">Objetivo:</label>
-    <select id="objetivo" name="objetivo" required class="w-full p-2 mt-1 border border-gray-300 rounded-md border-radius-24">
-        <option value="ganar_peso">Ganar Peso</option>
-        <option value="ganar_musculatura">Ganar Musculatura</option>
-        <option value="perder_peso">Perder Peso</option>
-        <option value="mantener_peso">Mantener Peso</option>
-        <option value="mejorar_condicion_fisica">Mejorar Condición Física</option>
-    </select>
 
-    <label for="fumador" class="block mt-4 text-gray-600">¿Fumador?</label>
-    <input type="checkbox" id="fumador" name="fumador" class="mt-1">
-    
-    <input type="submit" value="Generar" class="w-full mt-6 p-2 bg-primary text-primary-foreground rounded-md cursor-pointer hover:bg-primary-foreground hover:text-primary border-radius-24">
-</form>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const alturaInput = document.getElementById('altura');
-        const pesoInput = document.getElementById('peso');
-        const imcInput = document.getElementById('imc');
-        function calcularIMC() {
-            const altura = parseFloat(alturaInput.value) / 100; // Convertir cm a metros
-            const peso = parseFloat(pesoInput.value);
-            if (!isNaN(altura) && !isNaN(peso) && altura > 0) {
-                const imc = (peso / (altura * altura)).toFixed(2);
-                imcInput.value = imc;
-            } else {
-                imcInput.value = '';
-            }
-        }
-        alturaInput.addEventListener('input', calcularIMC);
-        pesoInput.addEventListener('input', calcularIMC);
-    });
-</script>
+{% if not user_authenticated %}
+    <p class="text-center text-gray-600">Por favor, <a href="{% url 'login' %}" class="text-primary hover:underline">inicia sesión</a> para generar tu rutina de ejercicio.</p>
+{% else %}
+    <form action="{% url 'generate_workout' %}" method="post" class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md border-radius-24">
+        <img class="block mx-auto w-24 h-24 md:w-48 md:h-48" src="{% static 'img/favicon.png' %}" alt="Logo">
+        {% csrf_token %}
+        <label for="edad" class="block mt-4 text-gray-600">Edad:</label>
+        <input type="number" id="edad" name="edad" required class="w-full p-2 mt-1 border border-gray-300 rounded-md border-radius-24">
+        
+        <label for="altura" class="block mt-4 text-gray-600">Altura (cm):</label>
+        <input type="number" id="altura" name="altura" required class="w-full p-2 mt-1 border border-gray-300 rounded-md border-radius-24">
+        
+        <label for="peso" class="block mt-4 text-gray-600">Peso (kg):</label>
+        <input type="number" id="peso" name="peso" required class="w-full p-2 mt-1 border border-gray-300 rounded-md border-radius-24">
+        
+        <label for="ejercicio_semanal" class="block mt-4 text-gray-600">¿Cuánto ejercicio haces en la semana? (horas):</label>
+        <input type="number" id="ejercicio_semanal" name="ejercicio_semanal" required class="w-full p-2 mt-1 border border-gray-300 rounded-md border-radius-24">
+        
+        <label for="dieta" class="block mt-4 text-gray-600">Tipo de dieta:</label>
+        <select id="dieta" name="dieta" required class="w-full p-2 mt-1 border border-gray-300 rounded-md border-radius-24">
+            <option value="omnivora">Omnívora</option>
+            <option value="vegana">Vegana</option>
+            <option value="vegetariana">Vegetariana</option>
+            <option value="paleo">Paleo</option>
+            <option value="cetogenica">Cetogénica</option>
+        </select>
+        
+        <label for="imc" class="block mt-4 text-gray-600">IMC:</label>
+        <input type="text" id="imc" name="imc" readonly class="w-full p-2 mt-1 border border-gray-300 rounded-md border-radius-24">
+        
+        <label for="objetivo" class="block mt-4 text-gray-600">Objetivo:</label>
+        <select id="objetivo" name="objetivo" required class="w-full p-2 mt-1 border border-gray-300 rounded-md border-radius-24">
+            <option value="ganar_peso">Ganar Peso</option>
+            <option value="ganar_musculatura">Ganar Musculatura</option>
+            <option value="perder_peso">Perder Peso</option>
+            <option value="mantener_peso">Mantener Peso</option>
+            <option value="mejorar_condicion_fisica">Mejorar Condición Física</option>
+        </select>
+        
+        <label for="fumador" class="block mt-4 text-gray-600">¿Fumador?</label>
+        <input type="checkbox" id="fumador" name="fumador" class="mt-1">
+        
+        <input type="submit" value="Generar" class="w-full mt-6 p-2 bg-primary text-primary-foreground rounded-md cursor-pointer hover:bg-primary-foreground hover:text-primary border-radius-24">
+    </form>
+{% endif %}
 {% endblock %}

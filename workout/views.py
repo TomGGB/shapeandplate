@@ -13,7 +13,10 @@ def index(request):
     return redirect('workout')
 
 def workout(request):
-    return render(request, 'workout.html')
+    if not request.user.is_authenticated:
+        return render(request, 'workout.html', {'user_authenticated': False})
+    return render(request, 'workout.html', {'user_authenticated': True})
+
 
 @login_required
 def generate_workout(request):
