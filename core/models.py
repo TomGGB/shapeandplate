@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 
+
+
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -22,6 +24,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
+    age = models.IntegerField(blank=True, null=True)
     diet = models.CharField(max_length=100, blank=True, null=True)
     weight = models.IntegerField(("weight in kg"), blank=True, null=True)
     height = models.IntegerField(("height in cm"), blank=True, null=True)

@@ -27,7 +27,13 @@
         <input type="email" id="email" name="email" value="{{ email }}" required class="w-full p-2 mt-1 border border-gray-300 rounded-md">
         
         <label for="diet" class="block mt-4 text-gray-600">Tipo de dieta:</label>
-        <input type="text" id="diet" name="diet" value="{{ diet }}" class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+        <select id="diet" name="diet" class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+            <option value="omnivora" {% if diet == 'omnivora' %}selected{% endif %}>Omnívora</option>
+            <option value="vegana" {% if diet == 'vegana' %}selected{% endif %}>Vegana</option>
+            <option value="vegetariana" {% if diet == 'vegetariana' %}selected{% endif %}>Vegetariana</option>
+            <option value="paleo" {% if diet == 'paleo' %}selected{% endif %}>Paleo</option>
+            <option value="cetogenica" {% if diet == 'cetogenica' %}selected{% endif %}>Cetogénica</option>
+        </select>
         
         <label for="weight" class="block mt-4 text-gray-600">Peso (kg):</label>
         <input type="number" step="0.01" id="weight" name="weight" value="{{ weight|floatformat:0 }}" class="w-full p-2 mt-1 border border-gray-300 rounded-md">
@@ -35,11 +41,23 @@
         <label for="height" class="block mt-4 text-gray-600">Altura (cm):</label>
         <input type="number" step="0.01" id="height" name="height" value="{{ height|floatformat:0 }}" class="w-full p-2 mt-1 border border-gray-300 rounded-md">
         
+        <label for="imc" class="block mt-4 text-gray-600">IMC:</label>
+        <input type="float" id="imc" name="imc" value="{{ imc }}" readonly class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+        
         <label for="smoker" class="block mt-4 text-gray-600">¿Fumador?</label>
         <input type="checkbox" id="smoker" name="smoker" {% if smoker %}checked{% endif %} class="mt-1">
         
         <label for="weekly_exercise_hours" class="block mt-4 text-gray-600">Horas de ejercicio semanal:</label>
         <input type="number" step="0.01" id="weekly_exercise_hours" name="weekly_exercise_hours" value="{{ weekly_exercise_hours }}" class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+        
+        <label for="goal" class="block mt-4 text-gray-600">Objetivo:</label>
+        <select id="goal" name="goal" class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+            <option value="ganar_peso" {% if goal == 'ganar_peso' %}selected{% endif %}>Ganar Peso</option>
+            <option value="ganar_musculatura" {% if goal == 'ganar_musculatura' %}selected{% endif %}>Ganar Musculatura</option>
+            <option value="perder_peso" {% if goal == 'perder_peso' %}selected{% endif %}>Perder Peso</option>
+            <option value="mantener_peso" {% if goal == 'mantener_peso' %}selected{% endif %}>Mantener Peso</option>
+            <option value="mejorar_condicion_fisica" {% if goal == 'mejorar_condicion_fisica' %}selected{% endif %}>Mejorar Condición Física</option>
+        </select>
         
         <input type="submit" value="Actualizar Perfil" class="w-full mt-6 p-2 bg-primary text-primary-foreground rounded-md cursor-pointer hover:bg-primary-foreground hover:text-primary">
     </form>

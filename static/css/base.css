@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #6200ee; /* Color primario */
+    --primary-color: #1f1c24; /* Color primario */
     --primary-foreground-color: #ffffff; /* Color de primer plano primario */
     --secondary-color: #03dac6; /* Color secundario */
     --background-color: #f4f4f4; /* Color de fondo */
@@ -35,6 +35,11 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+}
+
+/* Clase personalizada para border-radius */
+.border-radius-24 {
+    border-radius: 24px !important;
 }
 
 .container {
@@ -209,4 +214,91 @@ input:focus, select:focus {
 
 .recipe p {
     color: var(--on-surface-color);
+}
+
+/* Ajustes generales para pantallas pequeñas */
+@media (max-width: 767px) {
+    body {
+        font-size: 16px; /* Aumenta el tamaño de la fuente para mejor legibilidad */
+        padding: 10px; /* Reduce el padding para aprovechar mejor el espacio */
+    }
+
+    .container {
+        padding: 15px; /* Reduce el padding del contenedor */
+        margin-bottom: 20px; /* Ajusta el margen inferior */
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-size: 1.5rem; /* Aumenta el tamaño de los encabezados */
+    }
+
+    button, .theme-toggle, .logout-button {
+        padding: 12px 24px; /* Aumenta el padding de los botones */
+        font-size: 1rem; /* Aumenta el tamaño de la fuente de los botones */
+        width: auto; /* Ajusta el ancho de los botones */
+        height: auto; /* Ajusta la altura de los botones */
+    }
+
+    input, select {
+        padding: 12px; /* Aumenta el padding de los inputs y selects */
+        font-size: 1rem; /* Aumenta el tamaño de la fuente de los inputs y selects */
+    }
+
+    .profile-content {
+        padding: 20px; /* Aumenta el padding del contenido del perfil */
+    }
+
+    .construction-warning {
+        padding: 15px; /* Aumenta el padding de la advertencia de construcción */
+        font-size: 1rem; /* Aumenta el tamaño de la fuente de la advertencia */
+    }
+
+    .skeleton-loader .skeleton-avatar {
+        width: 120px; /* Aumenta el tamaño del avatar del skeleton loader */
+        height: 120px; /* Aumenta el tamaño del avatar del skeleton loader */
+    }
+
+    .skeleton-loader .skeleton-text {
+        height: 24px; /* Aumenta la altura del texto del skeleton loader */
+    }
+
+    .recipe {
+        padding: 20px; /* Aumenta el padding de las recetas */
+        font-size: 1rem; /* Aumenta el tamaño de la fuente de las recetas */
+    }
+
+    .exercise {
+        margin-bottom: 20px; /* Ajusta el margen inferior de los ejercicios */
+    }
+
+    .exercise h3 {
+        font-size: 1.25rem; /* Aumenta el tamaño de la fuente de los encabezados de ejercicios */
+    }
+
+    .exercise p {
+        font-size: 1rem; /* Aumenta el tamaño de la fuente de los párrafos de ejercicios */
+    }
+
+    .exercise img {
+        border-radius: 16px; /* Ajusta el radio de borde de las imágenes de ejercicios */
+    }
+}
+
+
+.hidden {
+    display: none;
+}
+
+#toast {
+    max-width: 300px !important;  /* Limita el ancho máximo del toast */ 
+    word-wrap: break-word !important; /* Permite que el texto se ajuste dentro del contenedor */
+    position: fixed !important; /* Asegura que el toast esté fijo en la pantalla */
+    top: 20px !important; /* Ajusta la distancia desde la parte superior */
+    right: 20px !important; /* Ajusta la distancia desde la parte derecha */
+    z-index: 1000 !important; /* Asegura que el toast esté por encima de otros elementos */
+    background-color : rgba(255, 0, 0, 0.9) !important; /* Fondo rojo con opacidad */
+    color: #fff !important; /* Color del texto blanco */
+    padding: 16px !important; /* Espaciado interno */
+    border-radius: 8px !important; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important; /* Sombra para darle profundidad */
 }

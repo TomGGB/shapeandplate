@@ -58,40 +58,29 @@ def signup(request):
         last_name = request.POST['last_name']
         email = request.POST['email']
         password = request.POST['password']
-        diet = request.POST.get('diet', '')
-        weight = request.POST.get('weight', None)
-        height = request.POST.get('height', None)
-        smoker = request.POST.get('smoker', False) == 'on'
-        weekly_exercise_hours = request.POST.get('weekly_exercise_hours', None)
+        password_confirm = request.POST['password_confirm']
 
-        # Verifica si el correo electrónico ya está registrado
+        if password != password_confirm:
+            messages.error(request, 'Las contraseñas no coinciden. Por favor, inténtalo de nuevo.')
+            return redirect('signup')
+
         if User.objects.filter(email=email).exists():
-            messages.error(request, 'El correo electrónico ya está registrado.')
-            return render(request, 'signup.html')
+            messages.error(request, 'El correo electrónico ya está registrado. Por favor, usa otro correo.')
+            return redirect('signup')
 
         user = User.objects.create_user(
             first_name=first_name,
             last_name=last_name,
             email=email,
-            password=password,
-            diet=diet,
-            weight=weight,
-            height=height,
-            smoker=smoker,
-            weekly_exercise_hours=weekly_exercise_hours
+            password=password
         )
-
         user.save()
 
-        # Autenticar y loguear al usuario
-        user = authenticate(request, email=email, password=password)
-        if user is not None:
-            auth_login(request, user)  # Cambia login a auth_login
-            return redirect('profile')  # Redirigir a la página de perfil después del registro
+        messages.success(request, 'Registro exitoso. Ahora puedes iniciar sesión.')
+        return redirect('login')
 
     return render(request, 'signup.html')
 
-@login_required
 def profile(request):
     user = request.user
 
@@ -101,9 +90,10 @@ def profile(request):
         user.email = request.POST.get('email', user.email)
         user.diet = request.POST.get('diet', user.diet)
         user.weight = request.POST.get('weight', user.weight)
-        user.height = request.POST.get('height', user.height)  # Asegúrate de incluir height
+        user.height = request.POST.get('height', user.height)
         user.smoker = 'smoker' in request.POST
         user.weekly_exercise_hours = request.POST.get('weekly_exercise_hours', user.weekly_exercise_hours)
+        user.goal = request.POST.get('goal', user.goal)
 
         user.save()
         messages.success(request, 'Perfil actualizado correctamente.')
@@ -116,9 +106,10 @@ def profile(request):
         'email': user.email,
         'diet': user.diet,
         'weight': user.weight,
-        'height': user.height,  # Asegúrate de incluir height en el contexto
+        'height': user.height,
         'smoker': user.smoker,
         'weekly_exercise_hours': user.weekly_exercise_hours,
+        'objetivo': user.goal,
     }
     return render(request, 'profile.html', context)
 

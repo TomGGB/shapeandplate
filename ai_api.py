@@ -29,7 +29,22 @@ def generate_workout_routine(data):
         history=[]
     )
 
-    mensaje = f'Datos del usuario: \nEdad: {data["edad"]} \nAltura: {data["altura"]} \nPeso: {data["peso"]} \nEjercicio semanal: {data["ejercicio_semanal"]} \nDieta: {data["dieta"]}'
-    response = chat_session.send_message(mensaje)
+    mensaje = (
+        f'Datos del usuario: \n'
+        f'Edad: {data["edad"]} \n'
+        f'Altura: {data["altura"]} \n'
+        f'Peso: {data["peso"]} \n'
+        f'Horas de ejercicio que hace en la semana: {data["ejercicio_semanal"]} \n'
+        f'Dieta: {data["dieta"]} \n'
+        f'Indice de masa corporal: {data["imc"]} \n'
+        f'Objetivo: {data["objetivo"]} \n'
+        f'Fumador: {"Sí" if data["smoker"] else "No"}'
+    )
     
-    return json.loads(response.text)
+    try:
+        response = chat_session.send_message(mensaje)
+        return json.loads(response.text)
+    except genai.generation_types.StopCandidateException as e:
+        # Maneja la excepción aquí, por ejemplo, registrando el error y devolviendo un mensaje de error
+        print(f"Error: {e}")
+        return {"error": "No se pudo generar la rutina de ejercicios. Por favor, inténtalo de nuevo."}

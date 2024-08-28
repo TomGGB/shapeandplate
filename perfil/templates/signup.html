@@ -3,7 +3,7 @@
 {% block content %}
 <h1 class="text-center text-2xl font-bold text-gray-800">Registro de Usuario</h1>
 <p class="text-center text-gray-600">Por favor, ingresa tus datos:</p>
-<form action="/perfil/signup/" method="post" class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+<form id="signup-form" action="/perfil/signup/" method="post" class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md border-radius-24">
     {% csrf_token %}
     {% if messages %}
         <ul class="messages">
@@ -13,32 +13,41 @@
         </ul>
     {% endif %}
     <label for="first_name" class="block mt-4 text-gray-600">Nombre:</label>
-    <input type="text" id="first_name" name="first_name" required class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+    <input type="text" id="first_name" name="first_name" required class="w-full p-2 mt-1 border border-gray-300 rounded-md border-radius-24">
     
     <label for="last_name" class="block mt-4 text-gray-600">Apellidos:</label>
-    <input type="text" id="last_name" name="last_name" required class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+    <input type="text" id="last_name" name="last_name" required class="w-full p-2 mt-1 border border-gray-300 rounded-md border-radius-24">
     
     <label for="email" class="block mt-4 text-gray-600">Correo Electrónico:</label>
-    <input type="email" id="email" name="email" required class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+    <input type="email" id="email" name="email" required class="w-full p-2 mt-1 border border-gray-300 rounded-md border-radius-24">
     
     <label for="password" class="block mt-4 text-gray-600">Contraseña:</label>
-    <input type="password" id="password" name="password" required class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+    <input type="password" id="password" name="password" required class="w-full p-2 mt-1 border border-gray-300 rounded-md border-radius-24">
     
-    <label for="diet" class="block mt-4 text-gray-600">Tipo de dieta:</label>
-    <input type="text" id="diet" name="diet" class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+    <label for="password_confirm" class="block mt-4 text-gray-600">Confirmar Contraseña:</label>
+    <input type="password" id="password_confirm" name="password_confirm" required class="w-full p-2 mt-1 border border-gray-300 rounded-md border-radius-24">
     
-    <label for="weight" class="block mt-4 text-gray-600">Peso (kg):</label>
-    <input type="number" step="0.01" id="weight" name="weight" class="w-full p-2 mt-1 border border-gray-300 rounded-md">
-    
-    <label for="height" class="block mt-4 text-gray-600">Altura (cm):</label>
-    <input type="number" step="0.01" id="height" name="height" class="w-full p-2 mt-1 border border-gray-300 rounded-md">
-    
-    <label for="smoker" class="block mt-4 text-gray-600">¿Fumador?</label>
-    <input type="checkbox" id="smoker" name="smoker" class="mt-1">
-    
-    <label for="weekly_exercise_hours" class="block mt-4 text-gray-600">Horas de ejercicio semanal:</label>
-    <input type="number" step="0.01" id="weekly_exercise_hours" name="weekly_exercise_hours" class="w-full p-2 mt-1 border border-gray-300 rounded-md">
-    
-    <input type="submit" value="Registrar" class="w-full mt-6 p-2 bg-primary text-on-primary-color rounded-md cursor-pointer hover:bg-primary-foreground">
+    <input type="submit" value="Registrar" class="w-full mt-6 p-2 bg-primary text-on-primary-color rounded-md cursor-pointer hover:bg-primary-foreground border-radius-24">
 </form>
+
+<!-- Contenedor para el mensaje tipo toast -->
+<div id="toast" class="hidden fixed top-4 right-4 bg-red-500 text-white p-4 rounded-md shadow-md max-w-xs">
+    Las contraseñas no coinciden. Por favor, inténtalo de nuevo.
+</div>
+
+<script>
+document.getElementById('signup-form').addEventListener('submit', function(event) {
+    var password = document.getElementById('password').value;
+    var passwordConfirm = document.getElementById('password_confirm').value;
+    
+    if (password !== passwordConfirm) {
+        event.preventDefault();
+        var toast = document.getElementById('toast');
+        toast.classList.remove('hidden');
+        setTimeout(function() {
+            toast.classList.add('hidden');
+        }, 3000); // Ocultar el toast después de 3 segundos
+    }
+});
+</script>
 {% endblock %}
