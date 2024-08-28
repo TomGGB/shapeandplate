@@ -27,7 +27,7 @@
     --background-color: #292929 !important;
     --surface-color: #121212 !important;
     --error-color: #cf6679 !important;
-    --on-primary-color: #000000 !important;
+    --on-primary-color: #ffffff !important;
     --on-secondary-color: #000000 !important;
     --on-background-color: #d6d6d6 !important;
     --on-surface-color: #ffffff !important;
@@ -385,4 +385,13 @@ input:focus, select:focus {
 
 .nav-item .material-icons {
     color: var(--primary-foreground-color) !important;
+}
+
+.bg-primary{
+    background-color: var(--primary-color) !important;
+    color: var(--on-primary-color) !important;
+}
+
+.text-primary-foreground{
+    color: var(--on-primary-color) !important;
 }
