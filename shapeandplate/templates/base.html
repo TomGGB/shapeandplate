@@ -16,7 +16,6 @@
     <script src="{% static 'js/theme.js' %}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-
     <script>
         tailwind.config = {
             theme: {
@@ -67,29 +66,14 @@
     </nav>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById("loading-screen").style.display = "none";
-
-            // Mostrar pantalla de carga al enviar formularios
-            const forms = document.querySelectorAll("form");
-            forms.forEach(form => {
-                form.addEventListener("submit", function() {
-                    document.getElementById("loading-screen").style.display = "flex";
-                });
-            });
-
-            // Mostrar pantalla de carga al hacer clic en enlaces de navegación
-            const links = document.querySelectorAll("a");
-            links.forEach(link => {
-                link.addEventListener("click", function() {
-                    document.getElementById("loading-screen").style.display = "flex";
-                });
-            });
-
-            // Manejar la activación de los elementos de la barra de navegación
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-                    this.classList.add('active');
+            var loader = document.getElementById('loading-screen');
+            loader.style.display = 'none';
+            console.log('Loader oculto');
+        
+            document.querySelectorAll('nav button').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    loader.style.display = 'flex';
+                    console.log('Loader mostrado');
                 });
             });
         });
