@@ -81,6 +81,7 @@ def signup(request):
 
     return render(request, 'signup.html')
 
+@login_required
 def profile(request):
     user = request.user
 
@@ -93,6 +94,13 @@ def profile(request):
         user.height = request.POST.get('height', user.height)
         user.smoker = 'smoker' in request.POST
         user.weekly_exercise_hours = request.POST.get('weekly_exercise_hours', user.weekly_exercise_hours)
+        
+        imc = request.POST.get('imc', user.imc)
+        goal = request.POST.get('goal', user.goal)
+        if imc:
+            imc = imc.replace(',', '.')  # Reemplaza la coma por un punto
+            user.imc = float(imc)  # Convierte la cadena a un número
+        
         user.goal = request.POST.get('goal', user.goal)
 
         user.save()
@@ -109,7 +117,8 @@ def profile(request):
         'height': user.height,
         'smoker': user.smoker,
         'weekly_exercise_hours': user.weekly_exercise_hours,
-        'objetivo': user.goal,
+        'imc': user.imc,
+        'goal': user.goal,
     }
     return render(request, 'profile.html', context)
 
