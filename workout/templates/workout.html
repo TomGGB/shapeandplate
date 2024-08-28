@@ -35,7 +35,7 @@
         </select>
         
         <label for="imc" class="block mt-4 text-gray-600">IMC:</label>
-        <input type="text" id="imc" name="imc" readonly class="w-full p-2 mt-1 border border-gray-300 rounded-md border-radius-24">
+        <input type="float" id="imc" name="imc" readonly class="w-full p-2 mt-1 border border-gray-300 rounded-md border-radius-24">
         
         <label for="objetivo" class="block mt-4 text-gray-600">Objetivo:</label>
         <select id="objetivo" name="objetivo" required class="w-full p-2 mt-1 border border-gray-300 rounded-md border-radius-24">
@@ -51,5 +51,21 @@
         
         <input type="submit" value="Generar" class="w-full mt-6 p-2 bg-primary text-primary-foreground rounded-md cursor-pointer hover:bg-primary-foreground hover:text-primary border-radius-24">
     </form>
+
+    <script>
+        document.getElementById('altura').addEventListener('input', function() {
+            let altura = document.getElementById('altura').value;
+            let peso = document.getElementById('peso').value;
+            let imc = peso / ((altura / 100) ** 2);
+            document.getElementById('imc').value = imc.toFixed(2);
+        });
+
+        document.getElementById('peso').addEventListener('input', function() {
+            let altura = document.getElementById('altura').value;
+            let peso = document.getElementById('peso').value;
+            let imc = peso / ((altura / 100) ** 2);
+            document.getElementById('imc').value = imc.toFixed(2);
+        });
+    </script>
 {% endif %}
 {% endblock %}
