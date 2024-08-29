@@ -14,20 +14,6 @@ import json
 # Carga las variables de entorno desde el archivo .env
 load_dotenv()
 
-# Decodifica el JSON de las credenciales de Google Cloud
-credentials_json = os.getenv("GOOGLE_APPLICATION_CREDENTIALS_JSON")
-credentials_dict = json.loads(credentials_json)
-
-# Crea un archivo temporal para las credenciales de Google Cloud
-with tempfile.NamedTemporaryFile(delete=False, mode='w') as temp_file:
-    json.dump(credentials_dict, temp_file)
-    temp_file_path = temp_file.name
-
-# Configura la variable de entorno para las credenciales de Google Cloud
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = temp_file_path
-
-# Inicializa un cliente para interactuar con BigQuery
-client = bigquery.Client()
 
 def user_login(request):
     if request.method == 'POST':
