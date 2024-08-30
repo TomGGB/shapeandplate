@@ -55,13 +55,13 @@
         {% block content %}{% endblock %}
     </div>
     <nav class="fixed bottom-0 left-0 right-0 bg-primary py-4 px-4 flex justify-around items-center md:hidden navbar-high-zindex" style="border-top-left-radius: 24px; border-top-right-radius: 24px;">
-        <button class="focus:outline-none rounded-full nav-item {% if request.path == '/workout/' %}active{% endif %}" onclick="window.location.href='/workout/'">
+        <button class="focus:outline-none rounded-full nav-item ripple-button {% if request.path == '/workout/' %}active{% endif %}" onclick="window.location.href='/workout/'">
             <span class="material-icons text-primary-foreground">fitness_center</span>
         </button>
-        <button class="focus:outline-none rounded-full nav-item {% if request.path == '/plate' %}active{% endif %}" onclick="window.location.href='/plate'">
+        <button class="focus:outline-none rounded-full nav-item ripple-button {% if request.path == '/plate' %}active{% endif %}" onclick="window.location.href='/plate'">
             <span class="material-icons text-primary-foreground">restaurant</span>
         </button>
-        <button class="focus:outline-none rounded-full nav-item {% if request.path == '/perfil/' %}active{% endif %}" onclick="window.location.href='/perfil/'">
+        <button class="focus:outline-none rounded-full nav-item ripple-button {% if request.path == '/perfil/' %}active{% endif %}" onclick="window.location.href='/perfil/'">
             <span class="material-icons text-primary-foreground">person</span>
         </button>
     </nav>
@@ -87,6 +87,28 @@
                     loader.style.display = 'flex';
                     console.log('Loader mostrado');
                 });
+            });
+        });
+
+        // Efecto ripple
+        document.querySelectorAll('.ripple-button').forEach(button => {
+            button.addEventListener('click', function (e) {
+                const circle = document.createElement('span');
+                const diameter = Math.max(button.clientWidth, button.clientHeight);
+                const radius = diameter / 2;
+
+                circle.style.width = circle.style.height = `${diameter}px`;
+                circle.style.left = `${e.clientX - button.offsetLeft - radius}px`;
+                circle.style.top = `${e.clientY - button.offsetTop - radius}px`;
+                circle.classList.add('ripple');
+
+                const ripple = button.getElementsByClassName('ripple')[0];
+
+                if (ripple) {
+                    ripple.remove();
+                }
+
+                button.appendChild(circle);
             });
         });
     </script>
