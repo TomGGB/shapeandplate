@@ -3,8 +3,8 @@
 {% block title %}Rutina generada{% endblock %}
 {% block content %}
 <div class="top-app-bar">
-    <span class="material-icons">fitness_center</span>
-    <h1>Rutinas de Ejercicios</h1>
+    <span class="material-icons" style="vertical-align: middle; font-size: 24px;">fitness_center</span>
+    <h1 style="display: inline; vertical-align: middle;">Rutinas de Ejercicios</h1>
 </div>
 <div class="card-container">
     {% for routine in exercise_routines %}
@@ -15,9 +15,18 @@
                 <h2>{{ ejercicio.nombre }}</h2>
                 <p>{{ ejercicio.desc }}</p>
                 <ul>
-                    <li><i class="material-icons">directions_run</i> Duración: {{ ejercicio.duracion }}</li>
-                    <li><i class="material-icons">fitness_center</i> Repeticiones: {{ ejercicio.rep }}</li>
-                    <li><i class="material-icons">self_improvement</i> Sesiones: {{ ejercicio.sesiones }}</li>
+                    {% if ejercicio.duracion %}
+                        <li><i class="material-icons" style="vertical-align: middle; font-size: 20px;">schedule</i> Duración: {{ ejercicio.duracion }}</li>
+                    {% endif %}
+                    {% if ejercicio.rep %}
+                        <li><i class="material-icons" style="vertical-align: middle; font-size: 20px;">replay</i> Repeticiones: {{ ejercicio.rep }}</li>
+                    {% endif %}
+                    {% if ejercicio.series %}
+                        <li><i class="material-icons" style="vertical-align: middle; font-size: 20px;">replay</i> Series: {{ ejercicio.series }}</li>
+                    {% endif %}
+                    {% if ejercicio.sesiones %}
+                        <li><i class="material-icons" style="vertical-align: middle; font-size: 20px;">fitness_center</i> Sesiones: {{ ejercicio.sesiones }}</li>
+                    {% endif %}
                 </ul>
             </div>
         {% endfor %}
@@ -25,7 +34,7 @@
 </div>
 
 <!-- Botón flotante -->
-<button class="floating-button material-symbols-outlined" id="delete-routine-button">
+<button class="floating-button material-symbols-outlined" id="delete-routine-button" style="vertical-align: middle; font-size: 24px;">
     monitor_weight_gain
 </button>
 

@@ -22,8 +22,12 @@ def generate_workout_routine(data):
     model = genai.GenerativeModel(
         model_name="gemini-1.5-flash",
         generation_config=generation_config,
-        system_instruction="Eres un personal trainer, se ingresarán los datos del usuario y debes darle una rutina personalizada con el nombre del ejercicio(nombre), duración(duracion), repeticiones(rep), sesiones(sesiones), intensidad(i), puede ser 'Baja', 'Media' o 'Alta' y la descipcion de cada ejercicio(desc)",
-    )
+        system_instruction=(
+            "Eres un personal trainer, se ingresarán los datos del usuario y debes darle una rutina personalizada con el nombre del ejercicio(nombre),\n"
+            "duración(duracion), repeticiones(rep) si no tiene una cantidad de repeticiones no incluyas este campo en la respuesta, sesiones(sesiones), intensidad(i), puede ser 'Baja', 'Media' o 'Alta' y la descipcion de cada ejercicio(desc),\n"
+            "los ejercicios dependeran de si tiene acceso a un gymnasio o no y tambien de los datos que te entregue, que sea lo mas personalizado posible dependiendo de la cantidad de ejercicio que haga el usuario."
+        )
+        )
 
     chat_session = model.start_chat(
         history=[]
@@ -39,11 +43,12 @@ def generate_workout_routine(data):
         f'Indice de masa corporal: {data["imc"]} \n'
         f'Objetivo: {data["objetivo"]} \n'
         f'Fumador: {"Sí" if data["smoker"] else "No"}'
+        f'Acceso a gimnasio: {"Sí" if data["gym_access"] else "No"}'
     )
     
     try:
         response = chat_session.send_message(mensaje)
         return json.loads(response.text)
-    except genai.generation_types.StopCandidateException as e:
+    except Exception as e:
         print(f"Error: {e}")
         return {"error": "No se pudo generar la rutina de ejercicios. Por favor, inténtalo de nuevo."}

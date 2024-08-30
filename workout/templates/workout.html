@@ -50,6 +50,9 @@
             <label for="smoker" class="block mt-4">Fumador:</label>
             <input type="checkbox" id="smoker" name="smoker" {% if user.smoker %}checked{% endif %} class="mt-1">
 
+            <label for="gym_access" class="block mt-4">¿Tienes acceso a un gimnasio?</label>
+            <input type="checkbox" id="gym_access" name="gym_access" {% if user.gym_access %}checked{% endif %} class="mt-1">
+
             <input type="submit" value="Generar" class="w-full mt-6 p-2 bg-primary text-primary-foreground rounded-md cursor-pointer hover:bg-primary-foreground hover:text-primary border-radius-24">
         </form>
     </div>

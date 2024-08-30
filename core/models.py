@@ -32,6 +32,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     weekly_exercise_hours = models.IntegerField(("weekly exercise hours"), blank=True, null=True)
     imc = models.FloatField(("imc"), blank=True, null=True)
     goal = models.CharField(max_length=100, blank=True, null=True)
+    gym_access = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)

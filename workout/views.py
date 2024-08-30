@@ -51,6 +51,7 @@ def generate_workout(request):
         
         user.goal = request.POST.get('goal', user.goal)
         user.smoker = 'smoker' in request.POST
+        user.gym_access = 'gym_access' in request.POST
 
         # Guarda los datos del usuario
         user.save()
@@ -64,7 +65,8 @@ def generate_workout(request):
             'dieta': user.diet,
             'imc': user.imc,
             'objetivo': user.goal,
-            'smoker': user.smoker
+            'smoker': user.smoker,
+            'gym_access': user.gym_access
         }
         routine_data = generate_workout_routine(data)
 
@@ -92,7 +94,8 @@ def data_preview(request):
             'dieta': user.diet,
             'imc': user.imc,
             'objetivo': user.goal,
-            'smoker': user.smoker
+            'smoker': user.smoker,
+            'gym_access': user.gym_access
         }
         routine_data = generate_workout_routine(data)
 

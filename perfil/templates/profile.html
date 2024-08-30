@@ -17,16 +17,18 @@
         </a>
     </div>
     <div id="profile-data">
-        <p><strong>Nombre:</strong> {{ first_name|default_if_none:"No registrado" }}</p>
-        <p><strong>Apellidos:</strong> {{ last_name|default_if_none:"No registrado" }}</p>
-        <p><strong>Correo Electrónico:</strong> {{ email|default_if_none:"No registrado" }}</p>
-        <p><strong>Tipo de dieta:</strong> {% if diet == 'omnivora' %}Omnívora{% elif diet == 'vegana' %}Vegana{% elif diet == 'vegetariana' %}Vegetariana{% elif diet == 'paleo' %}Paleo{% elif diet == 'cetogenica' %}Cetogénica{% else %}No registrado{% endif %}</p>
-        <p><strong>Peso (kg):</strong> {% if weight and weight != 0 %}{{ weight|floatformat:0 }}{% else %}No registrado{% endif %}</p>
-        <p><strong>Altura (cm):</strong> {% if height and height != 0 %}{{ height|floatformat:0 }}{% else %}No registrado{% endif %}</p>
-        <p><strong>IMC:</strong> {% if imc and imc != 0 %}{{ imc }}{% else %}No registrado{% endif %}</p>
-        <p><strong>¿Fumador?:</strong> {% if smoker == True %}Si{% elif smoker == False %}No{% else %}No registrado{% endif %}</p>
-        <p><strong>Horas de ejercicio semanal:</strong> {% if weekly_exercise_hours and weekly_exercise_hours != 0 %}{{ weekly_exercise_hours }}{% else %}No registrado{% endif %}</p>
-        <p><strong>Objetivo:</strong> {% if goal == 'ganar_peso' %}Ganar Peso{% elif goal == 'ganar_musculatura' %}Ganar Musculatura{% elif goal == 'perder_peso' %}Perder Peso{% elif goal == 'mantener_peso' %}Mantener Peso{% elif goal == 'mejorar_condicion_fisica' %}Mejorar Condición Física{% else %}No registrado{% endif %}</p>
+        <ul>
+            <li><strong>Nombre:</strong> {{ first_name|default_if_none:"No registrado" }}</li>
+            <li><strong>Apellidos:</strong> {{ last_name|default_if_none:"No registrado" }}</li>
+            <li><strong>Correo Electrónico:</strong> {{ email|default_if_none:"No registrado" }}</li>
+            <li><strong>Tipo de dieta:</strong> {% if diet == 'omnivora' %}Omnívora{% elif diet == 'vegana' %}Vegana{% elif diet == 'vegetariana' %}Vegetariana{% elif diet == 'paleo' %}Paleo{% elif diet == 'cetogenica' %}Cetogénica{% else %}No registrado{% endif %}</li>
+            <li><strong>Peso (kg):</strong> {% if weight and weight != 0 %}{{ weight|floatformat:0 }}{% else %}No registrado{% endif %}</li>
+            <li><strong>Altura (cm):</strong> {% if height and height != 0 %}{{ height|floatformat:0 }}{% else %}No registrado{% endif %}</li>
+            <li><strong>IMC:</strong> {% if imc and imc != 0 %}{{ imc }}{% else %}No registrado{% endif %}</li>
+            <li><strong>¿Fumador?:</strong> {% if smoker == True %}Si{% elif smoker == False %}No{% else %}No registrado{% endif %}</li>
+            <li><strong>Horas de ejercicio semanal:</strong> {% if weekly_exercise_hours and weekly_exercise_hours != 0 %}{{ weekly_exercise_hours }}{% else %}No registrado{% endif %}</li>
+            <li><strong>Objetivo:</strong> {% if goal == 'ganar_peso' %}Ganar Peso{% elif goal == 'ganar_musculatura' %}Ganar Musculatura{% elif goal == 'perder_peso' %}Perder Peso{% elif goal == 'mantener_peso' %}Mantener Peso{% elif goal == 'mejorar_condicion_fisica' %}Mejorar Condición Física{% else %}No registrado{% endif %}</li>
+        </ul>
     </div>
     <!-- Botón flotante -->
     <button id="edit-button" class="floating-button material-symbols-outlined">
