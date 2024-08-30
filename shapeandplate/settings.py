@@ -1,6 +1,7 @@
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+import base64
 
 load_dotenv()  # Cargar variables de entorno desde el archivo .env
 
@@ -38,6 +39,8 @@ INSTALLED_APPS = [
     'plate',
     'core',
 ]
+
+
 
 LOGIN_URL = '/perfil/login/'
 AUTH_USER_MODEL = 'core.User'
@@ -149,3 +152,13 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SITE_ID = 2 
+
+# Configuración de correo electrónico
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = base64.b64decode(os.getenv('EMAIL_HOST_USER')).decode('utf-8')
+EMAIL_HOST_PASSWORD = base64.b64decode(os.getenv('EMAIL_HOST_PASSWORD')).decode('utf-8')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')

@@ -7,13 +7,21 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib import messages
 from google.cloud import bigquery
 from dotenv import load_dotenv
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str, smart_str
+from django.contrib.auth.tokens import default_token_generator
+from django.conf import settings
+from django.http import HttpResponse
 import os
 import uuid
 import tempfile
 import json
+from django.contrib.auth import get_user_model  # Importa get_user_model
+
 # Carga las variables de entorno desde el archivo .env
 load_dotenv()
-
 
 def user_login(request):
     if request.method == 'POST':
@@ -109,4 +117,50 @@ def profile(request):
     return render(request, 'profile.html', context)
 
 def password_reset(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        try:
+            user = User.objects.get(email=email)
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            reset_link = request.build_absolute_uri(f'/perfil/reset/{uid}/{token}/')
+            email_subject = 'Restablecimiento de Contraseña'
+            email_body = render_to_string('password_reset_email.html', {
+                'reset_link': reset_link,
+                'user': user,
+            })
+            send_mail(
+                email_subject,
+                smart_str(email_body),  # Asegúrate de codificar el cuerpo del correo
+                settings.DEFAULT_FROM_EMAIL,
+                [email]
+            )
+            messages.success(request, 'Se ha enviado un enlace de restablecimiento de contraseña a tu correo electrónico.')
+        except User.DoesNotExist:
+            messages.error(request, 'No se encontró una cuenta con ese correo electrónico.')
+        return redirect('password_reset')
     return render(request, 'password_reset.html')
+
+def password_reset_confirm(request, uidb64, token):
+    User = get_user_model()
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        if request.method == 'POST':
+            new_password = request.POST['new_password']
+            new_password_confirm = request.POST['new_password_confirm']
+            if new_password == new_password_confirm:
+                user.set_password(new_password)
+                user.save()
+                messages.success(request, 'Tu contraseña ha sido restablecida exitosamente.')
+                return redirect('login')
+            else:
+                messages.error(request, 'Las contraseñas no coinciden.')
+        return render(request, 'password_reset_confirm.html', {'validlink': True})
+    else:
+        messages.error(request, 'El enlace de restablecimiento de contraseña no es válido.')
+        return render(request, 'password_reset_confirm.html', {'validlink': False})
