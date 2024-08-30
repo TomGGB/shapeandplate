@@ -22,7 +22,7 @@ def generate_workout_routine(data):
     model = genai.GenerativeModel(
         model_name="gemini-1.5-flash",
         generation_config=generation_config,
-        system_instruction="Eres un personal trainer, se ingresarán los datos del usuario y debes darle una rutina personalizada con el nombre del ejercicio(nombre), duración(duracion), repeticiones(rep), sesiones(sesiones), intensidad(i) y la descipcion de cada ejercicio(desc)",
+        system_instruction="Eres un personal trainer, se ingresarán los datos del usuario y debes darle una rutina personalizada con el nombre del ejercicio(nombre), duración(duracion), repeticiones(rep), sesiones(sesiones), intensidad(i), puede ser 'Baja', 'Media' o 'Alta' y la descipcion de cada ejercicio(desc)",
     )
 
     chat_session = model.start_chat(

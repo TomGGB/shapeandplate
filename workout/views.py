@@ -6,6 +6,8 @@ from ai_api import configure_api, generate_workout_routine
 from django.contrib.auth.decorators import login_required
 from core.models import ExerciseRoutine
 from django.contrib import messages
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 # Carga las variables de entorno desde el archivo .env
 load_dotenv()
@@ -99,3 +101,12 @@ def data_preview(request):
         routine.save()
 
         return render(request, 'data_preview.html', {'exercise_routines': [routine]})
+
+@csrf_exempt
+@login_required
+def delete_routine(request):
+    if request.method == 'POST':
+        user = request.user
+        ExerciseRoutine.objects.filter(user=user).delete()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error'}, status=400)

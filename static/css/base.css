@@ -412,29 +412,33 @@ input:focus, select:focus {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-/* Modal */
+/* Estilos para el modal */
 .modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
+    display: none; /* Mantener el modal cerrado por defecto */
+    position: fixed; /* Fijar el modal en la pantalla */
+    z-index: 1; /* Asegurar que el modal esté por encima de otros elementos */
     left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%; /* Ancho completo de la pantalla */
+    height: 100%; /* Alto completo de la pantalla */
+    overflow: auto; /* Habilitar el desplazamiento si es necesario */
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+    align-content: center !important;
 }
 
+/* Contenido del modal */
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto;
+    margin: 15% auto; /* 15% desde la parte superior y centrado horizontalmente */
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
-    border-radius: 10px;
+    width: 80%; /* Ancho del contenido del modal */
+    max-width: 500px; /* Ancho máximo del contenido del modal */
+    border-radius: 12px; /* Bordes redondeados */
 }
 
+
+/* Botón de cierre */
 .close-button {
     color: #aaa;
     float: right;
@@ -449,34 +453,61 @@ input:focus, select:focus {
     cursor: pointer;
 }
 
-#profile-data{
-    color: var(--on-secondary-color) !important;
+.confirm-button {
+    background-color: var(--error-color) !important;
+    color: var(--on-surface-color);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
 }
 
-.modal-content{
-    h2{
-        color: var(--on-secondary-color) !important;
-    }
+.confirm-button:hover {
+    background-color: var(--error-color) !important;
 }
 
-/* Colores de dificultad al estilo Material Design 3 */
+.cancel-button {
+    background-color: var(--error-color) ;
+    color: var(--on-surface-color);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+
+/* Colores de dificultad*/
 .difficulty.beginner {
-    background-color: #E0F7FA; /* Cyan Light */
-    color: #006064; /* Cyan Dark */
-    border-radius: 12px; /* Bordes redondeados */
-    padding: 4px 8px; /* Espaciado interno */
+    background-color: #E0F7FA;
+    /* Cyan Light */
+    color: #006064;
+    /* Cyan Dark */
+    border-radius: 12px;
+    /* Bordes redondeados */
+    padding: 4px 8px;
+    /* Espaciado interno */
 }
 
 .difficulty.intermediate {
-    background-color: #FFF3E0; /* Orange Light */
-    color: #E65100; /* Orange Dark */
-    border-radius: 12px; /* Bordes redondeados */
-    padding: 4px 8px; /* Espaciado interno */
+    background-color: #FFF3E0;
+    /* Orange Light */
+    color: #E65100;
+    /* Orange Dark */
+    border-radius: 12px;
+    /* Bordes redondeados */
+    padding: 4px 8px;
+    /* Espaciado interno */
 }
 
 .difficulty.advanced {
-    background-color: #FCE4EC; /* Pink Light */
-    color: #880E4F; /* Pink Dark */
-    border-radius: 12px; /* Bordes redondeados */
-    padding: 4px 8px; /* Espaciado interno */
+    background-color: #FCE4EC;
+    /* Pink Light */
+    color: #880E4F;
+    /* Pink Dark */
+    border-radius: 12px;
+    /* Bordes redondeados */
+    padding: 4px 8px;
+    /* Espaciado interno */
 }
