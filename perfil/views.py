@@ -131,9 +131,10 @@ def password_reset(request):
             })
             send_mail(
                 email_subject,
-                smart_str(email_body),  # Asegúrate de codificar el cuerpo del correo
+                '',
                 settings.DEFAULT_FROM_EMAIL,
-                [email]
+                [email],
+                html_message=email_body  # Asegúrate de enviar el mensaje HTML
             )
             messages.success(request, 'Se ha enviado un enlace de restablecimiento de contraseña a tu correo electrónico.')
         except User.DoesNotExist:
