@@ -27,10 +27,6 @@ def generate_workout_routine(data):
             "duración(duracion), repeticiones(rep) si no tiene una cantidad de repeticiones no incluyas este campo en la respuesta, sesiones(sesiones), intensidad(i), puede ser 'Baja', 'Media' o 'Alta' y la descipcion de cada ejercicio(desc),\n"
             "los ejercicios dependeran de si tiene acceso a un gymnasio o no y tambien de los datos que te entregue, que sea lo mas personalizado posible dependiendo de la cantidad de ejercicio que haga el usuario."
         )
-        )
-
-    chat_session = model.start_chat(
-        history=[]
     )
 
     mensaje = (
