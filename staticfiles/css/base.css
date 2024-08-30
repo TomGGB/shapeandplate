@@ -179,7 +179,7 @@ select:focus {
 
 .loading-screen .spinner {
     border: 4px solid var(--primary-color);
-    border-left-color: transparent;
+    border-left-color: var(--on-primary-color);
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -589,3 +589,6 @@ select:focus {
 }
 
 
+ul li {
+    margin-top: 10px;
+}
