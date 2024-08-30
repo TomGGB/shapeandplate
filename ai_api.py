@@ -47,7 +47,7 @@ def generate_workout_routine(data):
     )
     
     try:
-        response = chat_session.send_message(mensaje)
+        response = model.generate_content(mensaje)
         return json.loads(response.text)
     except Exception as e:
         print(f"Error: {e}")
