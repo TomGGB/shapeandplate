@@ -7,18 +7,20 @@
     <h1>Rutinas de Ejercicios</h1>
 </div>
 <div class="card-container">
-    {% for ejercicio in data.rutina.rutina %}
-        <div class="card">
-            <span class="difficulty {% if ejercicio.dificultad == 'Principiante' %}beginner{% elif ejercicio.dificultad == 'Intermedio' %}intermediate{% else %}advanced{% endif %}">{{ ejercicio.dificultad }}</span>
-            <h2>{{ ejercicio.nombre }}</h2>
-            <p>{{ ejercicio.desc }}</p>
-            <ul>
-                <li><i class="material-icons">directions_run</i> Duración: {{ ejercicio.duracion }}</li>
-                <li><i class="material-icons">fitness_center</i> Repeticiones: {{ ejercicio.rep }}</li>
-                <li><i class="material-icons">self_improvement</i> Sesiones: {{ ejercicio.sesiones }}</li>
-                <li><i class="material-icons">whatshot</i> Intensidad: {{ ejercicio.intensidad }}</li>
-            </ul>
-        </div>
+    {% for routine in exercise_routines %}
+        {% for ejercicio in routine.routine.rutina %}
+            <div class="card">
+                <span class="difficulty">Dificultad: </span>
+                <span class="difficulty {% if ejercicio.i == 'Baja' %}beginner{% elif ejercicio.i == 'Media' %}intermediate{% else %}advanced{% endif %}">{{ ejercicio.i }}</span>
+                <h2>{{ ejercicio.nombre }}</h2>
+                <p>{{ ejercicio.desc }}</p>
+                <ul>
+                    <li><i class="material-icons">directions_run</i> Duración: {{ ejercicio.duracion }}</li>
+                    <li><i class="material-icons">fitness_center</i> Repeticiones: {{ ejercicio.rep }}</li>
+                    <li><i class="material-icons">self_improvement</i> Sesiones: {{ ejercicio.sesiones }}</li>
+                </ul>
+            </div>
+        {% endfor %}
     {% endfor %}
 </div>
 {% endblock %}

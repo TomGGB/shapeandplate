@@ -4,82 +4,98 @@ import os
 import json
 from ai_api import configure_api, generate_workout_routine
 from django.contrib.auth.decorators import login_required
+from core.models import ExerciseRoutine
+from django.contrib import messages
 
 # Carga las variables de entorno desde el archivo .env
 load_dotenv()
 
 def index(request):
-    #redireccionar a workout
+    # Redireccionar a workout
     return redirect('workout')
 
+@login_required
 def workout(request):
-    if not request.user.is_authenticated:
-        return render(request, 'workout.html', {'user_authenticated': False})
-    return render(request, 'workout.html', {'user_authenticated': True})
+    user = request.user
+    exercise_routines = ExerciseRoutine.objects.filter(user=user)
 
+    context = {
+        'user_authenticated': True,
+        'routine': exercise_routines.first() if exercise_routines.exists() else None,
+        'user': user
+    }
+
+    if exercise_routines.exists():
+        return redirect('data_preview')
+    else:
+        return render(request, 'workout.html', context)
 
 @login_required
 def generate_workout(request):
     if request.method == 'POST':
-        # Obtén los datos del formulario
-        edad = request.POST.get('edad')
-        altura = request.POST.get('altura')
-        peso = request.POST.get('peso')
-        ejercicio_semanal = request.POST.get('ejercicio_semanal')
-        dieta = request.POST.get('dieta')
-        imc = request.POST.get('imc')
-        objetivo = request.POST.get('objetivo')
-        fumador = request.POST.get('fumador') == 'on'  # Asegúrate de obtener el valor correctamente
-
-        # Configura la API
-        configure_api()
-
-        # Crea un diccionario con los datos
-        data = {
-            'edad': edad,
-            'altura': altura,
-            'peso': peso,
-            'ejercicio_semanal': ejercicio_semanal,
-            'dieta': dieta,
-            'imc': imc,
-            'objetivo': objetivo,
-            'smoker': fumador  # Usa 'smoker' en lugar de 'fumador'
-        }
-
-        # Genera la rutina de ejercicios
-        rutina_generada = generate_workout_routine(data)
-
-        if "error" in rutina_generada:
-            # Maneja el error aquí, por ejemplo, mostrando un mensaje de error en la plantilla
-            return render(request, 'error.html', {'error': rutina_generada["error"]})
-
-        # Almacena los datos en la base de datos
         user = request.user
-        user.age = edad
-        user.height = altura
-        user.weight = peso
-        user.weekly_exercise_hours = ejercicio_semanal
-        user.diet = dieta
-        user.imc = imc
-        user.goal = objetivo
-        user.smoker = fumador
+
+        # Obtén los datos del formulario
+        user.age = request.POST.get('edad', user.age)
+        user.height = request.POST.get('altura', user.height)
+        user.weight = request.POST.get('peso', user.weight)
+        user.weekly_exercise_hours = request.POST.get('ejercicio_semanal', user.weekly_exercise_hours)
+        user.diet = request.POST.get('dieta', user.diet)
+        
+        imc = request.POST.get('imc', user.imc)
+        if imc:
+            imc = imc.replace(',', '.')  # Reemplaza la coma por un punto
+            user.imc = float(imc)  # Convierte la cadena a un número
+        
+        user.goal = request.POST.get('goal', user.goal)
+        user.smoker = 'smoker' in request.POST
+
+        # Guarda los datos del usuario
         user.save()
 
-        rutina = {
-            "usuario": {
-                "edad": data['edad'],
-                "altura": data['altura'],
-                "peso": data['peso'],
-                "ejercicio_semanal": data['ejercicio_semanal'],
-                "dieta": data['dieta'],
-                "imc": data['imc'],
-                "objetivo": data['objetivo'],
-                "fumador": data['smoker']
-            },
-            "rutina": rutina_generada
+        # Genera la rutina de ejercicios
+        data = {
+            'edad': user.age,
+            'altura': user.height,
+            'peso': user.weight,
+            'ejercicio_semanal': user.weekly_exercise_hours,
+            'dieta': user.diet,
+            'imc': user.imc,
+            'objetivo': user.goal,
+            'smoker': user.smoker
         }
+        routine_data = generate_workout_routine(data)
 
-        # Renderiza una plantilla para mostrar los datos recibidos
-        return render(request, 'data_preview.html', {'data': rutina})
+        # Guarda la rutina en la base de datos
+        routine = ExerciseRoutine.objects.create(user=user, routine=routine_data)
+        routine.save()
 
-    return redirect('workout')
+        messages.success(request, 'Datos guardados y rutina generada correctamente.')
+        return redirect('data_preview')
+
+@login_required
+def data_preview(request):
+    user = request.user
+    exercise_routines = ExerciseRoutine.objects.filter(user=user)
+
+    if exercise_routines.exists():
+        return render(request, 'data_preview.html', {'exercise_routines': exercise_routines})
+    else:
+        # Genera una nueva rutina si no existe
+        data = {
+            'edad': user.age,
+            'altura': user.height,
+            'peso': user.weight,
+            'ejercicio_semanal': user.weekly_exercise_hours,
+            'dieta': user.diet,
+            'imc': user.imc,
+            'objetivo': user.goal,
+            'smoker': user.smoker
+        }
+        routine_data = generate_workout_routine(data)
+
+        # Guarda la nueva rutina en la base de datos
+        routine = ExerciseRoutine.objects.create(user=user, routine=routine_data)
+        routine.save()
+
+        return render(request, 'data_preview.html', {'exercise_routines': [routine]})

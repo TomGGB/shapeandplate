@@ -45,6 +45,5 @@ def generate_workout_routine(data):
         response = chat_session.send_message(mensaje)
         return json.loads(response.text)
     except genai.generation_types.StopCandidateException as e:
-        # Maneja la excepción aquí, por ejemplo, registrando el error y devolviendo un mensaje de error
         print(f"Error: {e}")
         return {"error": "No se pudo generar la rutina de ejercicios. Por favor, inténtalo de nuevo."}

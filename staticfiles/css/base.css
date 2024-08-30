@@ -458,3 +458,19 @@ input:focus, select:focus {
         color: var(--on-secondary-color) !important;
     }
 }
+
+/* Colores de dificultad al estilo Material Design 3 */
+.difficulty.beginner {
+    background-color: #E0F7FA; /* Cyan Light */
+    color: #006064; /* Cyan Dark */
+}
+
+.difficulty.intermediate {
+    background-color: #FFF3E0; /* Orange Light */
+    color: #E65100; /* Orange Dark */
+}
+
+.difficulty.advanced {
+    background-color: #FCE4EC; /* Pink Light */
+    color: #880E4F; /* Pink Dark */
+}
