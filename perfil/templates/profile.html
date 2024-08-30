@@ -3,7 +3,7 @@
 {% block title %}Perfil de {{ first_name }}  {% endblock %}
 {% block content %}
 <div class="top-app-bar">
-    <span class="material-icons">account_circle</span>
+    <span class="material-icons">manage_accounts</span>
     <h1>Perfil de {{ first_name }}</h1>
 </div><br><br>
 <div id="profile-content" class="card">
@@ -29,7 +29,9 @@
         <p><strong>Objetivo:</strong> {% if goal == 'ganar_peso' %}Ganar Peso{% elif goal == 'ganar_musculatura' %}Ganar Musculatura{% elif goal == 'perder_peso' %}Perder Peso{% elif goal == 'mantener_peso' %}Mantener Peso{% elif goal == 'mejorar_condicion_fisica' %}Mejorar Condición Física{% else %}No registrado{% endif %}</p>
     </div>
     <!-- Botón flotante -->
-    <button id="edit-button" class="floating-button">✎</button>
+    <button id="edit-button" class="floating-button material-symbols-outlined">
+        edit
+    </button>
 </div>
 
 <!-- Modal -->
