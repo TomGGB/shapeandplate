@@ -48,7 +48,7 @@
     </script>
 </head>
 <body>
-    <div id="loading-screen" class="loading-screen">
+    <div id="loading-screen" class="loading-screen" style="display: none;">
         <div class="spinner"></div>
     </div>
     <div class="container">
@@ -82,7 +82,7 @@
             loader.style.display = 'none';
             console.log('Loader oculto');
         
-            document.querySelectorAll('nav button').forEach(function(button) {
+            document.querySelectorAll('nav button, .action-button').forEach(function(button) {
                 button.addEventListener('click', function() {
                     loader.style.display = 'flex';
                     console.log('Loader mostrado');

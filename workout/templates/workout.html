@@ -7,46 +7,52 @@
     <h1>Generar Rutina de Ejercicios</h1>
 </div>
 <div class="card-container">
-    <form id="generate-workout-form" method="post" action="{% url 'generate_workout' %}">
-        {% csrf_token %}
-        <label for="edad" class="block mt-4 text-gray-600">Edad:</label>
-        <input type="number" id="edad" name="edad" value="{{ user.age|default_if_none:0 }}" required class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+    <div class="card">
+        <h2>¿Como se genera una rutina de ejercicios con IA?</h2>
+        <p>Para generar una rutina de ejercicios personalizada, necesitamos algunos datos tuyos. Por favor, completa el siguiente formulario con tu información personal y preferencias.</p>
+    </div>
+    <div class="card">
+        <form id="generate-workout-form" method="post" action="{% url 'generate_workout' %}">
+            {% csrf_token %}
+            <label for="edad" class="block mt-4">Edad:</label>
+            <input type="number" id="edad" name="edad" value="{{ user.age|default_if_none:0 }}" required class="w-full p-2 mt-1 border border-gray-300 rounded-md">
 
-        <label for="altura" class="block mt-4 text-gray-600">Altura (cm):</label>
-        <input type="number" id="altura" name="altura" value="{{ user.height|default_if_none:0 }}" required class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+            <label for="altura" class="block mt-4">Altura (cm):</label>
+            <input type="number" id="altura" name="altura" value="{{ user.height|default_if_none:0 }}" required class="w-full p-2 mt-1 border border-gray-300 rounded-md">
 
-        <label for="peso" class="block mt-4 text-gray-600">Peso (kg):</label>
-        <input type="number" id="peso" name="peso" value="{{ user.weight|default_if_none:0 }}" required class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+            <label for="peso" class="block mt-4">Peso (kg):</label>
+            <input type="number" id="peso" name="peso" value="{{ user.weight|default_if_none:0 }}" required class="w-full p-2 mt-1 border border-gray-300 rounded-md">
 
-        <label for="ejercicio_semanal" class="block mt-4 text-gray-600">Horas de ejercicio semanal:</label>
-        <input type="number" id="ejercicio_semanal" name="ejercicio_semanal" value="{{ user.weekly_exercise_hours|default_if_none:0 }}" required class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+            <label for="ejercicio_semanal" class="block mt-4">Horas de ejercicio semanal:</label>
+            <input type="number" id="ejercicio_semanal" name="ejercicio_semanal" value="{{ user.weekly_exercise_hours|default_if_none:0 }}" required class="w-full p-2 mt-1 border border-gray-300 rounded-md">
 
-        <label for="dieta" class="block mt-4 text-gray-600">Tipo de dieta:</label>
-        <select id="dieta" name="dieta" class="w-full p-2 mt-1 border border-gray-300 rounded-md">
-            <option value="omnivora" {% if user.diet == 'omnivora' %}selected{% endif %}>Omnívora</option>
-            <option value="vegana" {% if user.diet == 'vegana' %}selected{% endif %}>Vegana</option>
-            <option value="vegetariana" {% if user.diet == 'vegetariana' %}selected{% endif %}>Vegetariana</option>
-            <option value="paleo" {% if user.diet == 'paleo' %}selected{% endif %}>Paleo</option>
-            <option value="cetogenica" {% if user.diet == 'cetogenica' %}selected{% endif %}>Cetogénica</option>
-        </select>
+            <label for="dieta" class="block mt-4">Tipo de dieta:</label>
+            <select id="dieta" name="dieta" class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+                <option value="omnivora" {% if user.diet == 'omnivora' %}selected{% endif %}>Omnívora</option>
+                <option value="vegana" {% if user.diet == 'vegana' %}selected{% endif %}>Vegana</option>
+                <option value="vegetariana" {% if user.diet == 'vegetariana' %}selected{% endif %}>Vegetariana</option>
+                <option value="paleo" {% if user.diet == 'paleo' %}selected{% endif %}>Paleo</option>
+                <option value="cetogenica" {% if user.diet == 'cetogenica' %}selected{% endif %}>Cetogénica</option>
+            </select>
 
-        <label for="imc" class="block mt-4 text-gray-600">IMC:</label>
-        <input type="float" id="imc" name="imc" value="{{ user.imc|default_if_none:0 }}" readonly class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+            <label for="imc" class="block mt-4">IMC:</label>
+            <input type="float" id="imc" name="imc" value="{{ user.imc|default_if_none:0 }}" readonly class="w-full p-2 mt-1 border border-gray-300 rounded-md">
 
-        <label for="goal" class="block mt-4 text-gray-600">Objetivo:</label>
-        <select id="goal" name="goal" class="w-full p-2 mt-1 border border-gray-300 rounded-md">
-            <option value="ganar_peso" {% if user.goal == 'ganar_peso' %}selected{% endif %}>Ganar Peso</option>
-            <option value="ganar_musculatura" {% if user.goal == 'ganar_musculatura' %}selected{% endif %}>Ganar Musculatura</option>
-            <option value="perder_peso" {% if user.goal == 'perder_peso' %}selected{% endif %}>Perder Peso</option>
-            <option value="mantener_peso" {% if user.goal == 'mantener_peso' %}selected{% endif %}>Mantener Peso</option>
-            <option value="mejorar_condicion_fisica" {% if user.goal == 'mejorar_condicion_fisica' %}selected{% endif %}>Mejorar Condición Física</option>
-        </select>
+            <label for="goal" class="block mt-4">Objetivo:</label>
+            <select id="goal" name="goal" class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+                <option value="ganar_peso" {% if user.goal == 'ganar_peso' %}selected{% endif %}>Ganar Peso</option>
+                <option value="ganar_musculatura" {% if user.goal == 'ganar_musculatura' %}selected{% endif %}>Ganar Musculatura</option>
+                <option value="perder_peso" {% if user.goal == 'perder_peso' %}selected{% endif %}>Perder Peso</option>
+                <option value="mantener_peso" {% if user.goal == 'mantener_peso' %}selected{% endif %}>Mantener Peso</option>
+                <option value="mejorar_condicion_fisica" {% if user.goal == 'mejorar_condicion_fisica' %}selected{% endif %}>Mejorar Condición Física</option>
+            </select>
 
-        <label for="smoker" class="block mt-4 text-gray-600">Fumador:</label>
-        <input type="checkbox" id="smoker" name="smoker" {% if user.smoker %}checked{% endif %} class="mt-1">
+            <label for="smoker" class="block mt-4">Fumador:</label>
+            <input type="checkbox" id="smoker" name="smoker" {% if user.smoker %}checked{% endif %} class="mt-1">
 
-        <input type="submit" value="Generar" class="w-full mt-6 p-2 bg-primary text-primary-foreground rounded-md cursor-pointer hover:bg-primary-foreground hover:text-primary border-radius-24">
-    </form>
+            <input type="submit" value="Generar" class="w-full mt-6 p-2 bg-primary text-primary-foreground rounded-md cursor-pointer hover:bg-primary-foreground hover:text-primary border-radius-24">
+        </form>
+    </div>
     <script>
         document.getElementById('altura').addEventListener('input', function() {
             let altura = document.getElementById('altura').value;
