@@ -10,8 +10,10 @@
     {% for routine in exercise_routines %}
         {% for ejercicio in routine.routine.rutina %}
             <div class="card">
-                <span class="difficulty">Dificultad: </span>
-                <span class="difficulty {% if ejercicio.i == 'Baja' %}beginner{% elif ejercicio.i == 'Media' %}intermediate{% else %}advanced{% endif %}">{{ ejercicio.i }}</span>
+                {% if ejercicio.i %}
+                    <span class="difficulty">Dificultad: </span>
+                    <span class="difficulty {% if ejercicio.i == 'Baja' %}beginner{% elif ejercicio.i == 'Media' %}intermediate{% else %}advanced{% endif %}">{{ ejercicio.i }}</span>
+                {% endif %}
                 <h2>{{ ejercicio.nombre }}</h2>
                 <p>{{ ejercicio.desc }}</p>
                 <ul>
