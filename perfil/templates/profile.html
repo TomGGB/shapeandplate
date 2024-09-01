@@ -28,6 +28,7 @@
             <li><strong>¿Fumador?:</strong> {% if smoker == True %}Si{% elif smoker == False %}No{% else %}No registrado{% endif %}</li>
             <li><strong>Horas de ejercicio semanal:</strong> {% if weekly_exercise_hours and weekly_exercise_hours != 0 %}{{ weekly_exercise_hours }}{% else %}No registrado{% endif %}</li>
             <li><strong>Objetivo:</strong> {% if goal == 'ganar_peso' %}Ganar Peso{% elif goal == 'ganar_musculatura' %}Ganar Musculatura{% elif goal == 'perder_peso' %}Perder Peso{% elif goal == 'mantener_peso' %}Mantener Peso{% elif goal == 'mejorar_condicion_fisica' %}Mejorar Condición Física{% else %}No registrado{% endif %}</li>
+            <li><strong>¿Acceso a gimnasio?:</strong> {% if gym_access == True %}Si{% elif smoker == False %}No{% else %}No registrado{% endif %}</li>
         </ul>
     </div>
     <!-- Botón flotante -->
@@ -82,6 +83,9 @@
                 <option value="mantener_peso" {% if goal == 'mantener_peso' %}selected{% endif %}>Mantener Peso</option>
                 <option value="mejorar_condicion_fisica" {% if goal == 'mejorar_condicion_fisica' %}selected{% endif %}>Mejorar Condición Física</option>
             </select>
+
+            <label for="gym_access" class="block mt-4">¿Acceso a gimnasio?</label>
+            <input type="checkbox" id="gym_access" name="gym_access" {% if gym_access %}checked{% endif %} class="mt-1">
 
             <input type="submit" value="Guardar" class="w-full mt-6 p-2 bg-primary text-primary-foreground rounded-md cursor-pointer hover:bg-primary-foreground hover:text-primary">
         </form>
