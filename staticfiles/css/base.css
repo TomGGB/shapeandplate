@@ -46,6 +46,16 @@ body {
     flex-direction: column;
     min-height: 100vh;
     line-height: 1.5;
+    user-select: none;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+
+body {
+    -ms-overflow-style: none;
 }
 
 .hidden {
@@ -592,3 +602,4 @@ select:focus {
 ul li {
     margin-top: 10px;
 }
+
