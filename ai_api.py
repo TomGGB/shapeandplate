@@ -12,7 +12,7 @@ def configure_api():
 
 def generate_workout_routine(data):
     generation_config = {
-        "temperature": 1,
+        "temperature": 0,
         "top_p": 0.95,
         "top_k": 64,
         "max_output_tokens": 8192,
