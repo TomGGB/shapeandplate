@@ -34,7 +34,7 @@ def generate_workout_routine(data):
         f'Edad: {data["edad"]} \n'
         f'Altura: {data["altura"]} \n'
         f'Peso: {data["peso"]} \n'
-        f'Horas de ejercicio que el usuario hace en la semana (tener en consideracion para la intensidad de los ejercicios): {data["ejercicio_semanal"]} \n'
+        f'Horas de ejercicio que el usuario hace en la semana (tener en consideracion para la intensidad de los ejercicios, repeticiones y series): {data["ejercicio_semanal"]} \n'
         f'Dieta: {data["dieta"]} \n'
         f'Indice de masa corporal: {data["imc"]} \n'
         f'Objetivo: {data["objetivo"]} \n'
