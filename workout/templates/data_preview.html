@@ -29,7 +29,10 @@
                     {% if ejercicio.sesiones %}
                         <li><i class="material-icons" style="vertical-align: middle; font-size: 20px;">fitness_center</i> Sesiones: {{ ejercicio.sesiones }}</li>
                     {% endif %}
-                </ul>
+                </ul><br>
+                {% if ejercicio.advertencia %}
+                    <p class="warning">{{ ejercicio.advertencia }}</p>
+                {% endif %}
             </div>
         {% endfor %}
     {% endfor %}

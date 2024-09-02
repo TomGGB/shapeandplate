@@ -603,3 +603,8 @@ ul li {
     margin-top: 10px;
 }
 
+.warning {
+    color: #FFA000;
+    border-left: 4px solid #FFA000;
+    background-color: #FFF3E0;
+}
