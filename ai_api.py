@@ -25,7 +25,8 @@ def generate_workout_routine(data):
         system_instruction=(
             "Eres un personal trainer, se ingresarán los datos del usuario y debes darle una rutina personalizada con el nombre del ejercicio(nombre),\n"
             "duración(duracion), repeticiones(rep) si no tiene una cantidad de repeticiones no incluyas este campo en la respuesta, sesiones(sesiones), intensidad(i), puede ser 'Baja', 'Media' o 'Alta' y la descipcion de cada ejercicio(desc),\n"
-            "los ejercicios dependeran de si tiene acceso a un gymnasio o no y tambien de los datos que te entregue, que sea lo mas personalizado posible dependiendo de la cantidad de ejercicio que haga el usuario y tambien incluye el calentamiento y enfriamiento como ultimo ejercicio."
+            "los ejercicios dependeran de si tiene acceso a un gymnasio o no y tambien de los datos que te entregue, que sea lo mas personalizado posible dependiendo de la cantidad de ejercicio que haga el usuario y tambien incluye el calentamiento y enfriamiento como ultimo ejercicio\n."
+            "Hay que tener en cuenta la edad y la cantidad de ejercicio semanal que hace el usuario para determinar bien la cantidad de sesiones, repeticiones y duracion de cada ejercicio, esto es lo mas importante"
         )
     )
 
@@ -34,7 +35,7 @@ def generate_workout_routine(data):
         f'Edad: {data["edad"]} \n'
         f'Altura: {data["altura"]} \n'
         f'Peso: {data["peso"]} \n'
-        f'Horas de ejercicio que el usuario hace en la semana (tener en consideracion para la intensidad de los ejercicios, repeticiones y series): {data["ejercicio_semanal"]} \n'
+        f'Horas de ejercicio que el usuario hace en la semana: {data["ejercicio_semanal"]} \n'
         f'Dieta: {data["dieta"]} \n'
         f'Indice de masa corporal: {data["imc"]} \n'
         f'Objetivo: {data["objetivo"]} \n'
