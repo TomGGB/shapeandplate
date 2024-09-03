@@ -12,7 +12,7 @@
             <div class="card">
                 {% if ejercicio.i %}
                     <span class="difficulty">Dificultad: </span>
-                    <span class="difficulty {% if ejercicio.i == 'Baja' %}beginner{% elif ejercicio.i == 'Media' %}intermediate{% else %}advanced{% endif %}">{{ ejercicio.i }}</span>
+                    <span class="difficulty {% if ejercicio.i == 'Baja' %}beginner{% elif ejercicio.i == 'Media' %}intermediate{% else %}advanced{% endif %}">{{ ejercicio.i }}</span><br>
                 {% endif %}
                 <h2>{{ ejercicio.nombre }}</h2>
                 <p>{{ ejercicio.desc }}</p>
