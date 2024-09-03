@@ -87,6 +87,12 @@
             });
         });
 
+        // Mostrar el loader antes de que la página comience a cargar
+        window.addEventListener('beforeunload', function() {
+            var loader = document.getElementById('loading-screen');
+            loader.style.display = 'flex';
+        });
+
         // Efecto ripple
         document.querySelectorAll('.ripple-button').forEach(button => {
             button.addEventListener('click', function (e) {
