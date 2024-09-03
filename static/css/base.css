@@ -1,4 +1,4 @@
-/* Variables de Tema */
+
 :root {
     --primary-color: #039992 !important;
     --primary-foreground-color: #ffffff !important;
@@ -35,7 +35,7 @@
     --on-error-color: #000000 !important;
 }
 
-/* Estilos Generales */
+
 body {
     font-family: 'Roboto', sans-serif;
     background-color: var(--background-color);
@@ -47,19 +47,6 @@ body {
     min-height: 100vh;
     line-height: 1.5;
     user-select: none;
-}
-
-body::-webkit-scrollbar {
-    display: none;
-}
-
-
-body {
-    -ms-overflow-style: none;
-}
-
-.hidden {
-    display: none;
 }
 
 /* Top App Bar fija siempre arriba */
@@ -604,9 +591,9 @@ ul li {
 }
 
 .warning {
-    color: #FFA000;
-    border-left: 4px solid #FFA000;
-    background-color: #FFF3E0;
+    color: #880E4F;
+    background-color: #FCE4EC;
     padding: 10px;
     border-radius: 24px;
+    border-bottom: 4px solid #880E4F;
 }
