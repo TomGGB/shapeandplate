@@ -604,7 +604,9 @@ ul li {
 }
 
 .warning {
+    margin-top: 10px;
     color: #FFA000;
     border-left: 4px solid #FFA000;
     background-color: #FFF3E0;
+    border-radius: 24px;
 }
