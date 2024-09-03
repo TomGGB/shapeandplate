@@ -591,18 +591,9 @@ ul li {
 }
 
 .warning {
-<<<<<<< HEAD
     color: #880E4F;
     background-color: #FCE4EC;
     padding: 10px;
     border-radius: 24px;
     border-bottom: 4px solid #880E4F;
 }
-=======
-    margin-top: 10px;
-    color: #FFA000;
-    border-left: 4px solid #FFA000;
-    background-color: #FFF3E0;
-    border-radius: 24px;
-}
->>>>>>> 7131f35b91252c87243b65e879caa75902e07ffe
