@@ -3,61 +3,69 @@
 {% block title %}Recetas Personalizadas{% endblock %}
 {% block content %}
 <div class="top-app-bar">
-    <span class="material-icons" style="vertical-align: middle; font-size: 24px;">restaurant_menu</span>
+    <span class="material-icons" style="vertical-align: middle; font-size: 24px;">menu_book</span>
     <h1 style="display: inline; vertical-align: middle;">Recetas Personalizadas</h1>
 </div>
-
+{% if recetas %}
 <div class="card-container">
     <div class="card">
         <h2>¡Recuerda!</h2>
-        <p>Las recetas se actualizan cada vez que generas una nueva rutina de ejercicios. ¡No olvides revisarlas!</p>
+        <p>Las recetas se actualizan cada vez que generas una nueva rutina de ejercicios ya que se adaptan a tus necesidades nutricionales.</p>
+        <p>¡No olvides revisarlas!</p>
     </div>
 </div>
-
 <div class="card-container">
-    {% for receta in recetas %}
-        <div class="card">
-            <h2>{{ receta.nombre }}</h2>
-            <p class="description">{{ receta.desc }}</p>
-            <ul class="details">
-                <li><strong>Tiempo de preparación:</strong> {{ receta.tiempo }}</li>
-                <li><strong>Dificultad:</strong> {{ receta.dificultad }}</li>
-            </ul><br>
-            <div class="ingredients">
-                <strong>Ingredientes:</strong>
-                <ul>
-                    {% for ingrediente in receta.ingredientes %}
-                        <li>{{ ingrediente }}</li>
-                    {% endfor %}
-                </ul>
-            </div><br>
-            <div class="instructions">
-                <strong>Instrucciones:</strong>
-                <ol>
-                    {% for paso in receta.instrucciones %}
-                        <li>{{ paso }}</li>
-                    {% endfor %}
-                </ol>
+        {% for receta in recetas %}
+            <div class="card">
+                <h2>{{ receta.nombre }}</h2>
+                <p class="description">{{ receta.desc }}</p>
+                <ul class="details">
+                    <li><strong>Tiempo de preparación:</strong> {{ receta.tiempo }}</li>
+                    <li><strong>Dificultad:</strong> {{ receta.dificultad }}</li>
+                </ul><br>
+                <div class="ingredients">
+                    <strong>Ingredientes:</strong>
+                    <ul>
+                        {% for ingrediente in receta.ingredientes %}
+                            <li>{{ ingrediente }}</li>
+                        {% endfor %}
+                    </ul>
+                </div><br>
+                <div class="instructions">
+                    <strong>Instrucciones:</strong>
+                    <ol>
+                        {% for paso in receta.instrucciones %}
+                            <li>{{ paso }}</li>
+                        {% endfor %}
+                    </ol>
+                </div>
             </div>
+            <!-- Botón flotante -->
+            <button class="floating-button material-symbols-outlined" id="delete-recipe-button" onclick="document.getElementById('confirmation-modal').style.display='block'">
+                restaurant
+            </button>
+
+            <!-- Modal de confirmación -->
+            <div id="confirmation-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close-button" onclick="document.getElementById('confirmation-modal').style.display='none'">&times;</span>
+                    <h2>Confirmación</h2>
+                    <p>¿Estás seguro de que deseas generar nuevas recetas?</p>
+                    <form method="post" action="{% url 'delete_recipe' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="confirm-button">Generar</button>
+                        <button type="button" class="cancel-button" onclick="document.getElementById('confirmation-modal').style.display='none'">Cancelar</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    {% elif no_routines_message %}
+        <br><br>
+        <div class="card">
+            <h2>¡No hay recetas disponibles!</h2>
+            <p>{{ no_routines_message }}</p>
         </div>
-    {% endfor %}
 </div>
+{% endif %}
 
-<!-- Botón flotante -->
-<button class="floating-button material-symbols-outlined" id="delete-recipe-button" onclick="document.getElementById('confirmation-modal').style.display='block'">
-    delete
-</button>
-
-<!-- Modal de confirmación -->
-<div id="confirmation-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-button" onclick="document.getElementById('confirmation-modal').style.display='none'">&times;</span>
-        <h2>Confirmación</h2>
-        <p>¿Estás seguro de que deseas generar nuevas recetas?</p>
-        <form method="post" action="{% url 'delete_recipe' %}">
-            {% csrf_token %}
-            <button type="submit" class="confirm-button">Generar</button>
-            <button type="button" class="cancel-button" onclick="document.getElementById('confirmation-modal').style.display='none'">Cancelar</button>
-        </form>
-</div>
 {% endblock %}

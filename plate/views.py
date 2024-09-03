@@ -10,6 +10,7 @@ def plate(request):
     user = request.user
     exercise_routines = ExerciseRoutine.objects.filter(user=user)
     recipes = FoodRecipe.objects.filter(user=user)
+    
     if recipes.exists():
         # Convertir las recetas a la nueva estructura
         recetas = []
@@ -20,6 +21,10 @@ def plate(request):
                 recetas.append(receta)
         return render(request, 'plate.html', {'recetas': recetas})
     else:
+        routine = exercise_routines.first()
+        if not routine:
+            return render(request, 'plate.html', {'no_routines_message': 'Para obtener recetas personalizadas, por favor genera una nueva rutina de ejercicios.'})
+        
         data = {
             "edad": user.age,
             "altura": user.height,
@@ -30,7 +35,7 @@ def plate(request):
             "objetivo": user.goal,
             "smoker": user.smoker,
             "gym_access": user.gym_access,
-            "routine": exercise_routines.first().routine
+            "routine": routine.routine
         }
 
         recipe_data = generate_recipes(data)
