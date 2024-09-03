@@ -4,7 +4,7 @@ import os
 import json
 from ai_api import configure_api, generate_workout_routine
 from django.contrib.auth.decorators import login_required
-from core.models import ExerciseRoutine
+from core.models import ExerciseRoutine, FoodRecipe
 from django.contrib import messages
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -111,5 +111,6 @@ def delete_routine(request):
     if request.method == 'POST':
         user = request.user
         ExerciseRoutine.objects.filter(user=user).delete()
-        return JsonResponse({'status': 'success'})
-    return JsonResponse({'status': 'error'}, status=400)
+        FoodRecipe.objects.filter(user=user).delete()
+        return render(request, 'workout.html')
+    return render(request, 'workout.html')

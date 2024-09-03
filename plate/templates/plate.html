@@ -1,46 +1,56 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Recetas Personalizadas{% endblock %}
-{% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/plate.css' %}">
-{% endblock %}
 {% block content %}
-<div class="construction-warning">
-    <p>⚠️ Esta página está en construcción. Algunas funcionalidades pueden no estar disponibles.</p>
+<div class="top-app-bar">
+    <span class="material-icons" style="vertical-align: middle; font-size: 24px;">restaurant_menu</span>
+    <h1 style="display: inline; vertical-align: middle;">Recetas Personalizadas</h1>
 </div>
-<div id="recipes-content" class="recipes-content">
-    <div class="skeleton-loader">
-        <div class="skeleton-recipe"></div>
-        <div class="skeleton-recipe"></div>
-        <div class="skeleton-recipe"></div>
-    </div>
+<div class="card-container">
+    {% for receta in recetas %}
+        <div class="card">
+            <h2>{{ receta.nombre }}</h2>
+            <p class="description">{{ receta.desc }}</p>
+            <ul class="details">
+                <li><strong>Tipo:</strong> {{ receta.tipo }}</li>
+                <li><strong>Tiempo de preparación:</strong> {{ receta.tiempo }}</li>
+                <li><strong>Dificultad:</strong> {{ receta.dificultad }}</li>
+            </ul><br>
+            <div class="ingredients">
+                <strong>Ingredientes:</strong>
+                <ul>
+                    {% for ingrediente in receta.ingredientes %}
+                        <li>{{ ingrediente }}</li>
+                    {% endfor %}
+                </ul>
+            </div><br>
+            <div class="instructions">
+                <strong>Instrucciones:</strong>
+                <ol>
+                    {% for paso in receta.instrucciones %}
+                        <li>{{ paso }}</li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    {% endfor %}
 </div>
-{% endblock %}
-{% block extra_js %}
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Simular una carga de datos
-        setTimeout(function() {
-            document.querySelector(".skeleton-loader").style.display = "none";
-            document.getElementById("recipes-content").innerHTML = `
-                <h1>Recetas Personalizadas</h1>
-                <div class="recipe">
-                    <h2>Ensalada de Quinoa</h2>
-                    <p>Ingredientes: Quinoa, tomate, pepino, cebolla, aceite de oliva, limón, sal.</p>
-                    <p>Instrucciones: Cocina la quinoa según las instrucciones del paquete. Mezcla con los demás ingredientes y aliña al gusto.</p>
-                </div>
-                <div class="recipe">
-                    <h2>Pollo al Curry</h2>
-                    <p>Ingredientes: Pechuga de pollo, curry en polvo, leche de coco, cebolla, ajo, jengibre, sal.</p>
-                    <p>Instrucciones: Sofríe la cebolla, el ajo y el jengibre. Añade el pollo y el curry. Cocina hasta que el pollo esté hecho y añade la leche de coco. Cocina a fuego lento hasta que la salsa espese.</p>
-                </div>
-                <div class="recipe">
-                    <h2>Batido de Proteínas</h2>
-                    <p>Ingredientes: Leche, plátano, proteína en polvo, mantequilla de maní, miel.</p>
-                    <p>Instrucciones: Mezcla todos los ingredientes en una licuadora hasta obtener una consistencia suave.</p>
-                </div>
-            `;
-        }, 2000); // Simula un retraso de 2 segundos
-    });
-</script>
+
+<!-- Botón flotante -->
+<button class="floating-button material-symbols-outlined" id="delete-recipe-button" onclick="document.getElementById('confirmation-modal').style.display='block'">
+    delete
+</button>
+
+<!-- Modal de confirmación -->
+<div id="confirmation-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-button" onclick="document.getElementById('confirmation-modal').style.display='none'">&times;</span>
+        <h2>Confirmación</h2>
+        <p>¿Estás seguro de que deseas generar nuevas recetas?</p>
+        <form method="post" action="{% url 'delete_recipe' %}">
+            {% csrf_token %}
+            <button type="submit" class="confirm-button">Generar</button>
+            <button type="button" class="cancel-button" onclick="document.getElementById('confirmation-modal').style.display='none'">Cancelar</button>
+        </form>
+</div>
 {% endblock %}
