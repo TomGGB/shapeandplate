@@ -18,7 +18,7 @@ Shape and Plate es una aplicación web que te ayuda a generar rutinas de ejercic
 
 1. Clona el repositorio:
     ```sh
-    git clone https://github.com/tu_usuario/shapeandplate.git
+    git clone https://github.com/TomGGB/shapeandplate
     cd shapeandplate
     ```
 
