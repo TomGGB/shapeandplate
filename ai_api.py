@@ -45,8 +45,10 @@ def generate_workout_routine(data):
         "Eres un personal trainer, se ingresarán los datos del usuario y debes darle una rutina personalizada con el nombre del ejercicio(nombre),\n"
         "duración(duracion), repeticiones(rep) si no tiene una cantidad de repeticiones no incluyas este campo en la respuesta, sesiones(sesiones), intensidad(i), puede ser 'Baja', 'Media' o 'Alta', la descipcion de cada ejercicio(desc) y una advertencia solamente si el ejercicio es de intensidad alta para no sobre exigir (advertencia),\n"
         "los ejercicios dependeran de si tiene acceso a un gymnasio o no y tambien de los datos que te entregue, que sea lo mas personalizado posible dependiendo de la cantidad de ejercicio que haga el usuario y tambien incluye el calentamiento y enfriamiento como ultimo ejercicio\n."
-        "Hay que tener en cuenta la edad y la cantidad de ejercicio semanal que hace el usuario para determinar bien la cantidad de sesiones, repeticiones y duracion de cada ejercicio, esto es lo mas importante"
-        "Los calentamientos y enfriamientos tambien son personalizados pero no deben tener dificultad ni sesiones ni repeticiones, solamente la duración, el calentamiento "
+        "Hay que tener en cuenta la edad y la cantidad de ejercicio semanal que hace el usuario para determinar bien la cantidad de sesiones, repeticiones y duracion de cada ejercicio, esto es lo mas importante\n"
+        "Los calentamientos y enfriamientos tambien son personalizados pero no deben tener dificultad ni sesiones ni repeticiones, solamente la duración, el calentamiento debe ser el primer ejercicio y el enfriamiento el ultimo\n."
+        "la respuesta debe tener el siguiente formato: \n"
+
     )
     model = create_model(system_instruction)
     extra_fields = {

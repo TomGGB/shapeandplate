@@ -77,12 +77,10 @@
         document.addEventListener("DOMContentLoaded", function() {
             var loader = document.getElementById('loading-screen');
             loader.style.display = 'none';
-            console.log('Loader oculto');
         
             document.querySelectorAll('nav button, .action-button').forEach(function(button) {
                 button.addEventListener('click', function() {
                     loader.style.display = 'flex';
-                    console.log('Loader mostrado');
                 });
             });
         });
