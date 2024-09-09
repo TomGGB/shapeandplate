@@ -45,11 +45,9 @@ def generate_workout_routine(data):
     system_instruction = (
         "Eres un personal trainer, se ingresarán los datos del usuario y debes darle una rutina personalizada con el nombre del ejercicio(nombre),\n"
         "duración(duracion), repeticiones(rep) si no tiene una cantidad de repeticiones no incluyas este campo en la respuesta, sesiones(sesiones), intensidad(i), puede ser 'Baja', 'Media' o 'Alta', la descipcion de cada ejercicio(desc) y una advertencia solamente si el ejercicio es de intensidad alta para no sobre exigir (advertencia),\n"
-        "los ejercicios dependeran de si tiene acceso a un gymnasio o no y tambien de los datos que te entregue, que sea lo mas personalizado posible dependiendo de la cantidad de ejercicio que haga el usuario y tambien incluye el calentamiento y enfriamiento como ultimo ejercicio\n."
+        "los ejercicios dependeran de si tiene acceso a un gymnasio o no y tambien de los datos que te entregue, que sea lo mas personalizado posible dependiendo de la cantidad de ejercicio que haga el usuario por ejemplo si no tiene acceso al gimnasio pueder recomendar hacer el ejercicio con algun objeto que pueda tener en casa \n."
         "Hay que tener en cuenta la edad y la cantidad de ejercicio semanal que hace el usuario para determinar bien la cantidad de sesiones, repeticiones y duracion de cada ejercicio, esto es lo mas importante\n"
         "Los calentamientos y enfriamientos tambien son personalizados pero no deben tener dificultad ni sesiones ni repeticiones, solamente la duración, el calentamiento debe ser el primer ejercicio y el enfriamiento el ultimo\n."
-        "la respuesta debe tener el siguiente formato: \n"
-
     )
     model = create_model(system_instruction)
     extra_fields = {
@@ -65,27 +63,28 @@ def generate_workout_routine(data):
         return {"error": "No se pudo generar la rutina de ejercicios. Por favor, inténtalo de nuevo."}
 
 def generate_recipes(data):
+    formato = ( "    \"recetas\": [\n"
+                "        {\n"
+                "            \"desc\": \"\",\n"
+                "            \"tipo\": \"\",\n"
+                "            \"nombre\": \"\",\n"
+                "            \"tiempo\": \"\",\n"
+                "            \"dificultad\": \"\",\n"
+                "            \"ingredientes\": [\n"
+                "                \"\"\n"
+                "            ],\n"
+                "            \"instrucciones\": \"\"\n"
+                "        }\n"
+                "    ]\n"
+                "}"
+                )
     system_instruction = (
         "Eres un chef, se ingresarán los datos del usuario y debes darle recetas (recetas) personalizadas con el nombre de cada receta(nombre),\n"
         "ingredientes(ingredientes), instrucciones(instrucciones), tiempo de preparación(tiempo), dificultad(dificultad), puede ser 'Fácil', 'Media' o 'Difícil', la descripción de la receta(desc) y una advertencia solamente si la receta es de dificultad alta para no complicar mucho (advertencia),\n"
         "las recetas dependeran de la dieta del usuario y tambien de los datos que te entregue, que sea lo mas personalizado posible dependiendo de la cantidad de ejercicio que haga el usuario y tambien incluye el desayuno, almuerzo, cena y colaciones o cantidades de proteina, carbohidratos y grasas que debe consumir en el día\n."
         "debes dar una variedad de recetas para que el usuario no se aburra de comer lo mismo ademas de especificar si es desayuno, almuerzo o cena, tambien debes tener en cuenta si el usuario fuma o no para darle recetas mas saludables\n."
         "la respuesta debe tener el siguiente formato: \n"
-        "{\n"
-        "    \"recetas\": [\n"
-        "        {\n"
-        "            \"desc\": \"\",\n"
-        "            \"tipo\": \"\",\n"
-        "            \"nombre\": \"\",\n"
-        "            \"tiempo\": \"\",\n"
-        "            \"dificultad\": \"\",\n"
-        "            \"ingredientes\": [\n"
-        "                \"\"\n"
-        "            ],\n"
-        "            \"instrucciones\": \"\"\n"
-        "        }\n"
-        "    ]\n"
-        "}"
+        + formato
     )
     model = create_model(system_instruction)
     extra_fields = {
