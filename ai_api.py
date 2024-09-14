@@ -62,33 +62,43 @@ def generate_workout_routine(data):
         print(f"Error: {e}")
         return {"error": "No se pudo generar la rutina de ejercicios. Por favor, inténtalo de nuevo."}
 
-def generate_recipes(data):
-    formato = ( "    \"recetas\": [\n"
-                "        {\n"
-                "            \"desc\": \"\",\n"
-                "            \"tipo\": \"\",\n"
-                "            \"nombre\": \"\",\n"
-                "            \"tiempo\": \"\",\n"
-                "            \"dificultad\": \"\",\n"
-                "            \"ingredientes\": [\n"
-                "                \"\"\n"
-                "            ],\n"
-                "            \"instrucciones\": \"\"\n"
-                "        }\n"
-                "    ]\n"
-                "}"
-                )
+def generate_recipes(data, previous_recipes=None):
+    formato = (
+        "    \"recetas\": [\n"
+        "        {\n"
+        "            \"dia\": \"Lunes\",\n"
+        "            \"nombre\": \"Nombre de la receta\",\n"
+        "            \"tipo\": \"Desayuno\",\n"
+        "            \"ingredientes\": [\n"
+        "                \"Ingrediente 1\",\n"
+        "                \"Ingrediente 2\",\n"
+        "                \"Ingrediente 3\"\n"
+        "            ],\n"
+        "            \"instrucciones\": [\n"
+        "                \"Paso 1\",\n"
+        "                \"Paso 2\",\n"
+        "                \"Paso 3\"\n"
+        "            ],\n"
+        "            \"tiempo\": \"15 minutos\",\n"
+        "            \"dificultad\": \"Media\",\n"
+        "            \"desc\": \"Descripción de la receta\"\n"
+        "        }\n"
+        "    ]\n"
+        "}"
+    )
     system_instruction = (
-        "Eres un chef, se ingresarán los datos del usuario y debes darle recetas (recetas) personalizadas con el nombre de cada receta(nombre),\n"
+        "Eres un chef, se ingresarán los datos del usuario y debes darle recetas (recetas) personalizadas para toda la semana con el dia de cada receta(dia), el nombre de la receta(nombre) y tipo de receta si es que es desayuno, almuerzo o cena(tipo),\n"
         "ingredientes(ingredientes), instrucciones(instrucciones), tiempo de preparación(tiempo), dificultad(dificultad), puede ser 'Fácil', 'Media' o 'Difícil', la descripción de la receta(desc) y una advertencia solamente si la receta es de dificultad alta para no complicar mucho (advertencia),\n"
-        "las recetas dependeran de la dieta del usuario y tambien de los datos que te entregue, que sea lo mas personalizado posible dependiendo de la cantidad de ejercicio que haga el usuario y tambien incluye el desayuno, almuerzo, cena y colaciones o cantidades de proteina, carbohidratos y grasas que debe consumir en el día\n."
-        "debes dar una variedad de recetas para que el usuario no se aburra de comer lo mismo ademas de especificar si es desayuno, almuerzo o cena, tambien debes tener en cuenta si el usuario fuma o no para darle recetas mas saludables, tambiem importante que el nombre de los alimentos o ingredientes debe ser el que se utiliza en Chile, ya que la aplicacion es para publico de este pais\n."
-        "la respuesta debe tener el siguiente formato: \n"
+        "las recetas dependeran de la dieta del usuario y tambien de los datos que te entregue, que sea lo mas personalizado posible dependiendo de la cantidad de ejercicio que haga el usuario y tambien incluye el desayuno, almuerzo, cena y colaciones o cantidades de proteina, carbohidratos y grasas que debe consumir en el día.\n"
+        "Debes dar una variedad de recetas para que el usuario no se aburra de comer lo mismo, además de especificar si es desayuno, almuerzo o cena. También debes tener en cuenta si el usuario fuma o no para darle recetas más saludables. Es importante que el nombre de los alimentos o ingredientes sea el que se utiliza en Chile, ya que la aplicación es para público de este país.\n"
+        "La respuesta debe tener el siguiente formato: \n"
+        "también si se adjuntan recetas previas es para que al generar una nueva no las repitas\n"
         + formato
     )
     model = create_model(system_instruction)
     extra_fields = {
-        'Rutina del usuario': data["routine"]
+        'Rutina del usuario': data["routine"],
+        'Recetas previas': previous_recipes if previous_recipes else "Ninguna"
     }
     mensaje = create_message(data, extra_fields)
     
