@@ -14,7 +14,7 @@
     <div class="card">
         <form id="generate-workout-form" method="post" action="{% url 'generate_workout' %}">
             {% csrf_token %}
-            <label for="edad" class="block mt-4">Edad:</label>|
+            <label for="edad" class="block mt-4">Edad:</label>
             <input type="number" id="edad" name="edad" value="{{ user.age|default_if_none:0 }}" required class="w-full p-2 mt-1 border border-gray-300 rounded-md">
 
             <label for="altura" class="block mt-4">Altura (cm):</label>
