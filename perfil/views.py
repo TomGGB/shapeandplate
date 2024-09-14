@@ -1,12 +1,13 @@
+import os
+import uuid
+import tempfile
+import json
+
 from django.shortcuts import render, redirect
-from core.models import User  # Asegúrate de tener un modelo llamado Usuario
-from django.views.decorators.csrf import csrf_exempt  # Importa csrf_exempt
-from django.contrib.auth.decorators import login_required  # Importa login_required
-from django.contrib.auth import authenticate, login as auth_login
-from django.contrib.auth import logout as auth_logout
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib import messages
-from google.cloud import bigquery
-from dotenv import load_dotenv
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -14,11 +15,10 @@ from django.utils.encoding import force_bytes, force_str, smart_str
 from django.contrib.auth.tokens import default_token_generator
 from django.conf import settings
 from django.http import HttpResponse
-import os
-import uuid
-import tempfile
-import json
-from django.contrib.auth import get_user_model  # Importa get_user_model
+from django.contrib.auth import get_user_model
+
+from core.models import User
+from google.cloud import bigquery
 from dotenv import load_dotenv
 
 
