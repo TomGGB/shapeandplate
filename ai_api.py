@@ -114,9 +114,6 @@ def generate_recipes(data, previous_recipes=None):
         else:
             unique_new_recipes = new_recipes
         
-        if not unique_new_recipes:
-            return {"error": "No se pudieron generar recetas únicas. Por favor, inténtalo de nuevo."}
-        
         return {"recetas": unique_new_recipes}
     except Exception as e:
         print(f"Error: {e}")
