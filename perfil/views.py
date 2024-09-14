@@ -19,9 +19,30 @@ import uuid
 import tempfile
 import json
 from django.contrib.auth import get_user_model  # Importa get_user_model
+from dotenv import load_dotenv
+
 
 # Carga las variables de entorno desde el archivo .env
 load_dotenv()
+
+
+def verify_email(request, uidb64, token):
+    User = get_user_model()
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(request, 'Tu cuenta ha sido verificada exitosamente. Ahora puedes iniciar sesión.')
+        return redirect('login')
+    else:
+        messages.error(request, 'El enlace de verificación no es válido.')
+        return redirect('signup')
+
 
 def user_login(request):
     if request.method == 'POST':
@@ -68,9 +89,29 @@ def signup(request):
             email=email,
             password=password
         )
+        user.is_active = False  # Desactivar la cuenta hasta que se verifique el correo
         user.save()
 
-        messages.success(request, 'Registro exitoso. Ahora puedes iniciar sesión.')
+        # Generar el token de verificación
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        verification_link = request.build_absolute_uri(f'/perfil/verify/{uid}/{token}/')
+
+        # Enviar el correo de verificación
+        email_subject = 'Verificación de Cuenta'
+        email_body = render_to_string('verification_email.html', {
+            'verification_link': verification_link,
+            'user': user,
+        })
+        send_mail(
+            email_subject,
+            '',
+            settings.DEFAULT_FROM_EMAIL,
+            [email],
+            html_message=email_body
+        )
+
+        messages.success(request, 'Registro exitoso. Por favor, verifica tu correo electrónico para activar tu cuenta.')
         return redirect('login')
 
     return render(request, 'signup.html')
