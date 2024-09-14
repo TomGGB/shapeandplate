@@ -15,6 +15,9 @@
     --on-background-color: #383838 !important;
     --on-surface-color: #000000 !important;
     --on-error-color: #ffffff !important;
+    --message-color: var(--primary-color) !important;
+    --message-background-color: var(--primary-lighter) !important;
+    --message-text-color: var(--on-primary-color) !important;
 }
 
 :root[data-theme='dark'] {
@@ -577,10 +580,10 @@ select:focus {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    color: var(--error-color);
+    color: var(--message-text-color);
     font-size: 0.9rem;
-    background-color: #FFEBEE;
-    border-left: 4px solid var(--error-color);
+    background-color: var(--message-background-color);
+    border-left: 4px solid var(--message-color);
     padding: 10px;
     border-radius: 4px;
 }
