@@ -614,10 +614,11 @@ ul li {
 }
 
 .day-title {
-    font-size: 7em !important;
+    font-size: 1.75em;
     margin-bottom: 10px;
-    color: var(--primary-color);
+    color: var(--primary-light);
     font-family: 'Roboto', sans-serif;
+    font-weight: bold;
 }
 
 .accordion {
@@ -636,7 +637,8 @@ ul li {
 
 .accordion-content {
     display: none;
-    background-color: var(--primary-lighter);
+    background-color: var(--primary-color);
+    color: var(--on-primary-color);
     padding: 10px;
     border-radius: 0 0 5px 5px;
 }
@@ -664,10 +666,12 @@ ul li {
 .ingredients,
 .instructions {
     margin-top: 10px;
+    color: var(--on-surface-color);
 }
 
 .ingredients strong,
 .instructions strong {
     font-size: 1.2em;
-    color: var(--primary-color);
+    color: var(--on-surface-color);
 }
+
