@@ -55,20 +55,20 @@
 <script>
     function toggleAccordion(element) {
         const content = element.nextElementSibling;
-        if (content.classList.contains('show')) {
-            content.classList.remove('show');
-            content.classList.add('hide');
-            setTimeout(() => {
-                content.classList.remove('hide');
-                content.style.display = 'none';
-            }, 500); // Duración de la animación
+        if (content.style.display === "block") {
+            content.style.display = "none";
         } else {
-            content.style.display = 'block';
-            content.classList.remove('hide');
-            content.classList.add('show');
+            content.style.display = "block";
         }
     }
 </script>
+{% else %}
+<div class="card-container">
+    <div class="card">
+        <h2>No hay recetas disponibles</h2>
+        <p>Genera una nueva rutina de ejercicios para obtener recetas personalizadas.</p>
+    </div>
+</div>
 {% endif %}
 <button class="floating-button material-symbols-outlined" id="delete-routine-button" onclick="document.getElementById('confirmation-modal').style.display='block'">
     local_dining

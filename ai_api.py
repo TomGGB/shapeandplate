@@ -57,11 +57,27 @@ def get_exercise_image(exercise_name):
 
 def generate_workout_routine(data):
     system_instruction = (
-        "Eres un personal trainer, se ingresarán los datos del usuario y debes darle una rutina personalizada con el nombre del ejercicio en español(nombre),\n"
-        "el nombre del ejercicio en inglés(nombre_en), duración(duracion), repeticiones(rep) si no tiene una cantidad de repeticiones no incluyas este campo en la respuesta, sesiones(sesiones), intensidad(i), puede ser 'Baja', 'Media' o 'Alta', la descipcion de cada ejercicio(desc) y una advertencia solamente si el ejercicio es de intensidad alta para no sobre exigir (advertencia),\n"
-        "los ejercicios dependeran de si tiene acceso a un gymnasio o no y tambien de los datos que te entregue, que sea lo mas personalizado posible dependiendo de la cantidad de ejercicio que haga el usuario por ejemplo si no tiene acceso al gimnasio pueder recomendar hacer el ejercicio con algun objeto que pueda tener en casa \n."
-        "Hay que tener en cuenta la edad y la cantidad de ejercicio semanal que hace el usuario para determinar bien la cantidad de sesiones, repeticiones y duracion de cada ejercicio, esto es lo mas importante\n"
-        "Los calentamientos y enfriamientos tambien son personalizados pero no deben tener dificultad ni sesiones ni repeticiones, solamente la duración, el calentamiento debe ser el primer ejercicio y el enfriamiento el ultimo\n."
+        "Eres un personal trainer experto con amplia experiencia en crear rutinas personalizadas. Analiza cuidadosamente los datos del usuario y crea una rutina de ejercicios altamente personalizada siguiendo estas pautas:\n\n"
+        "1. Adapta la intensidad y complejidad de los ejercicios según la edad, peso, IMC y horas de ejercicio semanal del usuario.\n"
+        "2. Para usuarios mayores de 50 años o con poco ejercicio semanal, enfócate en ejercicios de baja impacto y fortalecimiento gradual.\n"
+        "3. Si el usuario tiene sobrepeso (IMC > 25), incluye ejercicios que sean seguros para sus articulaciones.\n"
+        "4. Ajusta la dificultad: para principiantes (0-2 horas semanales), usa intensidad 'Baja'; para intermedios (3-5 horas), 'Media'; para avanzados (6+ horas), 'Alta'.\n"
+        "5. Considera el objetivo del usuario (pérdida de peso, tonificación, etc.) al seleccionar los tipos de ejercicios.\n"
+        "6. Si el usuario es fumador, incluye más ejercicios cardiovasculares y de capacidad pulmonar.\n"
+        "7. Adapta los ejercicios según el acceso a gimnasio, sugiriendo alternativas con objetos caseros si no tiene acceso.\n\n"
+        "Para cada ejercicio, proporciona:\n"
+        "1. nombre: Proporciona un nombre muy descriptivo y específico en español para el ejercicio, incluyendo detalles sobre la posición del cuerpo, el movimiento y cualquier equipo utilizado. Por ejemplo, 'Sentadillas profundas con salto y brazos extendidos' o 'Flexiones de pecho en declive con pies elevados en banco'.\n"
+        "2. nombre_en: El nombre del ejercicio en inglés, igualmente muy descriptivo y específico. IMPORTANTE: Siempre comienza con 'Person doing' o 'Person performing' para asegurar que la búsqueda de imágenes muestre a una persona realizando el ejercicio. Por ejemplo, 'Person doing deep jump squats with extended arms' o 'Person performing decline push-ups with feet elevated on bench'.\n"
+        "3. duracion: Duración del ejercicio.\n"
+        "4. rep: Número de repeticiones (si aplica).\n"
+        "5. sesiones: Número de series o sesiones.\n"
+        "6. i: Intensidad (puede ser 'Baja', 'Media' o 'Alta').\n"
+        "7. desc: Una descripción detallada de cómo realizar el ejercicio correctamente, incluyendo la posición inicial, el movimiento y la posición final.\n"
+        "8. advertencia: Incluye una advertencia si el ejercicio es de intensidad alta o requiere precauciones especiales.\n\n"
+        "Los ejercicios deben ser personalizados según si el usuario tiene acceso a un gimnasio o no. Si no tiene acceso, sugiere alternativas con objetos que pueda tener en casa, siendo específico sobre qué objetos usar.\n"
+        "Ten en cuenta la edad y la cantidad de ejercicio semanal que hace el usuario para determinar la cantidad de sesiones, repeticiones y duración de cada ejercicio.\n"
+        "El calentamiento debe ser el primer ejercicio y el enfriamiento el último. Estos no deben tener intensidad, sesiones ni repeticiones, solo duración.\n"
+        "Asegúrate de que cada nombre de ejercicio sea único, muy descriptivo y específicamente relacionado con la acción física del ejercicio, tanto en español como en inglés. Evita nombres genéricos o poco descriptivos."
     )
     model = create_model(system_instruction)
     extra_fields = {
@@ -85,48 +101,45 @@ def generate_workout_routine(data):
         return {"error": "No se pudo generar la rutina de ejercicios. Por favor, inténtalo de nuevo."}
 
 def generate_recipes(data, previous_recipes=None):
-    formato = (
-        "    \"recetas\": [\n"
-        "        {\n"
-        "            \"dia\": \"Lunes\",\n"
-        "            \"nombre\": \"Nombre de la receta\",\n"
-        "            \"tipo\": \"Desayuno\",\n"
-        "            \"ingredientes\": [\n"
-        "                \"Ingrediente 1\",\n"
-        "                \"Ingrediente 2\",\n"
-        "                \"Ingrediente 3\"\n"
-        "            ],\n"
-        "            \"instrucciones\": [\n"
-        "                \"Paso 1\",\n"
-        "                \"Paso 2\",\n"
-        "                \"Paso 3\"\n"
-        "            ],\n"
-        "            \"tiempo\": \"15 minutos\",\n"
-        "            \"dificultad\": \"Media\",\n"
-        "            \"desc\": \"Descripción de la receta\"\n"
-        "        }\n"
-        "    ]\n"
-        "}"
-    )
     system_instruction = (
-        "Eres un chef, se ingresarán los datos del usuario y debes darle recetas (recetas) personalizadas para toda la semana con el dia de cada receta(dia), el nombre de la receta(nombre) y tipo de receta si es que es desayuno, almuerzo o cena(tipo),\n"
-        "ingredientes(ingredientes), instrucciones(instrucciones), tiempo de preparación(tiempo), dificultad(dificultad), puede ser 'Fácil', 'Media' o 'Difícil', la descripción de la receta(desc) y una advertencia solamente si la receta es de dificultad alta para no complicar mucho (advertencia),\n"
-        "las recetas dependeran de la dieta del usuario y tambien de los datos que te entregue, que sea lo mas personalizado posible dependiendo de la cantidad de ejercicio que haga el usuario y tambien incluye el desayuno, almuerzo, cena y colaciones o cantidades de proteina, carbohidratos y grasas que debe consumir en el día.\n"
-        "Debes dar una variedad de recetas para que el usuario no se aburra de comer lo mismo, además de especificar si es desayuno, almuerzo o cena. También debes tener en cuenta si el usuario fuma o no para darle recetas más saludables. Es importante que el nombre de los alimentos o ingredientes sea el que se utiliza en Chile, ya que la aplicación es para público de este país.\n"
-        "La respuesta debe tener el siguiente formato: \n"
-        "Se adjuntarán recetas ya previamente generadas para tenerlas en consideracion al generarlas que no se repitan.\n"
-        + formato
+        "Eres un chef nutricionista experto. Crea un plan de alimentación semanal altamente personalizado basado en los datos del usuario y su rutina de ejercicios, siguiendo estas pautas:\n\n"
+        "1. Ajusta las calorías y macronutrientes según el objetivo del usuario (pérdida de peso, ganancia de masa muscular, etc.).\n"
+        "2. Considera la edad, peso, altura e IMC para determinar las necesidades nutricionales específicas.\n"
+        "3. Adapta las recetas a la dieta del usuario (vegetariana, vegana, sin gluten, etc.).\n"
+        "4. Incluye alimentos que complementen la rutina de ejercicios, proporcionando los nutrientes necesarios para la recuperación muscular.\n"
+        "5. Si el usuario es fumador, incorpora alimentos ricos en antioxidantes y que promuevan la salud pulmonar.\n"
+        "6. Ajusta las porciones y frecuencia de comidas según las horas de ejercicio semanal del usuario.\n"
+        "7. Utiliza ingredientes y nombres de alimentos comunes en Chile.\n"
+        "8. Proporciona una variedad de recetas para evitar la monotonía, incluyendo desayunos, almuerzos, cenas y colaciones.\n\n"
+        "Para cada receta, incluye:\n"
+        "1. dia: Día de la semana.\n"
+        "2. nombre: Nombre descriptivo de la receta.\n"
+        "3. tipo: 'Desayuno', 'Almuerzo', 'Cena' o 'Colación'.\n"
+        "4. ingredientes: Lista de ingredientes con cantidades.\n"
+        "5. instrucciones: Pasos detallados para preparar la receta.\n"
+        "6. tiempo: Tiempo de preparación.\n"
+        "7. dificultad: 'Fácil', 'Media' o 'Difícil'.\n"
+        "8. desc: Breve descripción de la receta y sus beneficios nutricionales.\n"
+        "9. advertencia: Solo para recetas de dificultad alta o que requieran precauciones especiales.\n\n"
+        "Asegúrate de que las recetas sean variadas y no se repitan con las recetas previas proporcionadas."
     )
     model = create_model(system_instruction)
     extra_fields = {
-        'Rutina del usuario': data["routine"],
+        'Rutina de ejercicios': data["routine"],
         'Recetas previas': previous_recipes if previous_recipes else "Ninguna"
     }
     mensaje = create_message(data, extra_fields)
     
     try:
         response = model.generate_content(mensaje)
-        new_recipes = json.loads(response.text)["recetas"]
+        recipes_data = json.loads(response.text)
+        
+        # Verifica si 'plan_semanal' está en recipes_data
+        if 'plan_semanal' not in recipes_data:
+            print(f"Respuesta inesperada: {recipes_data}")
+            return {"error": "Formato de respuesta inesperado. Por favor, inténtelo de nuevo."}
+        
+        new_recipes = recipes_data['plan_semanal']
         
         if previous_recipes:
             previous_recipes_set = {json.dumps(recipe, sort_keys=True) for recipe in previous_recipes}
@@ -134,6 +147,7 @@ def generate_recipes(data, previous_recipes=None):
         else:
             unique_new_recipes = new_recipes
         
-        return {"recetas": unique_new_recipes}
+        return {"plan_semanal": unique_new_recipes}
     except Exception as e:
         print(f"Error: {e}")
+        return {"error": f"No se pudieron generar las recetas: {str(e)}"}

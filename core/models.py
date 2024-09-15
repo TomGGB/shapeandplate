@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
-
-
+from django.utils import timezone
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -48,9 +47,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 class ExerciseRoutine(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     routine = models.JSONField()
+    created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return f"Routine for {self.user.first_name} {self.user.last_name}"
+        return f"Rutina de {self.user.username} creada el {self.created_at}"
 
 class FoodRecipe(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

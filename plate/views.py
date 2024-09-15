@@ -4,57 +4,57 @@ from core.models import ExerciseRoutine, FoodRecipe
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 
 @login_required
 def plate(request):
     user = request.user
+    food_recipes = FoodRecipe.objects.filter(user=user)
     exercise_routines = ExerciseRoutine.objects.filter(user=user)
-    recipes = FoodRecipe.objects.filter(user=user)
-    
-    if recipes.exists():
-        # Convertir las recetas a la nueva estructura y agrupar por días
-        recetas_por_dia = {}
-        for recipe in recipes:
-            for receta in recipe.recipe['recetas']:
-                if isinstance(receta['instrucciones'], str):
-                    receta['instrucciones'] = receta['instrucciones'].split('. ')
-                dia = receta.get('dia', '1')  # Asume que cada receta tiene un campo 'dia'
-                if dia not in recetas_por_dia:
-                    recetas_por_dia[dia] = []
-                recetas_por_dia[dia].append(receta)
-        return render(request, 'plate.html', {'recetas_por_dia': recetas_por_dia})
-    else:
-        routine = exercise_routines.first()
-        if not routine:
-            return render(request, 'plate.html', {'no_routines_message': 'Para obtener recetas personalizadas, por favor genera una nueva rutina de ejercicios.'})
-        
-        data = {
-            "edad": user.age,
-            "altura": user.height,
-            "peso": user.weight,
-            "ejercicio_semanal": user.weekly_exercise_hours,
-            "dieta": user.diet,
-            "imc": user.imc,
-            "objetivo": user.goal,
-            "smoker": user.smoker,
-            "gym_access": user.gym_access,
-            "routine": routine.routine
-        }
 
-        previous_recipes = [recipe.recipe for recipe in recipes] if recipes.exists() else None
-        recipe_data = generate_recipes(data, previous_recipes)
-        recipe = FoodRecipe.objects.create(user=user, recipe=recipe_data)
-        recipe.save()
+    if not exercise_routines.exists():
+        messages.error(request, 'Primero debes generar una rutina de ejercicios.')
+        return redirect('workout')
 
-        # Convertir la receta generada a la nueva estructura y agrupar por días
+    if food_recipes.exists():
         recetas_por_dia = {}
-        for receta in recipe.recipe['recetas']:
-            if isinstance(receta['instrucciones'], str):
-                receta['instrucciones'] = receta['instrucciones'].split('. ')
-            dia = receta.get('dia', '1')  # Asume que cada receta tiene un campo 'dia'
+        for recipe in food_recipes:
+            dia = recipe.recipe.get('dia')
             if dia not in recetas_por_dia:
                 recetas_por_dia[dia] = []
-            recetas_por_dia[dia].append(receta)
+            recetas_por_dia[dia].append(recipe.recipe)
+        return render(request, 'plate.html', {'recetas_por_dia': recetas_por_dia})
+    else:
+        # Obtén la última rutina de ejercicios
+        latest_routine = exercise_routines.latest('created_at')
+
+        # Genera las recetas
+        data = {
+            'edad': user.age,
+            'altura': user.height,
+            'peso': user.weight,
+            'ejercicio_semanal': user.weekly_exercise_hours,
+            'dieta': user.diet,
+            'imc': user.imc,
+            'objetivo': user.goal,
+            'smoker': user.smoker,
+            'gym_access': user.gym_access,
+            'routine': latest_routine.routine
+        }
+        recipes_data = generate_recipes(data)
+
+        if 'error' in recipes_data:
+            messages.error(request, recipes_data['error'])
+            return redirect('workout')
+
+        # Guarda las nuevas recetas en la base de datos
+        recetas_por_dia = {}
+        for recipe in recipes_data.get('plan_semanal', []):
+            FoodRecipe.objects.create(user=user, recipe=recipe)
+            dia = recipe.get('dia')
+            if dia not in recetas_por_dia:
+                recetas_por_dia[dia] = []
+            recetas_por_dia[dia].append(recipe)
 
         return render(request, 'plate.html', {'recetas_por_dia': recetas_por_dia})
 
@@ -63,12 +63,6 @@ def plate(request):
 def delete_recipe(request):
     if request.method == 'POST':
         user = request.user
-        previous_recipes = FoodRecipe.objects.filter(user=user)
-        
-        # Convertir el QuerySet a una lista de diccionarios
-        previous_recipes_list = list(previous_recipes.values())
-        
         FoodRecipe.objects.filter(user=user).delete()
-        request.session['previous_recipes'] = previous_recipes_list
         return redirect('plate')
-    return render(request, 'plate.html')
+    return redirect('plate')
