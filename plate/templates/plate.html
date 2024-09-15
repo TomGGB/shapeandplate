@@ -2,6 +2,17 @@
 {% load static %}
 {% block title %}Recetas Personalizadas{% endblock %}
 {% block content %}
+<style>
+    .card-content {
+        text-align: left;
+    }
+    .instructions ol {
+        padding-left: 20px;
+    }
+    .instructions li {
+        margin-bottom: 10px;
+    }
+</style>
 <div class="top-app-bar">
     <span class="material-icons" style="vertical-align: middle; font-size: 24px;">menu_book</span>
     <h1 style="display: inline; vertical-align: middle;">Recetas Personalizadas</h1>
@@ -24,26 +35,28 @@
                         <h3>{{ receta.nombre }}</h3>
                     </div>
                     <div class="accordion-content">
-                        <p class="description">{{ receta.desc }}</p>
-                        <ul class="details">
-                            <li><strong>Tiempo de preparación:</strong> {{ receta.tiempo }}</li>
-                            <li><strong>Dificultad:</strong> {{ receta.dificultad }}</li>
-                        </ul><br>
-                        <div class="ingredients">
-                            <strong>Ingredientes:</strong>
-                            <ul>
-                                {% for ingrediente in receta.ingredientes %}
-                                    <li>{{ ingrediente }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div><br>
-                        <div class="instructions">
-                            <strong>Instrucciones:</strong>
-                            <ol>
-                                {% for paso in receta.instrucciones %}
-                                    <li>{{ paso }}</li>
-                                {% endfor %}
-                            </ol>
+                        <div class="card-content">
+                            <p class="description">{{ receta.desc }}</p>
+                            <ul class="details">
+                                <li><strong>Tiempo de preparación:</strong> {{ receta.tiempo }}</li>
+                                <li><strong>Dificultad:</strong> {{ receta.dificultad }}</li>
+                            </ul><br>
+                            <div class="ingredients">
+                                <strong>Ingredientes:</strong>
+                                <ul>
+                                    {% for ingrediente in receta.ingredientes %}
+                                        <li>{{ ingrediente }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div><br>
+                            <div class="instructions">
+                                <strong>Instrucciones:</strong>
+                                <ol>
+                                    {% for paso in receta.instrucciones %}
+                                        <li>{{ paso }}</li>
+                                    {% endfor %}
+                                </ol>
+                            </div>
                         </div>
                     </div>
                 </div>

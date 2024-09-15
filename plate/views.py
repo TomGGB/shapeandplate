@@ -22,7 +22,23 @@ def plate(request):
             dia = recipe.recipe.get('dia')
             if dia not in recetas_por_dia:
                 recetas_por_dia[dia] = []
-            recetas_por_dia[dia].append(recipe.recipe)
+            
+            # Procesar las instrucciones
+            instrucciones = recipe.recipe.get('instrucciones', '')
+            if isinstance(instrucciones, str):
+                # Si es una cadena, dividirla en pasos
+                pasos = [paso.strip() for paso in instrucciones.split('.') if paso.strip()]
+            elif isinstance(instrucciones, list):
+                # Si ya es una lista, usarla directamente
+                pasos = instrucciones
+            else:
+                # Si no es ni cadena ni lista, usar una lista vacía
+                pasos = []
+            
+            recipe_data = recipe.recipe.copy()
+            recipe_data['instrucciones'] = pasos
+            recetas_por_dia[dia].append(recipe_data)
+        
         return render(request, 'plate.html', {'recetas_por_dia': recetas_por_dia})
     else:
         # Obtén la última rutina de ejercicios
@@ -50,7 +66,18 @@ def plate(request):
         # Guarda las nuevas recetas en la base de datos
         recetas_por_dia = {}
         for recipe in recipes_data.get('plan_semanal', []):
+            # Procesar las instrucciones antes de guardar
+            instrucciones = recipe.get('instrucciones', '')
+            if isinstance(instrucciones, str):
+                pasos = [paso.strip() for paso in instrucciones.split('.') if paso.strip()]
+            elif isinstance(instrucciones, list):
+                pasos = instrucciones
+            else:
+                pasos = []
+            
+            recipe['instrucciones'] = pasos
             FoodRecipe.objects.create(user=user, recipe=recipe)
+            
             dia = recipe.get('dia')
             if dia not in recetas_por_dia:
                 recetas_por_dia[dia] = []
