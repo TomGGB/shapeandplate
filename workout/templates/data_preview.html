@@ -31,34 +31,35 @@
                     <li><i class="material-icons" style="vertical-align: middle; font-size: 20px;">replay</i> Series: {{ ejercicio.series }}</li>
                 {% endif %}
                 {% if ejercicio.sesiones %}
-                    <li><i class="material-icons" style="vertical-align: middle; font-size: 20px;">fitness_center</i> Sesiones: {{ ejercicio.sesiones }}</li>
+                    <li><i class="material-icons" style="vertical-align: middle; font-size: 20px;">fitness_center</i> Series: {{ ejercicio.sesiones }}</li>
                 {% endif %}
             </ul><br>
             {% if ejercicio.advertencia %}
                 <p class="warning">{{ ejercicio.advertencia }}</p>
             {% endif %}
             {% if ejercicio.duracion or ejercicio.sesiones %}
-                <div class="progress-container" data-exercise-index="{{ forloop.counter0 }}">
-                    <p>Progreso: {{ ejercicio.progress.count }} de {{ ejercicio.sesiones|default:'1' }} sesiones completadas</p>
-                    <div class="progress-bar">
-                        {% with total_sessions=ejercicio.sesiones|default:1 %}
-                            {% for _ in total_sessions|rjust:total_sessions %}
-                                <div class="progress-segment" data-session="{{ forloop.counter }}"></div>
-                            {% endfor %}
-                        {% endwith %}
+                <div class="progress-container {% if ejercicio.progress.completed %}completed{% endif %}" data-exercise-index="{{ forloop.counter0 }}">
+                    <div class="progress-status">
+                        <span class="material-icons">{% if ejercicio.progress.completed %}check_circle{% else %}radio_button_unchecked{% endif %}</span>
+                        <span class="status-text">{% if ejercicio.progress.completed %}Completado{% else %}Pendiente{% endif %}</span>
                     </div>
-                    <div class="timer" data-exercise-index="{{ forloop.counter0 }}" data-duration="{{ ejercicio.duracion|cut:" minutos"|cut:" segundos" }}" data-sessions="{{ ejercicio.sesiones|default:'1' }}">
-                        <span class="timer-display">00:00</span>
-                        <div class="timer-controls">
-                            <button class="timer-button start-timer"><i class="material-icons">play_arrow</i></button>
-                            <button class="timer-button pause-timer" style="display:none;"><i class="material-icons">pause</i></button>
+                    {% if not ejercicio.progress.completed %}
+                        <p>Progreso: {{ ejercicio.progress.count }} de {{ ejercicio.sesiones|default:'1' }} sesiones completadas</p>
+                        <div class="progress-bar">
+                            {% with total_sessions=ejercicio.sesiones|default:1 %}
+                                {% for _ in total_sessions|rjust:total_sessions %}
+                                    <div class="progress-segment" data-session="{{ forloop.counter }}"></div>
+                                {% endfor %}
+                            {% endwith %}
                         </div>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" {% if ejercicio.progress.completed %}checked{% endif %} disabled>
-                        <span class="slider round"></span>
-                    </label>
-                    <span class="progress-label">{% if ejercicio.progress.completed %}Completado{% else %}Pendiente{% endif %}</span>
+                        <div class="timer" data-exercise-index="{{ forloop.counter0 }}" data-duration="{{ ejercicio.duracion|cut:" minutos"|cut:" segundos" }}" data-sessions="{{ ejercicio.sesiones|default:'1' }}">
+                            <span class="timer-display">00:00</span>
+                            <div class="timer-controls">
+                                <button class="timer-button start-timer"><i class="material-icons">play_arrow</i></button>
+                                <button class="timer-button pause-timer" style="display:none;"><i class="material-icons">pause</i></button>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
             {% endif %}
         </div>
@@ -129,12 +130,13 @@ function updateProgressBar(exerciseIndex, duration, sessions) {
 function completeExercise(exerciseIndex) {
     pauseTimer(exerciseIndex);
     updateProgress(exerciseIndex, true);
-    const timerElement = document.querySelector(`.timer[data-exercise-index="${exerciseIndex}"]`);
-    timerElement.style.display = 'none';
-    const progressLabel = document.querySelector(`.progress-container[data-exercise-index="${exerciseIndex}"] .progress-label`);
-    progressLabel.textContent = 'Completado';
-    const checkbox = document.querySelector(`.progress-container[data-exercise-index="${exerciseIndex}"] input[type="checkbox"]`);
-    checkbox.checked = true;
+    const progressContainer = document.querySelector(`.progress-container[data-exercise-index="${exerciseIndex}"]`);
+    progressContainer.classList.add('completed');
+    progressContainer.querySelector('.progress-status .material-icons').textContent = 'check_circle';
+    progressContainer.querySelector('.status-text').textContent = 'Completado';
+    progressContainer.querySelectorAll('.progress-bar, .timer').forEach(
+        element => element.style.display = 'none'
+    );
 }
 
 function updateProgress(exerciseIndex, completed) {
@@ -185,30 +187,5 @@ document.querySelectorAll('.pause-timer').forEach(button => {
         </form>
     </div>
 </div>
-
-<style>
-.progress-bar {
-    display: flex;
-    height: 20px;
-    background-color: #f0f0f0;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 10px;
-}
-
-.progress-segment {
-    flex-grow: 1;
-    background-color: #ddd;
-    border-right: 1px solid #fff;
-}
-
-.progress-segment:last-child {
-    border-right: none;
-}
-
-.progress-segment.completed {
-    background-color: #4CAF50;
-}
-</style>
 
 {% endblock %}

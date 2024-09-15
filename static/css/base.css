@@ -735,15 +735,56 @@ ul li {
 }
 
 
-/* Estilos para el timer y botones */
-.timer {
+/* Estilos para el indicador de estado del ejercicio */
+.progress-container {
+    background-color: var(--surface-color);
+    padding: 15px;
+    border-radius: 24px;
+    margin-top: 15px;
+    border: 2px solid var(--primary-lighter);
+    transition: all 0.3s ease;
+}
+
+.progress-container.completed {
+    background-color: var(--primary-lighter);
+    border-color: var(--primary-color);
+}
+
+.progress-status {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    background-color: var(--surface-color);
-    padding: 10px;
-    border-radius: 24px;
+    margin-bottom: 10px;
+}
+
+.progress-status .material-icons {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.progress-container:not(.completed) .progress-status .material-icons {
+    color: var(--primary-color);
+}
+
+.progress-container.completed .progress-status .material-icons {
+    color: var(--on-primary-color);
+}
+
+.status-text {
+    font-weight: bold;
+    color: var(--on-surface-color);
+}
+
+.progress-container.completed .status-text {
+    color: var(--on-primary-color);
+}
+
+/* Ajustes para la barra de progreso y el timer */
+.progress-bar {
     margin-top: 10px;
+}
+
+.timer {
+    margin-top: 15px;
 }
 
 .timer-display {
