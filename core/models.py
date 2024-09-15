@@ -48,6 +48,8 @@ class ExerciseRoutine(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     routine = models.JSONField()
     created_at = models.DateTimeField(default=timezone.now)
+    progress = models.JSONField(default=dict)
+    exercise_times = models.JSONField(default=dict)
 
     def __str__(self):
         return f"Rutina de {self.user.username} creada el {self.created_at}"

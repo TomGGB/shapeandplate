@@ -83,7 +83,41 @@ def data_preview(request):
     exercise_routines = ExerciseRoutine.objects.filter(user=user)
 
     if exercise_routines.exists():
-        return render(request, 'data_preview.html', {'exercise_routines': exercise_routines})
+        latest_routine = exercise_routines.latest('created_at')
+        routine_data = latest_routine.routine
+        progress_data = latest_routine.progress
+        exercise_times = latest_routine.exercise_times
+
+        if request.method == 'POST':
+            exercise_index = int(request.POST.get('exercise_index'))
+            completed = request.POST.get('completed') == 'true'
+            time_spent = int(request.POST.get('time_spent', 0))
+            
+            # Inicializa el progreso si no existe
+            if str(exercise_index) not in progress_data:
+                progress_data[str(exercise_index)] = {'completed': False, 'count': 0}
+            
+            # Actualiza el progreso
+            if completed:
+                progress_data[str(exercise_index)]['completed'] = True
+                progress_data[str(exercise_index)]['count'] += 1
+            
+            # Registra el tiempo de ejercicio
+            if str(exercise_index) not in exercise_times:
+                exercise_times[str(exercise_index)] = []
+            exercise_times[str(exercise_index)].append(time_spent)
+
+            # Guarda los cambios en la base de datos
+            latest_routine.progress = progress_data
+            latest_routine.exercise_times = exercise_times
+            latest_routine.save()
+
+        # Actualiza los datos de la rutina con el progreso
+        for i, exercise in enumerate(routine_data['rutina']):
+            exercise['progress'] = progress_data.get(str(i), {'completed': False, 'count': 0})
+            exercise['times'] = exercise_times.get(str(i), [])
+
+        return render(request, 'data_preview.html', {'exercise_routine': routine_data})
     else:
         # Genera una nueva rutina si no existe
         data = {
@@ -103,7 +137,7 @@ def data_preview(request):
         routine = ExerciseRoutine.objects.create(user=user, routine=routine_data)
         routine.save()
 
-        return render(request, 'data_preview.html', {'exercise_routines': [routine]})
+        return render(request, 'data_preview.html', {'exercise_routine': routine_data})
 
 @csrf_exempt
 @login_required

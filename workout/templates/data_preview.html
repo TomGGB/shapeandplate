@@ -7,41 +7,165 @@
     <h1 style="display: inline; vertical-align: middle;">Rutinas de Ejercicios</h1>
 </div>
 <div class="card-container">
-    {% for routine in exercise_routines %}
-        {% for ejercicio in routine.routine.rutina %}
-            <div class="card">
-                {% if ejercicio.i %}
-                    <span class="difficulty">Dificultad: </span>
-                    <span class="difficulty {% if ejercicio.i == 'Baja' %}beginner{% elif ejercicio.i == 'Media' %}intermediate{% else %}advanced{% endif %}">{{ ejercicio.i }}</span><br>
+    {% for ejercicio in exercise_routine.rutina %}
+        <div class="card">
+            {% if ejercicio.i %}
+                <span class="difficulty">Dificultad: </span>
+                <span class="difficulty {% if ejercicio.i == 'Baja' %}beginner{% elif ejercicio.i == 'Media' %}intermediate{% else %}advanced{% endif %}">{{ ejercicio.i }}</span><br>
+            {% endif %}
+            <h2>{{ ejercicio.nombre }}</h2>
+            {% if ejercicio.imgurl %}
+                <div class="image-container">
+                    <img src="{{ ejercicio.imgurl }}" alt="{{ ejercicio.nombre }}" class="exercise-image">
+                </div>
+            {% endif %}
+            <p>{{ ejercicio.desc }}</p>
+            <ul>
+                {% if ejercicio.duracion %}
+                    <li><i class="material-icons" style="vertical-align: middle; font-size: 20px;">schedule</i> Duración: {{ ejercicio.duracion }}</li>
                 {% endif %}
-                <h2>{{ ejercicio.nombre }}</h2>
-                {% if ejercicio.imgurl %}
-                    <div class="image-container">
-                        <img src="{{ ejercicio.imgurl }}" alt="{{ ejercicio.nombre }}" class="exercise-image">
+                {% if ejercicio.rep %}
+                    <li><i class="material-icons" style="vertical-align: middle; font-size: 20px;">replay</i> Repeticiones: {{ ejercicio.rep }}</li>
+                {% endif %}
+                {% if ejercicio.series %}
+                    <li><i class="material-icons" style="vertical-align: middle; font-size: 20px;">replay</i> Series: {{ ejercicio.series }}</li>
+                {% endif %}
+                {% if ejercicio.sesiones %}
+                    <li><i class="material-icons" style="vertical-align: middle; font-size: 20px;">fitness_center</i> Sesiones: {{ ejercicio.sesiones }}</li>
+                {% endif %}
+            </ul><br>
+            {% if ejercicio.advertencia %}
+                <p class="warning">{{ ejercicio.advertencia }}</p>
+            {% endif %}
+            {% if ejercicio.duracion or ejercicio.sesiones %}
+                <div class="progress-container" data-exercise-index="{{ forloop.counter0 }}">
+                    <p>Progreso: {{ ejercicio.progress.count }} de {{ ejercicio.sesiones|default:'1' }} sesiones completadas</p>
+                    <div class="progress-bar">
+                        {% with total_sessions=ejercicio.sesiones|default:1 %}
+                            {% for _ in total_sessions|rjust:total_sessions %}
+                                <div class="progress-segment" data-session="{{ forloop.counter }}"></div>
+                            {% endfor %}
+                        {% endwith %}
                     </div>
-                {% endif %}
-                <p>{{ ejercicio.desc }}</p>
-                <ul>
-                    {% if ejercicio.duracion %}
-                        <li><i class="material-icons" style="vertical-align: middle; font-size: 20px;">schedule</i> Duración: {{ ejercicio.duracion }}</li>
-                    {% endif %}
-                    {% if ejercicio.rep %}
-                        <li><i class="material-icons" style="vertical-align: middle; font-size: 20px;">replay</i> Repeticiones: {{ ejercicio.rep }}</li>
-                    {% endif %}
-                    {% if ejercicio.series %}
-                        <li><i class="material-icons" style="vertical-align: middle; font-size: 20px;">replay</i> Series: {{ ejercicio.series }}</li>
-                    {% endif %}
-                    {% if ejercicio.sesiones %}
-                        <li><i class="material-icons" style="vertical-align: middle; font-size: 20px;">fitness_center</i> Sesiones: {{ ejercicio.sesiones }}</li>
-                    {% endif %}
-                </ul><br>
-                {% if ejercicio.advertencia %}
-                    <p class="warning">{{ ejercicio.advertencia }}</p>
-                {% endif %}
-            </div>
-        {% endfor %}
+                    <div class="timer" data-exercise-index="{{ forloop.counter0 }}" data-duration="{{ ejercicio.duracion|cut:" minutos"|cut:" segundos" }}" data-sessions="{{ ejercicio.sesiones|default:'1' }}">
+                        <span class="timer-display">00:00</span>
+                        <div class="timer-controls">
+                            <button class="timer-button start-timer"><i class="material-icons">play_arrow</i></button>
+                            <button class="timer-button pause-timer" style="display:none;"><i class="material-icons">pause</i></button>
+                        </div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" {% if ejercicio.progress.completed %}checked{% endif %} disabled>
+                        <span class="slider round"></span>
+                    </label>
+                    <span class="progress-label">{% if ejercicio.progress.completed %}Completado{% else %}Pendiente{% endif %}</span>
+                </div>
+            {% endif %}
+        </div>
     {% endfor %}
 </div>
+
+<script>
+let timers = {};
+let intervals = {};
+let currentSession = {};
+
+function startTimer(exerciseIndex) {
+    const timerElement = document.querySelector(`.timer[data-exercise-index="${exerciseIndex}"]`);
+    const duration = parseInt(timerElement.dataset.duration);
+    const sessions = parseInt(timerElement.dataset.sessions);
+
+    if (!timers[exerciseIndex]) {
+        timers[exerciseIndex] = 0;
+        currentSession[exerciseIndex] = 1;
+    }
+
+    intervals[exerciseIndex] = setInterval(() => {
+        timers[exerciseIndex]++;
+        updateTimerDisplay(exerciseIndex);
+        updateProgressBar(exerciseIndex, duration, sessions);
+
+        if (timers[exerciseIndex] >= duration * sessions) {
+            completeExercise(exerciseIndex);
+        } else if (timers[exerciseIndex] % duration === 0) {
+            pauseTimer(exerciseIndex);
+            currentSession[exerciseIndex]++;
+        }
+    }, 1000);
+
+    timerElement.querySelector('.start-timer').style.display = 'none';
+    timerElement.querySelector('.pause-timer').style.display = 'inline-block';
+}
+
+function pauseTimer(exerciseIndex) {
+    clearInterval(intervals[exerciseIndex]);
+    const timerElement = document.querySelector(`.timer[data-exercise-index="${exerciseIndex}"]`);
+    timerElement.querySelector('.start-timer').style.display = 'inline-block';
+    timerElement.querySelector('.pause-timer').style.display = 'none';
+}
+
+function updateTimerDisplay(exerciseIndex) {
+    const timerElement = document.querySelector(`.timer[data-exercise-index="${exerciseIndex}"]`);
+    const duration = parseInt(timerElement.dataset.duration);
+    const currentTime = timers[exerciseIndex] % duration;
+    const minutes = Math.floor(currentTime / 60);
+    const seconds = currentTime % 60;
+    timerElement.querySelector('.timer-display').textContent = 
+        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
+
+function updateProgressBar(exerciseIndex, duration, sessions) {
+    const progressBar = document.querySelector(`.progress-container[data-exercise-index="${exerciseIndex}"] .progress-bar`);
+    const progressSegments = progressBar.querySelectorAll('.progress-segment');
+    const completedSessions = Math.floor(timers[exerciseIndex] / duration);
+
+    progressSegments.forEach((segment, index) => {
+        if (index < completedSessions) {
+            segment.classList.add('completed');
+        }
+    });
+}
+
+function completeExercise(exerciseIndex) {
+    pauseTimer(exerciseIndex);
+    updateProgress(exerciseIndex, true);
+    const timerElement = document.querySelector(`.timer[data-exercise-index="${exerciseIndex}"]`);
+    timerElement.style.display = 'none';
+    const progressLabel = document.querySelector(`.progress-container[data-exercise-index="${exerciseIndex}"] .progress-label`);
+    progressLabel.textContent = 'Completado';
+    const checkbox = document.querySelector(`.progress-container[data-exercise-index="${exerciseIndex}"] input[type="checkbox"]`);
+    checkbox.checked = true;
+}
+
+function updateProgress(exerciseIndex, completed) {
+    fetch('{% url "data_preview" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: `exercise_index=${exerciseIndex}&completed=${completed}&time_spent=${timers[exerciseIndex] || 0}`
+    }).then(response => {
+        if (response.ok) {
+            location.reload();
+        }
+    });
+}
+
+document.querySelectorAll('.start-timer').forEach(button => {
+    button.addEventListener('click', function() {
+        let exerciseIndex = this.closest('.timer').dataset.exerciseIndex;
+        startTimer(exerciseIndex);
+    });
+});
+
+document.querySelectorAll('.pause-timer').forEach(button => {
+    button.addEventListener('click', function() {
+        let exerciseIndex = this.closest('.timer').dataset.exerciseIndex;
+        pauseTimer(exerciseIndex);
+    });
+});
+</script>
 
 <!-- Botón flotante -->
 <button class="floating-button material-symbols-outlined" id="delete-routine-button" onclick="document.getElementById('confirmation-modal').style.display='block'">
@@ -61,4 +185,30 @@
         </form>
     </div>
 </div>
+
+<style>
+.progress-bar {
+    display: flex;
+    height: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.progress-segment {
+    flex-grow: 1;
+    background-color: #ddd;
+    border-right: 1px solid #fff;
+}
+
+.progress-segment:last-child {
+    border-right: none;
+}
+
+.progress-segment.completed {
+    background-color: #4CAF50;
+}
+</style>
+
 {% endblock %}

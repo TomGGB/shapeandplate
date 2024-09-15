@@ -733,3 +733,95 @@ ul li {
     transform: scale(1.1);
     border-radius: 24px;
 }
+
+
+/* Estilos para el timer y botones */
+.timer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--surface-color);
+    padding: 10px;
+    border-radius: 24px;
+    margin-top: 10px;
+}
+
+.timer-display {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--on-surface-color);
+}
+
+.timer-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.timer-button {
+    background-color: var(--primary-color);
+    color: var(--on-primary-color);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.timer-button:hover {
+    background-color: var(--secondary-color);
+}
+
+.timer-button i {
+    font-size: 24px;
+}
+
+/* Estilos para la barra de progreso */
+.progress-bar {
+    display: flex;
+    height: 20px;
+    background-color: var(--surface-color);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.progress-segment {
+    flex-grow: 1;
+    background-color: var(--primary-lighter);
+    border-right: 1px solid var(--surface-color);
+    transition: background-color 0.3s ease;
+}
+
+.progress-segment:last-child {
+    border-right: none;
+}
+
+.progress-segment.completed {
+    background-color: var(--primary-color);
+}
+
+/* Ajustes adicionales */
+.progress-container {
+    background-color: var(--surface-color);
+    padding: 15px;
+    border-radius: 24px;
+    margin-top: 15px;
+}
+
+.progress-container p {
+    color: var(--on-surface-color);
+    margin-bottom: 10px;
+}
+
+.switch {
+    margin-top: 10px;
+}
+
+.progress-label {
+    color: var(--on-surface-color);
+    margin-left: 10px;
+}
