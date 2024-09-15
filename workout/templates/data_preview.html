@@ -15,6 +15,11 @@
                     <span class="difficulty {% if ejercicio.i == 'Baja' %}beginner{% elif ejercicio.i == 'Media' %}intermediate{% else %}advanced{% endif %}">{{ ejercicio.i }}</span><br>
                 {% endif %}
                 <h2>{{ ejercicio.nombre }}</h2>
+                {% if ejercicio.imgurl %}
+                    <div class="image-container">
+                        <img src="{{ ejercicio.imgurl }}" alt="{{ ejercicio.nombre }}" class="exercise-image">
+                    </div>
+                {% endif %}
                 <p>{{ ejercicio.desc }}</p>
                 <ul>
                     {% if ejercicio.duracion %}

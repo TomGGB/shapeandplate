@@ -2,7 +2,7 @@ import os
 import json
 import google.generativeai as genai
 from dotenv import load_dotenv
-
+import requests
 
 # Carga las variables de entorno desde el archivo .env
 load_dotenv()
@@ -41,10 +41,24 @@ def create_message(data, extra_fields):
         mensaje += f'{field}: {value} \n'
     return mensaje
 
+def get_exercise_image(exercise_name):
+    api_key = os.getenv('PEXELS_API_KEY')
+    url = f"https://api.pexels.com/v1/search?query={exercise_name}&per_page=1"
+    headers = {
+        "Authorization": api_key
+    }
+    
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        data = response.json()
+        if data['photos']:
+            return data['photos'][0]['src']['large']
+    return None
+
 def generate_workout_routine(data):
     system_instruction = (
-        "Eres un personal trainer, se ingresarán los datos del usuario y debes darle una rutina personalizada con el nombre del ejercicio(nombre),\n"
-        "duración(duracion), repeticiones(rep) si no tiene una cantidad de repeticiones no incluyas este campo en la respuesta, sesiones(sesiones), intensidad(i), puede ser 'Baja', 'Media' o 'Alta', la descipcion de cada ejercicio(desc) y una advertencia solamente si el ejercicio es de intensidad alta para no sobre exigir (advertencia),\n"
+        "Eres un personal trainer, se ingresarán los datos del usuario y debes darle una rutina personalizada con el nombre del ejercicio en español(nombre),\n"
+        "el nombre del ejercicio en inglés(nombre_en), duración(duracion), repeticiones(rep) si no tiene una cantidad de repeticiones no incluyas este campo en la respuesta, sesiones(sesiones), intensidad(i), puede ser 'Baja', 'Media' o 'Alta', la descipcion de cada ejercicio(desc) y una advertencia solamente si el ejercicio es de intensidad alta para no sobre exigir (advertencia),\n"
         "los ejercicios dependeran de si tiene acceso a un gymnasio o no y tambien de los datos que te entregue, que sea lo mas personalizado posible dependiendo de la cantidad de ejercicio que haga el usuario por ejemplo si no tiene acceso al gimnasio pueder recomendar hacer el ejercicio con algun objeto que pueda tener en casa \n."
         "Hay que tener en cuenta la edad y la cantidad de ejercicio semanal que hace el usuario para determinar bien la cantidad de sesiones, repeticiones y duracion de cada ejercicio, esto es lo mas importante\n"
         "Los calentamientos y enfriamientos tambien son personalizados pero no deben tener dificultad ni sesiones ni repeticiones, solamente la duración, el calentamiento debe ser el primer ejercicio y el enfriamiento el ultimo\n."
@@ -57,12 +71,18 @@ def generate_workout_routine(data):
     
     try:
         response = model.generate_content(mensaje)
-        return json.loads(response.text)
+        routine = json.loads(response.text)
+        
+        # Añadir imágenes a cada ejercicio
+        for exercise in routine['rutina']:
+            image_url = get_exercise_image(exercise['nombre_en'])
+            if image_url:
+                exercise['imgurl'] = image_url
+        
+        return routine
     except Exception as e:
         print(f"Error: {e}")
         return {"error": "No se pudo generar la rutina de ejercicios. Por favor, inténtalo de nuevo."}
-
-import json
 
 def generate_recipes(data, previous_recipes=None):
     formato = (
