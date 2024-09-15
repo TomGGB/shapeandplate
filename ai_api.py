@@ -52,7 +52,7 @@ def get_exercise_image(exercise_name):
     if response.status_code == 200:
         data = response.json()
         if data['photos']:
-            return data['photos'][0]['src']['large']
+            return data['photos'][0]['src']['landscape']
     return None
 
 def generate_workout_routine(data):
