@@ -44,7 +44,7 @@
                         <span class="status-text">{% if ejercicio.progress.completed %}Completado{% else %}Pendiente{% endif %}</span>
                     </div>
                     {% if not ejercicio.progress.completed %}
-                        <p>Progreso: {{ ejercicio.progress.count }} de {{ ejercicio.sesiones|default:'1' }} sesiones completadas</p>
+                        <p>Progreso: {{ ejercicio.progress.count }} de {{ ejercicio.sesiones|default:'1' }} series completadas</p>
                         <div class="progress-bar">
                             {% with total_sessions=ejercicio.sesiones|default:1 %}
                                 {% for _ in total_sessions|rjust:total_sessions %}
