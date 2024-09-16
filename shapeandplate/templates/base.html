@@ -131,7 +131,21 @@
             const toastContainer = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = `toast toast-${type}`;
-            toast.textContent = message;
+            
+            const icon = document.createElement('span');
+            icon.className = 'toast-icon material-icons';
+            switch(type) {
+                case 'info': icon.textContent = 'info'; break;
+                case 'success': icon.textContent = 'check_circle'; break;
+                case 'warning': icon.textContent = 'warning'; break;
+                case 'error': icon.textContent = 'error'; break;
+            }
+            
+            const messageSpan = document.createElement('span');
+            messageSpan.textContent = message;
+            
+            toast.appendChild(icon);
+            toast.appendChild(messageSpan);
             toastContainer.appendChild(toast);
 
             setTimeout(() => {

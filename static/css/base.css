@@ -228,11 +228,19 @@ select:focus {
     transition: all 0.3s ease;
     text-align: center;
     max-width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .toast.show {
     opacity: 1;
     transform: translateY(0);
+}
+
+.toast-icon {
+    margin-right: 10px;
+    font-size: 24px;
 }
 
 .toast-info {
@@ -241,18 +249,18 @@ select:focus {
 }
 
 .toast-success {
-    background-color: #4CAF50;
-    color: white;
+    background-color: var(--secondary-color);
+    color: var(--on-secondary-color);
 }
 
 .toast-warning {
     background-color: #FFC107;
-    color: black;
+    color: #000000;
 }
 
 .toast-error {
-    background-color: #F44336;
-    color: white;
+    background-color: var(--error-color);
+    color: var(--on-error-color);
 }
 
 /* Pantalla de Carga */

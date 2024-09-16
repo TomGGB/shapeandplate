@@ -51,8 +51,11 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="smoker">¿Eres fumador?</label>
-                        <input type="checkbox" id="smoker" name="smoker" {% if user.is_smoker %}checked{% endif %}>
+                        <label>¿Eres fumador?</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="smoker" name="smoker" {% if user.is_smoker %}checked{% endif %}>
+                            <label for="smoker"></label>
+                        </div>
                     </div>
                 </div>
                 <div class="button-container">
@@ -76,8 +79,11 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="gym_access">¿Tienes acceso a un gimnasio?</label>
-                        <input type="checkbox" id="gym_access" name="gym_access" {% if user.gym_access %}checked{% endif %}>
+                        <label>¿Tienes acceso a un gimnasio?</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="gym_access" name="gym_access" {% if user.gym_access %}checked{% endif %}>
+                            <label for="gym_access"></label>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="imc">IMC:</label>
@@ -291,6 +297,61 @@
 
     .generate-button .material-icons {
         margin-right: 5px;
+    }
+
+    .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .toggle-switch label {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px;
+    }
+
+    .toggle-switch label:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+
+    .toggle-switch input:checked + label {
+        background-color: var(--primary-color);
+    }
+
+    .toggle-switch input:checked + label:before {
+        transform: translateX(26px);
+    }
+
+    /* Ajuste para centrar la bolita del switch */
+    .toggle-switch label:before {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .toggle-switch input:checked + label:before {
+        transform: translate(26px, -50%);
     }
 </style>
 {% endblock %}

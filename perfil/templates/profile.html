@@ -71,8 +71,13 @@
             <label for="imc" class="block mt-4">IMC:</label>
             <input type="float" id="imc" name="imc" value="{% if imc %}{{ imc }}{% else %}0{% endif %}" readonly class="w-full p-2 mt-1 border border-gray-300 rounded-md">
 
-            <label for="smoker" class="block mt-4">¿Fumador?</label>
-            <input type="checkbox" id="smoker" name="smoker" {% if smoker %}checked{% endif %} class="mt-1">
+            <div class="form-group mt-4">
+                <label for="smoker" class="block">¿Fumador?</label>
+                <div class="toggle-switch mt-2">
+                    <input type="checkbox" id="smoker" name="smoker" {% if smoker %}checked{% endif %}>
+                    <label for="smoker"></label>
+                </div>
+            </div>
 
             <label for="weekly_exercise_hours" class="block mt-4">Horas de ejercicio semanal:</label>
             <input type="number" step="0.01" id="weekly_exercise_hours" name="weekly_exercise_hours" value="{{ weekly_exercise_hours|default_if_none:0 }}" class="w-full p-2 mt-1 border border-gray-300 rounded-md">
@@ -87,8 +92,13 @@
                 <option value="mejorar_condicion_fisica" {% if goal == 'mejorar_condicion_fisica' %}selected{% endif %}>Mejorar Condición Física</option>
             </select>
 
-            <label for="gym_access" class="block mt-4">¿Acceso a gimnasio?</label>
-            <input type="checkbox" id="gym_access" name="gym_access" {% if gym_access %}checked{% endif %} class="mt-1">
+            <div class="form-group mt-4">
+                <label for="gym_access" class="block">¿Acceso a gimnasio?</label>
+                <div class="toggle-switch mt-2">
+                    <input type="checkbox" id="gym_access" name="gym_access" {% if gym_access %}checked{% endif %}>
+                    <label for="gym_access"></label>
+                </div>
+            </div>
 
             <input type="submit" value="Guardar" class="w-full mt-6 p-2 bg-primary text-primary-foreground rounded-md cursor-pointer hover:bg-primary-foreground hover:text-primary">
         </form>
@@ -142,4 +152,65 @@
         });
     });
 </script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ... Otros estilos ... */
+
+    .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .toggle-switch label {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px;
+    }
+
+    .toggle-switch label:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+
+    .toggle-switch input:checked + label {
+        background-color: var(--primary-color);
+    }
+
+    .toggle-switch input:checked + label:before {
+        transform: translateX(26px);
+    }
+
+    /* Ajuste para centrar la bolita del switch */
+    .toggle-switch label:before {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .toggle-switch input:checked + label:before {
+        transform: translate(26px, -50%);
+    }
+</style>
 {% endblock %}
