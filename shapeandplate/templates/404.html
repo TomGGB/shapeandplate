@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Página no encontrada{% endblock %}
+
+{% block content %}
+<div class="card-container">
+    <div class="card error-card">
+        <h1>404 - Página no encontrada</h1>
+        <p>Lo sentimos, la página que estás buscando no existe.</p>
+        <a href="{% url 'index' %}" class="btn-back">
+            <i class="material-icons">home</i>
+            <span>Volver al inicio</span>
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .error-card {
+        text-align: center;
+        padding: 40px;
+    }
+    .error-card h1 {
+        color: var(--primary-color);
+        font-size: 2.5em;
+        margin-bottom: 20px;
+    }
+    .btn-back {
+        display: inline-flex;
+        align-items: center;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: var(--primary-color);
+        color: var(--on-primary-color);
+        text-decoration: none;
+        border-radius: 5px;
+    }
+    .btn-back .material-icons {
+        margin-right: 10px;
+    }
+</style>
+{% endblock %}

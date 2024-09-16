@@ -17,36 +17,12 @@ def plate(request):
         messages.error(request, 'Primero debes generar una rutina de ejercicios.')
         return redirect('workout')
 
+    from datetime import datetime
+    dias_semana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
+    dia_actual = dias_semana[datetime.now().weekday()]
+
     if food_recipes.exists():
-        from datetime import datetime
-        dias_semana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
-        dia_actual = dias_semana[datetime.now().weekday()]
-        
         recetas_del_dia = {}
-        for recipe in food_recipes:
-            if recipe.recipe.get('dia') == dia_actual:
-                tipo = recipe.recipe.get('tipo')
-                if tipo not in recetas_del_dia:
-                    recetas_del_dia[tipo] = []
-                
-                # Procesar las instrucciones
-                instrucciones = recipe.recipe.get('instrucciones', '')
-                if isinstance(instrucciones, str):
-                    pasos = [paso.strip() for paso in instrucciones.split('.') if paso.strip()]
-                elif isinstance(instrucciones, list):
-                    pasos = instrucciones
-                else:
-                    pasos = []
-                
-                recipe_data = recipe.recipe.copy()
-                recipe_data['instrucciones'] = pasos
-                recipe_data['id'] = recipe.id  # Añade el ID de la receta
-                recetas_del_dia[tipo].append(recipe_data)
-        
-        return render(request, 'plate.html', {
-            'recetas_del_dia': recetas_del_dia,
-            'dia_actual': dia_actual
-        })
     else:
         # Obtén la última rutina de ejercicios
         latest_routine = exercise_routines.latest('created_at')
@@ -71,7 +47,7 @@ def plate(request):
             return redirect('workout')
 
         # Guarda las nuevas recetas en la base de datos
-        recetas_por_dia = {}
+        recetas_del_dia = {}
         for recipe in recipes_data.get('plan_semanal', []):
             # Procesar las instrucciones antes de guardar
             instrucciones = recipe.get('instrucciones', '')
@@ -83,23 +59,40 @@ def plate(request):
                 pasos = []
             
             recipe['instrucciones'] = pasos
-            FoodRecipe.objects.create(user=user, recipe=recipe)
+            new_recipe = FoodRecipe.objects.create(user=user, recipe=recipe)
             
-            dia = recipe.get('dia')
-            if dia not in recetas_por_dia:
-                recetas_por_dia[dia] = []
-            recetas_por_dia[dia].append(recipe)
+            if recipe.get('dia') == dia_actual:
+                tipo = recipe.get('tipo')
+                if tipo not in recetas_del_dia:
+                    recetas_del_dia[tipo] = []
+                recipe['id'] = new_recipe.id
+                recetas_del_dia[tipo].append(recipe)
 
         messages.success(request, 'Nuevas recetas generadas exitosamente.')
-        return render(request, 'plate.html', {'recetas_por_dia': recetas_por_dia})
+
+    # Si no se generaron nuevas recetas, obtén las recetas existentes para el día actual
+    if not recetas_del_dia:
+        for recipe in food_recipes:
+            if recipe.recipe.get('dia') == dia_actual:
+                tipo = recipe.recipe.get('tipo')
+                if tipo not in recetas_del_dia:
+                    recetas_del_dia[tipo] = []
+                
+                recipe_data = recipe.recipe.copy()
+                recipe_data['id'] = recipe.id
+                recetas_del_dia[tipo].append(recipe_data)
+
+    return render(request, 'plate.html', {
+        'recetas_del_dia': recetas_del_dia,
+        'dia_actual': dia_actual
+    })
 
 @login_required
 @csrf_exempt
 def delete_recipe(request):
-    if request.method == 'POST':
-        user = request.user
-        FoodRecipe.objects.filter(user=user).delete()
-        return redirect('plate')
+    user = request.user
+    messages.success(request, 'Todas las recetas han sido eliminadas. Se generarán nuevas recetas.')
+    FoodRecipe.objects.filter(user=user).delete()
     return redirect('plate')
 
 @login_required
