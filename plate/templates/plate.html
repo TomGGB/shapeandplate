@@ -1,187 +1,137 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Recetas Personalizadas{% endblock %}
+{% block title %}Recetas del Día{% endblock %}
 {% block page_title %}
     <span class="material-icons">restaurant_menu</span>
-    Recetas Personalizadas
-{% endblock %}
-{% block top_app_bar_right %}
-    <button class="app-bar-button" id="delete-routine-button" onclick="document.getElementById('confirmation-modal').style.display='block'">
-        <span class="material-icons">add</span>
-        <span class="button-text">Nueva Receta</span>
-    </button>
+    Recetas del Día
 {% endblock %}
 {% block content %}
-<style>
-    .card-content {
-        text-align: left;
-    }
-    .instructions ol {
-        padding-left: 20px;
-    }
-    .instructions li {
-        margin-bottom: 10px;
-    }
-    .day-card {
-        background-color: var(--surface-color);
-        border-radius: 16px;
-        padding: 20px;
-        margin-bottom: 20px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    .day-title {
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 15px;
-        color: var(--primary-color);
-    }
-    .meal-type {
-        font-size: 20px;
-        font-weight: bold;
-        margin-top: 15px;
-        margin-bottom: 10px;
-        color: var(--secondary-color);
-    }
-    .recipe-card {
-        background-color: var(--background-color);
-        border-radius: 12px;
-        padding: 15px;
-        margin-bottom: 15px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    }
-    .recipe-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-    .recipe-name {
-        font-size: 18px;
-        font-weight: bold;
-        color: var(--on-surface-color);
-    }
-    .recipe-details {
-        display: flex;
-        justify-content: space-between;
-        font-size: 14px;
-        color: var(--on-surface-variant-color);
-        margin-bottom: 10px;
-    }
-    .recipe-description {
-        font-size: 14px;
-        color: var(--on-surface-variant-color);
-        margin-bottom: 10px;
-    }
-    .ingredients-list, .instructions-list {
-        list-style-type: none;
-        padding-left: 0;
-    }
-    .ingredients-list li, .instructions-list li {
-        margin-bottom: 5px;
-    }
-    .instructions-list {
-        counter-reset: step-counter;
-    }
-    .instructions-list li {
-        counter-increment: step-counter;
-    }
-    .instructions-list li::before {
-        content: counter(step-counter) ". ";
-        font-weight: bold;
-        color: var(--primary-color);
-    }
-</style>
-
-{% if recetas_por_dia_y_tipo %}
+{% if recetas_del_dia %}
 <div class="card-container">
-    <div class="card">
+    <div class="card info-card">
         <h2>¡Recuerda!</h2>
         <p>Las recetas se actualizan cada vez que generas una nueva rutina de ejercicios ya que se adaptan a tus necesidades nutricionales.</p>
         <p>¡No olvides revisarlas!</p>
     </div>
 </div>
 <div class="card-container">
-    {% for dia, tipos in recetas_por_dia_y_tipo.items %}
-        <div class="day-card">
-            <h2 class="day-title">{{ dia }}</h2>
-            {% for tipo, recetas in tipos.items %}
-                <h3 class="meal-type">{{ tipo }}</h3>
-                {% for receta in recetas %}
-                    <div class="recipe-card">
-                        <div class="recipe-header">
-                            <h4 class="recipe-name">{{ receta.nombre }}</h4>
-                            <button class="toggle-recipe-details" onclick="toggleRecipeDetails(this)">
-                                <span class="material-icons">expand_more</span>
-                            </button>
-                        </div>
+    <h2 class="day-title">Tus recetas recomendadas para hoy ({{ dia_actual }}):</h2>
+    {% for tipo, recetas in recetas_del_dia.items %}
+        <h3 class="meal-type {{ tipo|lower }}">{{ tipo }}</h3>
+        <div class="recipe-grid">
+            {% for receta in recetas %}
+                <div class="card recipe-card {{ tipo|lower }}">
+                    <a href="{% url 'recipe_detail' receta.id %}">
+                        <h4 class="recipe-name">{{ receta.nombre }}</h4>
+                        <p class="recipe-description">{{ receta.desc|truncatechars:100 }}</p>
                         <div class="recipe-details">
-                            <span>Tiempo: {{ receta.tiempo }}</span>
-                            <span>Dificultad: {{ receta.dificultad }}</span>
+                            <span><i class="material-icons">schedule</i> {{ receta.tiempo }}</span>
+                            <span><i class="material-icons">fitness_center</i> {{ receta.dificultad }}</span>
                         </div>
-                        <p class="recipe-description">{{ receta.desc }}</p>
-                        <div class="recipe-full-details" style="display: none;">
-                            <div class="ingredients">
-                                <h5>Ingredientes:</h5>
-                                <ul class="ingredients-list">
-                                    {% for ingrediente in receta.ingredientes %}
-                                        <li>{{ ingrediente }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                            <div class="instructions">
-                                <h5>Instrucciones:</h5>
-                                <ol class="instructions-list">
-                                    {% for paso in receta.instrucciones %}
-                                        <li>{{ paso }}</li>
-                                    {% endfor %}
-                                </ol>
-                            </div>
-                            {% if receta.advertencia %}
-                                <p class="warning">Advertencia: {{ receta.advertencia }}</p>
-                            {% endif %}
-                        </div>
-                    </div>
-                {% endfor %}
+                    </a>
+                </div>
             {% endfor %}
         </div>
     {% endfor %}
 </div>
-
-<script>
-    function toggleRecipeDetails(button) {
-        const recipeCard = button.closest('.recipe-card');
-        const fullDetails = recipeCard.querySelector('.recipe-full-details');
-        const icon = button.querySelector('.material-icons');
-        
-        if (fullDetails.style.display === 'none') {
-            fullDetails.style.display = 'block';
-            icon.textContent = 'expand_less';
-        } else {
-            fullDetails.style.display = 'none';
-            icon.textContent = 'expand_more';
-        }
-    }
-</script>
 {% else %}
 <div class="card-container">
-    <div class="card">
-        <h2>No hay recetas disponibles</h2>
+    <div class="card info-card">
+        <h2>No hay recetas disponibles para hoy</h2>
         <p>Genera una nueva rutina de ejercicios para obtener recetas personalizadas.</p>
     </div>
 </div>
 {% endif %}
+{% endblock %}
 
-<!-- Modal de confirmación -->
-<div id="confirmation-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-button" onclick="document.getElementById('confirmation-modal').style.display='none'">&times;</span>
-        <h2>Confirmación</h2>
-        <p>¿Estás seguro de que deseas generar nuevas recetas?</p>
-        <form method="post" action="{% url 'delete_recipe' %}">
-            {% csrf_token %}
-            <button type="submit" class="confirm-button">Generar</button>
-            <button type="button" class="cancel-button" onclick="document.getElementById('confirmation-modal').style.display='none'">Cancelar</button>
-        </form>
-    </div>
-</div>
+{% block extra_css %}
+<style>
+    .card-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .info-card {
+        color: var(--on-primary-color);
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .day-title {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+        color: var(--on-surface-color);
+    }
+
+    .meal-type {
+        font-size: 1.2em;
+        margin-top: 30px;
+        margin-bottom: 15px;
+        padding: 10px;
+        border-radius: 5px;
+        color: var(--on-primary-color);
+    }
+
+    .meal-type.desayuno { background-color: #FFA726; }
+    .meal-type.almuerzo { background-color: #66BB6A; }
+    .meal-type.cena { background-color: #42A5F5; }
+    .meal-type.colacion { background-color: #EC407A; }
+
+    .recipe-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .recipe-card {
+        border-radius: 10px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .recipe-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .recipe-card a {
+        text-decoration: none;
+        color: var(--on-surface-color);
+        display: block;
+        padding: 20px;
+    }
+
+    .recipe-name {
+        font-size: 1.2em;
+        margin-bottom: 10px;
+    }
+
+    .recipe-description {
+        font-size: 0.9em;
+        margin-bottom: 15px;
+    }
+
+    .recipe-details {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.8em;
+    }
+
+    .recipe-details span {
+        display: flex;
+        align-items: center;
+    }
+
+    .recipe-details .material-icons {
+        font-size: 1.2em;
+        margin-right: 5px;
+    }
+
+    .recipe-card.desayuno { border-top: 5px solid #FFA726; }
+    .recipe-card.almuerzo { border-top: 5px solid #66BB6A; }
+    .recipe-card.cena { border-top: 5px solid #42A5F5; }
+    .recipe-card.colacion { border-top: 5px solid #EC407A; }
+</style>
 {% endblock %}

@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
+from django.shortcuts import get_object_or_404
 
 @login_required
 def plate(request):
@@ -17,29 +18,35 @@ def plate(request):
         return redirect('workout')
 
     if food_recipes.exists():
-        recetas_por_dia_y_tipo = {}
-        for recipe in food_recipes:
-            dia = recipe.recipe.get('dia')
-            tipo = recipe.recipe.get('tipo')
-            if dia not in recetas_por_dia_y_tipo:
-                recetas_por_dia_y_tipo[dia] = {}
-            if tipo not in recetas_por_dia_y_tipo[dia]:
-                recetas_por_dia_y_tipo[dia][tipo] = []
-            
-            # Procesar las instrucciones
-            instrucciones = recipe.recipe.get('instrucciones', '')
-            if isinstance(instrucciones, str):
-                pasos = [paso.strip() for paso in instrucciones.split('.') if paso.strip()]
-            elif isinstance(instrucciones, list):
-                pasos = instrucciones
-            else:
-                pasos = []
-            
-            recipe_data = recipe.recipe.copy()
-            recipe_data['instrucciones'] = pasos
-            recetas_por_dia_y_tipo[dia][tipo].append(recipe_data)
+        from datetime import datetime
+        dias_semana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
+        dia_actual = dias_semana[datetime.now().weekday()]
         
-        return render(request, 'plate.html', {'recetas_por_dia_y_tipo': recetas_por_dia_y_tipo})
+        recetas_del_dia = {}
+        for recipe in food_recipes:
+            if recipe.recipe.get('dia') == dia_actual:
+                tipo = recipe.recipe.get('tipo')
+                if tipo not in recetas_del_dia:
+                    recetas_del_dia[tipo] = []
+                
+                # Procesar las instrucciones
+                instrucciones = recipe.recipe.get('instrucciones', '')
+                if isinstance(instrucciones, str):
+                    pasos = [paso.strip() for paso in instrucciones.split('.') if paso.strip()]
+                elif isinstance(instrucciones, list):
+                    pasos = instrucciones
+                else:
+                    pasos = []
+                
+                recipe_data = recipe.recipe.copy()
+                recipe_data['instrucciones'] = pasos
+                recipe_data['id'] = recipe.id  # Añade el ID de la receta
+                recetas_del_dia[tipo].append(recipe_data)
+        
+        return render(request, 'plate.html', {
+            'recetas_del_dia': recetas_del_dia,
+            'dia_actual': dia_actual
+        })
     else:
         # Obtén la última rutina de ejercicios
         latest_routine = exercise_routines.latest('created_at')
@@ -94,3 +101,8 @@ def delete_recipe(request):
         FoodRecipe.objects.filter(user=user).delete()
         return redirect('plate')
     return redirect('plate')
+
+@login_required
+def recipe_detail(request, recipe_id):
+    recipe = get_object_or_404(FoodRecipe, id=recipe_id, user=request.user)
+    return render(request, 'recipe_detail.html', {'receta': recipe.recipe})

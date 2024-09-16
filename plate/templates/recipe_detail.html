@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ receta.nombre }}{% endblock %}
+
+{% block page_title %}
+    <span class="material-icons">restaurant_menu</span>
+    {{ receta.nombre }}
+{% endblock %}
+
+{% block content %}
+<div class="card-container">
+    <a href="{% url 'plate' %}" class="btn-back">
+        <i class="material-icons">arrow_back</i>
+        <span>Volver</span>
+    </a>
+    <div class="card recipe-detail">
+        <h2 class="recipe-title">{{ receta.nombre }}</h2>
+        <p class="recipe-description">{{ receta.desc }}</p>
+        <div class="recipe-meta">
+            <span class="recipe-time"><i class="material-icons">schedule</i> {{ receta.tiempo }}</span>
+            <span class="recipe-difficulty"><i class="material-icons">fitness_center</i> {{ receta.dificultad }}</span>
+        </div>
+        <div class="recipe-section ingredients">
+            <h3><i class="material-icons">list</i> Ingredientes:</h3>
+            <ul>
+                {% for ingrediente in receta.ingredientes %}
+                    <li>{{ ingrediente }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="recipe-section instructions">
+            <h3><i class="material-icons">restaurant</i> Instrucciones:</h3>
+            <ol>
+                {% for paso in receta.instrucciones %}
+                    <li>{{ paso }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+        {% if receta.advertencia %}
+            <div class="recipe-warning">
+                <i class="material-icons">warning</i>
+                <p>Advertencia: {{ receta.advertencia }}</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .card-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        position: relative;
+    }
+
+    .recipe-detail {
+        background-color: var(--surface-color);
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .recipe-title {
+        font-size: 2.5em;
+        color: var(--primary-color);
+        margin-bottom: 15px;
+    }
+
+    .recipe-description {
+        font-size: 1.1em;
+        color: var(--on-surface-color);
+        margin-bottom: 20px;
+        line-height: 1.6;
+    }
+
+    .recipe-meta {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        font-size: 1.1em;
+    }
+
+    .recipe-time, .recipe-difficulty {
+        display: flex;
+        align-items: center;
+        color: var(--on-surface-color);
+    }
+
+    .recipe-time i, .recipe-difficulty i {
+        margin-right: 5px;
+        color: var(--primary-color);
+    }
+
+    .recipe-section {
+        margin-bottom: 30px;
+    }
+
+    .recipe-section h3 {
+        font-size: 1.5em;
+        color: var(--primary-color);
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+    }
+
+    .recipe-section h3 i {
+        margin-right: 10px;
+    }
+
+    .ingredients ul, .instructions ol {
+        padding-left: 30px;
+    }
+
+    .ingredients li, .instructions li {
+        color: var(--on-surface-color);
+        margin-bottom: 10px;
+        line-height: 1.5;
+    }
+
+    .recipe-warning {
+        background-color: var(--error-color);
+        color: var(--on-error-color);
+        padding: 15px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .recipe-warning i {
+        margin-right: 10px;
+        font-size: 24px;
+    }
+
+    .btn-back {
+        position: fixed;
+        top: 15vh;
+        left: 5vw;
+        display: flex;
+        align-items: center;
+        background-color: var(--primary-color);
+        color: var(--on-primary-color);
+        padding: 10px 20px;
+        border-radius: 30px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+        z-index: 1000;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-back i {
+        margin-right: 5px;
+    }
+
+    .btn-back:hover {
+        background-color: var(--primary-dark-color);
+    }
+
+    @media (max-width: 600px) {
+        .card-container {
+            padding: 10px;
+        }
+
+        .recipe-detail {
+            padding: 20px;
+        }
+
+        .recipe-title {
+            font-size: 2em;
+        }
+
+        .recipe-meta {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-back {
+            top: 12vh;
+            left: 5vw;
+            padding: 8px 16px;
+        }
+    }
+</style>
+{% endblock %}
