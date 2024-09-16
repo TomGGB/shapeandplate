@@ -1,11 +1,21 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block title %}Rutina generada{% endblock %}
+
+{% block page_title %}
+    <span class="material-icons">fitness_center</span>
+    <h1>Rutina de Ejercicios</h1>
+{% endblock %}
+
+{% block top_app_bar_right %}
+    <button class="app-bar-button" id="delete-routine-button" onclick="document.getElementById('confirmation-modal').style.display='block'">
+        <span class="material-icons">add</span>
+        <span class="button-text">Nueva Rutina</span>
+    </button>
+{% endblock %}
+
 {% block content %}
-<div class="top-app-bar">
-    <span class="material-icons" style="vertical-align: middle; font-size: 24px;">fitness_center</span>
-    <h1 style="display: inline; vertical-align: middle;">Rutinas de Ejercicios</h1>
-</div>
 <div class="card-container">
     {% for ejercicio in exercise_routine.rutina %}
         <div class="card">
@@ -20,20 +30,32 @@
                 </div>
             {% endif %}
             <p>{{ ejercicio.desc }}</p>
-            <ul>
+            <div class="exercise-attributes">
                 {% if ejercicio.duracion %}
-                    <li><i class="material-icons" style="vertical-align: middle; font-size: 20px;">schedule</i> Duración: {{ ejercicio.duracion }}</li>
+                    <div class="chip">
+                        <i class="material-icons">schedule</i>
+                        <span>{{ ejercicio.duracion }}</span>
+                    </div>
                 {% endif %}
                 {% if ejercicio.rep %}
-                    <li><i class="material-icons" style="vertical-align: middle; font-size: 20px;">replay</i> Repeticiones: {{ ejercicio.rep }}</li>
+                    <div class="chip">
+                        <i class="material-icons">replay</i>
+                        <span>{{ ejercicio.rep }} rep</span>
+                    </div>
                 {% endif %}
                 {% if ejercicio.series %}
-                    <li><i class="material-icons" style="vertical-align: middle; font-size: 20px;">replay</i> Series: {{ ejercicio.series }}</li>
+                    <div class="chip">
+                        <i class="material-icons">fitness_center</i>
+                        <span>{{ ejercicio.series }} series</span>
+                    </div>
                 {% endif %}
                 {% if ejercicio.sesiones %}
-                    <li><i class="material-icons" style="vertical-align: middle; font-size: 20px;">fitness_center</i> Series: {{ ejercicio.sesiones }}</li>
+                    <div class="chip">
+                        <i class="material-icons">event</i>
+                        <span>{{ ejercicio.sesiones }} sesiones</span>
+                    </div>
                 {% endif %}
-            </ul><br>
+            </div><br>
             {% if ejercicio.advertencia %}
                 <p class="warning">{{ ejercicio.advertencia }}</p>
             {% endif %}
@@ -52,7 +74,10 @@
                             {% endwith %}
                         </div>
                         <div class="timer" data-exercise-index="{{ forloop.counter0 }}" data-duration="{{ ejercicio.duracion|cut:" minutos"|cut:" segundos" }}" data-sessions="{{ ejercicio.sesiones|default:'1' }}">
-                            <span class="timer-display">00:00</span>
+                            <div class="timer-display">
+                                <span class="current-time">00:00</span>
+                                <span class="total-time">/ {{ ejercicio.duracion }}</span>
+                            </div>
                             <div class="timer-controls">
                                 <button class="timer-button start-timer"><i class="material-icons">play_arrow</i></button>
                                 <button class="timer-button pause-timer" style="display:none;"><i class="material-icons">pause</i></button>
@@ -63,6 +88,20 @@
             {% endif %}
         </div>
     {% endfor %}
+</div>
+
+<!-- Modal de confirmación -->
+<div id="confirmation-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-button" onclick="document.getElementById('confirmation-modal').style.display='none'">&times;</span>
+        <h2>Confirmación</h2>
+        <p>¿Estás seguro de que deseas generar una rutina nueva con nuevos datos?</p>
+        <form method="post" action="{% url 'delete_routine' %}">
+            {% csrf_token %}
+            <button type="submit" class="confirm-button">Generar</button>
+            <button type="button" class="cancel-button" onclick="document.getElementById('confirmation-modal').style.display='none'">Cancelar</button>
+        </form>
+    </div>
 </div>
 
 <script>
@@ -110,7 +149,7 @@ function updateTimerDisplay(exerciseIndex) {
     const currentTime = timers[exerciseIndex] % duration;
     const minutes = Math.floor(currentTime / 60);
     const seconds = currentTime % 60;
-    timerElement.querySelector('.timer-display').textContent = 
+    timerElement.querySelector('.timer-display .current-time').textContent = 
         `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
 
@@ -166,26 +205,20 @@ document.querySelectorAll('.pause-timer').forEach(button => {
         pauseTimer(exerciseIndex);
     });
 });
+
+function formatTotalTime(duration) {
+    const minutes = Math.floor(duration / 60);
+    const seconds = duration % 60;
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.timer').forEach(timerElement => {
+        const duration = parseInt(timerElement.dataset.duration);
+        timerElement.querySelector('.total-time').textContent = `/ ${formatTotalTime(duration)}`;
+    });
+});
 </script>
-
-<!-- Botón flotante -->
-<button class="floating-button material-symbols-outlined" id="delete-routine-button" onclick="document.getElementById('confirmation-modal').style.display='block'">
-    monitor_weight_gain
-</button>
-
-<!-- Modal de confirmación -->
-<div id="confirmation-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-button" onclick="document.getElementById('confirmation-modal').style.display='none'">&times;</span>
-        <h2>Confirmación</h2>
-        <p>¿Estás seguro de que deseas generar una rutina nueva con nuevos datos?</p>
-        <form method="post" action="{% url 'delete_routine' %}">
-            {% csrf_token %}
-            <button type="submit" class="confirm-button">Generar</button>
-            <button type="button" class="cancel-button" onclick="document.getElementById('confirmation-modal').style.display='none'">Cancelar</button>
-        </form>
-    </div>
-</div>
 
 <style>
 /* Estilos para el timer y botones */
@@ -307,6 +340,45 @@ document.querySelectorAll('.pause-timer').forEach(button => {
 
 .timer {
     margin-top: 15px;
+}
+
+/* Estilos para los chips */
+.exercise-attributes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.chip {
+    display: flex;
+    align-items: center;
+    background-color: var(--primary-container-color);
+    color: var(--on-primary-color);
+    padding: 5px 10px;
+    border-radius: 16px;
+    font-size: 14px;
+}
+
+.chip .material-icons {
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+.timer-display {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+}
+
+.current-time {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.total-time {
+    font-size: 1em;
+    color: var(--on-surface-secondary-color);
 }
 </style>
 

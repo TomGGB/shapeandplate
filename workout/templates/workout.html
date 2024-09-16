@@ -1,74 +1,243 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block title %}Generar Rutina{% endblock %}
-{% block content %}
-<div class="top-app-bar">
+
+{% block page_title %}
     <span class="material-icons">fitness_center</span>
-    <h1>Generar Rutina de Ejercicios</h1>
-</div>
+    Generar Rutina de Ejercicios
+{% endblock %}
+
+{% block top_app_bar_right %}
+    <button class="app-bar-button" id="generate-routine-button" onclick="submitForm()">
+        <span class="material-icons">play_arrow</span>
+        <span class="button-text">Generar Rutina</span>
+    </button>
+{% endblock %}
+
+{% block content %}
 <div class="card-container">
-    <div class="card">
-        <h2>¿Como se genera una rutina de ejercicios con IA?</h2>
-        <p>Para generar una rutina de ejercicios personalizada, necesitamos algunos datos tuyos. Por favor, completa el siguiente formulario con tu información personal y preferencias.</p>
+    <div class="screens-wrapper">
+        <div id="screen1" class="screen active">
+            <div class="card">
+                <h2>Información Personal</h2>
+                <div class="form-group">
+                    <label for="edad">Edad:</label>
+                    <input type="number" id="edad" name="edad" value="{{ user.age|default_if_none:0 }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="altura">Altura (cm):</label>
+                    <input type="number" id="altura" name="altura" value="{{ user.height|default_if_none:0 }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="peso">Peso (kg):</label>
+                    <input type="number" id="peso" name="peso" value="{{ user.weight|default_if_none:0 }}" required>
+                </div>
+                <div class="button-container">
+                    <button class="next-button" onclick="nextScreen(2)">Siguiente</button>
+                </div>
+            </div>
+        </div>
+        <div id="screen2" class="screen">
+            <div class="card">
+                <h2>Hábitos y Preferencias</h2>
+                <div class="form-group">
+                    <label for="ejercicio_semanal">Horas de ejercicio semanal:</label>
+                    <input type="number" id="ejercicio_semanal" name="ejercicio_semanal" value="{{ user.weekly_exercise_hours|default_if_none:0 }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="dieta">Tipo de dieta:</label>
+                    <select id="dieta" name="dieta">
+                        <option value="omnivora" {% if user.diet == 'omnivora' %}selected{% endif %}>Omnívora</option>
+                        <option value="vegetariana" {% if user.diet == 'vegetariana' %}selected{% endif %}>Vegetariana</option>
+                        <option value="vegana" {% if user.diet == 'vegana' %}selected{% endif %}>Vegana</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="smoker">¿Eres fumador?</label>
+                    <input type="checkbox" id="smoker" name="smoker" {% if user.is_smoker %}checked{% endif %}>
+                </div>
+                <div class="button-container">
+                    <button class="prev-button" onclick="prevScreen(1)">Anterior</button>
+                    <button class="next-button" onclick="nextScreen(3)">Siguiente</button>
+                </div>
+            </div>
+        </div>
+        <div id="screen3" class="screen">
+            <div class="card">
+                <h2>Objetivos y Recursos</h2>
+                <div class="form-group">
+                    <label for="goal">Objetivo:</label>
+                    <select id="goal" name="goal">
+                        <option value="ganar_peso" {% if user.goal == 'ganar_peso' %}selected{% endif %}>Ganar Peso</option>
+                        <option value="ganar_musculatura" {% if user.goal == 'ganar_musculatura' %}selected{% endif %}>Ganar Musculatura</option>
+                        <option value="perder_peso" {% if user.goal == 'perder_peso' %}selected{% endif %}>Perder Peso</option>
+                        <option value="mantener_peso" {% if user.goal == 'mantener_peso' %}selected{% endif %}>Mantener Peso</option>
+                        <option value="mejorar_condicion_fisica" {% if user.goal == 'mejorar_condicion_fisica' %}selected{% endif %}>Mejorar Condición Física</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="gym_access">¿Tienes acceso a un gimnasio?</label>
+                    <input type="checkbox" id="gym_access" name="gym_access" {% if user.gym_access %}checked{% endif %}>
+                </div>
+                <div class="form-group">
+                    <label for="imc">IMC:</label>
+                    <input type="text" id="imc" name="imc" value="{{ user.imc|default_if_none:0 }}" readonly>
+                </div>
+                <div class="button-container">
+                    <button class="prev-button" onclick="prevScreen(2)">Anterior</button>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="card">
-        <form id="generate-workout-form" method="post" action="{% url 'generate_workout' %}">
-            {% csrf_token %}
-            <label for="edad" class="block mt-4">Edad:</label>
-            <input type="number" id="edad" name="edad" value="{{ user.age|default_if_none:0 }}" required class="w-full p-2 mt-1 border border-gray-300 rounded-md">
-
-            <label for="altura" class="block mt-4">Altura (cm):</label>
-            <input type="number" id="altura" name="altura" value="{{ user.height|default_if_none:0 }}" required class="w-full p-2 mt-1 border border-gray-300 rounded-md">
-
-            <label for="peso" class="block mt-4">Peso (kg):</label>
-            <input type="number" id="peso" name="peso" value="{{ user.weight|default_if_none:0 }}" required class="w-full p-2 mt-1 border border-gray-300 rounded-md">
-
-            <label for="ejercicio_semanal" class="block mt-4">Cuantas horas de ejercicio haces a la semana:</label>
-            <input type="number" id="ejercicio_semanal" name="ejercicio_semanal" value="{{ user.weekly_exercise_hours|default_if_none:0 }}" required class="w-full p-2 mt-1 border border-gray-300 rounded-md">
-
-            <label for="dieta" class="block mt-4">Tipo de dieta:</label>
-            <select id="dieta" name="dieta" class="w-full p-2 mt-1 border border-gray-300 rounded-md">
-                <option value="omnivora" {% if user.diet == 'omnivora' %}selected{% endif %}>Omnívora</option>
-                <option value="vegana" {% if user.diet == 'vegana' %}selected{% endif %}>Vegana</option>
-                <option value="vegetariana" {% if user.diet == 'vegetariana' %}selected{% endif %}>Vegetariana</option>
-                <option value="paleo" {% if user.diet == 'paleo' %}selected{% endif %}>Paleo</option>
-                <option value="cetogenica" {% if user.diet == 'cetogenica' %}selected{% endif %}>Cetogénica</option>
-            </select>
-
-            <label for="imc" class="block mt-4">IMC:</label>
-            <input type="float" id="imc" name="imc" value="{{ user.imc|default_if_none:0 }}" readonly class="w-full p-2 mt-1 border border-gray-300 rounded-md">
-
-            <label for="goal" class="block mt-4">Objetivo:</label>
-            <select id="goal" name="goal" class="w-full p-2 mt-1 border border-gray-300 rounded-md">
-                <option value="ganar_peso" {% if user.goal == 'ganar_peso' %}selected{% endif %}>Ganar Peso</option>
-                <option value="ganar_musculatura" {% if user.goal == 'ganar_musculatura' %}selected{% endif %}>Ganar Musculatura</option>
-                <option value="perder_peso" {% if user.goal == 'perder_peso' %}selected{% endif %}>Perder Peso</option>
-                <option value="mantener_peso" {% if user.goal == 'mantener_peso' %}selected{% endif %}>Mantener Peso</option>
-                <option value="mejorar_condicion_fisica" {% if user.goal == 'mejorar_condicion_fisica' %}selected{% endif %}>Mejorar Condición Física</option>
-            </select>
-
-            <label for="smoker" class="block mt-4">Fumador:</label>
-            <input type="checkbox" id="smoker" name="smoker" {% if user.smoker %}checked{% endif %} class="mt-1">
-
-            <label for="gym_access" class="block mt-4">¿Tienes acceso a un gimnasio?</label>
-            <input type="checkbox" id="gym_access" name="gym_access" {% if user.gym_access %}checked{% endif %} class="mt-1">
-
-            <input type="submit" value="Generar" class="w-full mt-6 p-2 bg-primary text-primary-foreground rounded-md cursor-pointer hover:bg-primary-foreground hover:text-primary border-radius-24">
-        </form>
-    </div>
-    <script>
-        document.getElementById('altura').addEventListener('input', function() {
-            let altura = document.getElementById('altura').value;
-            let peso = document.getElementById('peso').value;
-            let imc = peso / ((altura / 100) ** 2);
-            document.getElementById('imc').value = imc.toFixed(2);
-        });
-        document.getElementById('peso').addEventListener('input', function() {
-            let altura = document.getElementById('altura').value;
-            let peso = document.getElementById('peso').value;
-            let imc = peso / ((altura / 100) ** 2);
-            document.getElementById('imc').value = imc.toFixed(2);
-        });
-    </script>
 </div>
+
+<form id="generate-workout-form" method="post" action="{% url 'generate_workout' %}" style="display: none;">
+    {% csrf_token %}
+    <input type="hidden" name="edad" id="form_edad">
+    <input type="hidden" name="altura" id="form_altura">
+    <input type="hidden" name="peso" id="form_peso">
+    <input type="hidden" name="ejercicio_semanal" id="form_ejercicio_semanal">
+    <input type="hidden" name="dieta" id="form_dieta">
+    <input type="hidden" name="smoker" id="form_smoker">
+    <input type="hidden" name="gym_access" id="form_gym_access">
+    <input type="hidden" name="goal" id="form_goal">
+    <input type="hidden" name="imc" id="form_imc">
+</form>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function nextScreen(screenNumber) {
+        const currentScreen = document.querySelector('.screen.active');
+        const nextScreen = document.getElementById(`screen${screenNumber}`);
+        if (currentScreen && nextScreen) {
+            currentScreen.classList.remove('active');
+            nextScreen.classList.add('active');
+            document.querySelector('.screens-wrapper').style.transform = `translateX(-${(screenNumber - 1) * 33.33}%)`;
+        }
+    }
+
+    function prevScreen(screenNumber) {
+        const currentScreen = document.querySelector('.screen.active');
+        const prevScreen = document.getElementById(`screen${screenNumber}`);
+        if (currentScreen && prevScreen) {
+            currentScreen.classList.remove('active');
+            prevScreen.classList.add('active');
+            document.querySelector('.screens-wrapper').style.transform = `translateX(-${(screenNumber - 1) * 33.33}%)`;
+        }
+    }
+
+    function calculateIMC() {
+        const altura = parseFloat(document.getElementById('altura').value) / 100;
+        const peso = parseFloat(document.getElementById('peso').value);
+        if (!isNaN(altura) && !isNaN(peso) && altura > 0) {
+            const imc = (peso / (altura * altura)).toFixed(2);
+            document.getElementById('imc').value = imc;
+        } else {
+            document.getElementById('imc').value = '';
+        }
+    }
+
+    document.getElementById('altura').addEventListener('input', calculateIMC);
+    document.getElementById('peso').addEventListener('input', calculateIMC);
+
+    function submitForm() {
+        document.getElementById('form_edad').value = document.getElementById('edad').value;
+        document.getElementById('form_altura').value = document.getElementById('altura').value;
+        document.getElementById('form_peso').value = document.getElementById('peso').value;
+        document.getElementById('form_ejercicio_semanal').value = document.getElementById('ejercicio_semanal').value;
+        document.getElementById('form_dieta').value = document.getElementById('dieta').value;
+        document.getElementById('form_smoker').value = document.getElementById('smoker').checked;
+        document.getElementById('form_gym_access').value = document.getElementById('gym_access').checked;
+        document.getElementById('form_goal').value = document.getElementById('goal').value;
+        document.getElementById('form_imc').value = document.getElementById('imc').value;
+        document.getElementById('generate-workout-form').submit();
+    }
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .card-container {
+        flex-grow: 1;
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .screens-wrapper {
+        display: flex;
+        transition: transform 0.5s ease;
+        width: 300%;
+        touch-action: pan-y;
+        user-select: none;
+    }
+
+    .screen {
+        flex: 0 0 33.33%;
+        width: 33.33%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        touch-action: pan-y;
+        user-select: none;
+    }
+
+    .screen.active {
+        display: flex;
+    }
+
+    .card {
+        background-color: var(--surface-color);
+        padding: 20px;
+        border-radius: 24px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--on-surface-color);
+    }
+
+    .form-group input[type="number"],
+    .form-group input[type="text"],
+    .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid var(--outline-color);
+        border-radius: 4px;
+        background-color: var(--surface-color);
+        color: var(--on-surface-color);
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .next-button,
+    .prev-button {
+        background-color: var(--primary-color);
+        color: var(--on-primary-color);
+        border: none;
+        border-radius: 24px;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .next-button:hover,
+    .prev-button:hover {
+        background-color: var(--primary-darker);
+    }
+</style>
 {% endblock %}

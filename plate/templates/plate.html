@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Recetas Personalizadas{% endblock %}
+{% block page_title %}
+    <span class="material-icons">restaurant_menu</span>
+    Recetas Personalizadas
+{% endblock %}
+{% block top_app_bar_right %}
+    <button class="app-bar-button" id="delete-routine-button" onclick="document.getElementById('confirmation-modal').style.display='block'">
+        <span class="material-icons">add</span>
+        <span class="button-text">Nueva Receta</span>
+    </button>
+{% endblock %}
 {% block content %}
 <style>
     .card-content {

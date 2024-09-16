@@ -45,7 +45,6 @@
             },
         }
     </script>
-    
 </head>
 <body>
     <div id="loading-screen" class="loading-screen" style="display: none;">
@@ -55,19 +54,42 @@
         {% block content %}{% endblock %}
     </div>
     <nav class="md-navbar">
-        <a href="/workout/" class="md-navbar-item {% if request.path == '/workout/' or request.path == '/workout/data_preview/' %}active{% endif %}">
-            <span class="material-icons md-navbar-icon">fitness_center</span>
-            <span class="md-navbar-label">Workout</span>
-        </a>
-        <a href="/plate" class="md-navbar-item {% if request.path == '/plate/' %}active{% endif %}">
-            <span class="material-icons md-navbar-icon">restaurant</span>
-            <span class="md-navbar-label">Plate</span>
-        </a>
-        <a href="/perfil/" class="md-navbar-item {% if request.path == '/perfil/' %}active{% endif %}">
-            <span class="material-icons md-navbar-icon">person</span>
-            <span class="md-navbar-label">Perfil</span>
-        </a>
+        <div class="nav-items">
+            <a href="/workout/" class="nav-item {% if request.path == '/workout/' or request.path == '/workout/data_preview/' %}active{% endif %}" data-index="0">
+                <div class="nav-icon">
+                    <img src="{% static 'navbar/dumbbell.svg' %}" alt="Workout" width="20" height="20">
+                </div>
+                <span>Workout</span>
+            </a>
+            <a href="/plate" class="nav-item {% if request.path == '/plate/' %}active{% endif %}" data-index="1">
+                <div class="nav-icon">
+                    <img src="{% static 'navbar/fork.svg' %}" alt="Plate" width="20" height="20">
+                </div>
+                <span>Plate</span>
+            </a>
+            <a href="/perfil/" class="nav-item {% if request.path == '/perfil/' %}active{% endif %}" data-index="2">
+                <div class="nav-icon">
+                    <span class="material-icons">person</span>
+                </div>
+                <span>Perfil</span>
+            </a>
+        </div>
     </nav>
+    <div class="top-app-bar">
+        <div class="top-app-bar-left">
+            {% block page_title %}
+            <span class="material-icons">home</span>
+            <h1>Shape & Plate</h1>
+            {% endblock %}
+        </div>
+        <div class="top-app-bar-right">
+            {% block top_app_bar_right %}
+            <button class="app-bar-button" onclick="toggleTheme()">
+                <span class="material-icons">brightness_6</span>
+            </button>
+            {% endblock %}
+        </div>
+    </div>
     <script>
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -116,6 +138,18 @@
                 }
 
                 button.appendChild(circle);
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-item');
+
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    navItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
             });
         });
     </script>

@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Perfil de {{ first_name }}  {% endblock %}
-{% block content %}
-<div class="top-app-bar">
+
+{% block title %}Perfil de {{ first_name }}{% endblock %}
+
+{% block page_title %}
     <span class="material-icons">manage_accounts</span>
     <h1>Perfil de {{ first_name }}</h1>
-</div><br><br>
+{% endblock %}
+
+{% block content %}
 <div id="profile-content" class="card">
     <div class="flex items-center justify-between mb-6">
         <button class="theme-toggle bg-gray-800 text-white p-2 rounded-full" onclick="toggleTheme()">
@@ -28,7 +31,7 @@
             <li><strong>¿Fumador?:</strong> {% if smoker == True %}Si{% elif smoker == False %}No{% else %}No registrado{% endif %}</li>
             <li><strong>Horas de ejercicio semanal:</strong> {% if weekly_exercise_hours and weekly_exercise_hours != 0 %}{{ weekly_exercise_hours }}{% else %}No registrado{% endif %}</li>
             <li><strong>Objetivo:</strong> {% if goal == 'ganar_peso' %}Ganar Peso{% elif goal == 'ganar_musculatura' %}Ganar Musculatura{% elif goal == 'perder_peso' %}Perder Peso{% elif goal == 'mantener_peso' %}Mantener Peso{% elif goal == 'mejorar_condicion_fisica' %}Mejorar Condición Física{% else %}No registrado{% endif %}</li>
-            <li><strong>¿Acceso a gimnasio?:</strong> {% if gym_access == True %}Si{% elif smoker == False %}No{% else %}No registrado{% endif %}</li>
+            <li><strong>¿Acceso a gimnasio?:</strong> {% if gym_access == True %}Si{% elif gym_access == False %}No{% else %}No registrado{% endif %}</li>
         </ul>
     </div>
     <!-- Botón flotante -->
@@ -41,7 +44,7 @@
 <div id="edit-modal" class="modal card">
     <div class="modal-content">
         <span class="close-button">&times;</span>
-        <h2 >Editar Perfil</h2>
+        <h2>Editar Perfil</h2>
         <form id="edit-profile-form" method="post" action="{% url 'profile' %}">
             {% csrf_token %}
             <label for="first_name" class="block mt-4">Nombre:</label>
