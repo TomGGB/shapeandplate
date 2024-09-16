@@ -56,7 +56,7 @@ def user_login(request):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             auth_login(request, user)
-            print('Usuario autenticado')
+            messages.success(request, 'Has iniciado sesión correctamente.')
             return redirect('profile')
         else:
             messages.error(request, 'Correo electrónico o contraseña incorrectos.')
@@ -64,6 +64,7 @@ def user_login(request):
     
 def logout(request):
     auth_logout(request)
+    messages.info(request, 'Has cerrado sesión correctamente.')
     return redirect('login')
 
 @csrf_exempt

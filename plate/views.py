@@ -83,6 +83,7 @@ def plate(request):
                 recetas_por_dia[dia] = []
             recetas_por_dia[dia].append(recipe)
 
+        messages.success(request, 'Nuevas recetas generadas exitosamente.')
         return render(request, 'plate.html', {'recetas_por_dia': recetas_por_dia})
 
 @login_required

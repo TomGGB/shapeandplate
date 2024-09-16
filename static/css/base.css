@@ -204,18 +204,55 @@ select:focus {
 }
 
 /* Toast */
-#toast {
-    max-width: 300px !important;
-    word-wrap: break-word !important;
-    position: fixed !important;
-    top: 20px !important;
-    right: 20px !important;
-    z-index: 1000 !important;
-    background-color: rgba(255, 0, 0, 0.9) !important;
-    color: #fff !important;
-    padding: 16px !important;
-    border-radius: 8px !important;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+.toast-container {
+    position: fixed;
+    bottom: 20vh;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.toast {
+    background-color: var(--surface-color);
+    color: var(--on-surface-color);
+    padding: 12px 20px;
+    border-radius: 24px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    text-align: center;
+    max-width: 80%;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast-info {
+    background-color: var(--primary-color);
+    color: var(--on-primary-color);
+}
+
+.toast-success {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.toast-warning {
+    background-color: #FFC107;
+    color: black;
+}
+
+.toast-error {
+    background-color: #F44336;
+    color: white;
 }
 
 /* Pantalla de Carga */

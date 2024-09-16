@@ -70,11 +70,15 @@ def generate_workout(request):
         }
         routine_data = generate_workout_routine(data)
 
+        if not routine_data:
+            messages.error(request, 'No se pudo generar la rutina de ejercicios. Por favor, intenta de nuevo.')
+            return redirect('workout')
+
         # Guarda la rutina en la base de datos
         routine = ExerciseRoutine.objects.create(user=user, routine=routine_data)
         routine.save()
 
-        messages.success(request, 'Datos guardados y rutina generada correctamente.')
+        messages.success(request, 'Nueva rutina de ejercicios generada exitosamente.')
         return redirect('data_preview')
 
 @login_required
