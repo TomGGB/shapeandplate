@@ -19,7 +19,7 @@
         <p class="recipe-description">{{ receta.desc }}</p>
         <div class="recipe-meta">
             <span class="chip recipe-time"><i class="material-icons">schedule</i> {{ receta.tiempo }}</span>
-            <span class="chip recipe-difficulty"><i class="material-icons">fitness_center</i> {{ receta.dificultad }}</span>
+            <span class="chip recipe-difficulty"><i class="material-icons">bolt</i> {{ receta.dificultad }}</span>
         </div>
         <div class="recipe-section ingredients">
             <h3><i class="material-icons">list</i> Ingredientes:</h3>
@@ -57,7 +57,7 @@
     }
 
     .recipe-detail {
-        background-color: var(--surface-color);
+        background-color: var(--on-background-color);
         border-radius: 15px;
         padding: 30px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -86,11 +86,13 @@
     .chip {
         display: inline-flex;
         align-items: center;
-        padding: 5px 10px;
-        background-color: var(--surface-variant-color);
-        color: var(--on-surface-variant-color);
+        padding: 8px 12px;
+        background-color: var(--primary-container-color);
+        color: var(--on-primary-container-color);
         border-radius: 16px;
         font-size: 0.9em;
+        margin-right: 8px;
+        margin-bottom: 8px;
     }
 
     .chip i {
@@ -104,7 +106,7 @@
 
     .recipe-section h3 {
         font-size: 1.5em;
-        color: var(--primary-color);
+        color: var(--on-surface-color);
         margin-bottom: 15px;
         display: flex;
         align-items: center;
@@ -137,8 +139,8 @@
 
     .btn-back {
         position: fixed;
-        top: 15vh;
         left: 5vw;
+        top: 12vh;
         display: flex;
         align-items: center;
         background-color: var(--primary-color);
@@ -173,7 +175,7 @@
         }
 
         .btn-back {
-            top: 12vh;
+            top: 10vh;
             left: 5vw;
             padding: 8px 16px;
         }
