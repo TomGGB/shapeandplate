@@ -61,15 +61,14 @@ body {
     align-items: center;
     background-color: var(--primary-color);
     color: var(--on-primary-color);
-    padding: 12px 16px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1.5vh 2vh;
+    box-shadow: 0 0.25vh 0.5vh rgba(0, 0, 0, 0.1);
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
-    height: 64px;
-    /* Ajusta este valor según tus necesidades */
+    height: 8vh;
 }
 
 .top-app-bar-left {
@@ -78,12 +77,12 @@ body {
 }
 
 .top-app-bar-left .material-icons {
-    font-size: 24px;
-    margin-right: 12px;
+    font-size: 3vh;
+    margin-right: 1.5vh;
 }
 
 .top-app-bar h1 {
-    font-size: 20px;
+    font-size: 2.5vh;
     font-weight: 500;
     margin: 0;
 }
@@ -98,9 +97,9 @@ body {
     align-items: center;
     background-color: var(--secondary-color);
     color: var(--on-secondary-color);
-    border-radius: 24px;
-    padding: 8px 16px;
-    font-size: 14px;
+    border-radius: 3vh;
+    padding: 1vh 2vh;
+    font-size: 1.75vh;
     font-weight: 500;
     border: none;
     cursor: pointer;
@@ -112,14 +111,14 @@ body {
 }
 
 .top-app-bar-right .app-bar-button .material-icons {
-    margin-right: 8px;
+    margin-right: 1vh;
 }
 
 .top-app-bar-right .button-text {
     display: none;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 75vh) {
     .top-app-bar-right .button-text {
         display: inline;
     }
@@ -127,70 +126,69 @@ body {
 
 /* Ajuste para el contenido principal */
 .main-content {
-    padding-top: 64px;
-    /* Debe coincidir con la altura del top-app-bar */
+    padding-top: 8vh;
 }
 
 /* Cards */
 .card-container {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    max-width: 600px;
-    margin: 16px auto;
-    padding: 16px;
+    gap: 2vh;
+    max-width: 75vh;
+    margin: 2vh auto;
+    padding: 2vh;
 }
 
 .card {
     background-color: var(--on-background-color);
     color: var(--on-surface-color);
-    border-radius: 16px;
-    padding: 16px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    border-radius: 2vh;
+    padding: 2vh;
+    box-shadow: 0 0.125vh 0.375vh rgba(0, 0, 0, 0.12), 0 0.125vh 0.25vh rgba(0, 0, 0, 0.24);
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
 }
 
 .card:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25), 0 2px 2px rgba(0, 0, 0, 0.22);
+    box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.25), 0 0.25vh 0.25vh rgba(0, 0, 0, 0.22);
 }
 
 .card h2 {
-    font-size: 1.25rem;
+    font-size: 2vh;
     font-weight: 400;
     margin-top: 0;
-    margin-bottom: 8px;
+    margin-bottom: 1vh;
     color: var(--on-surface-color);
 }
 
 /* Botones */
 button {
-    padding: 10px 20px;
+    padding: 1.25vh 2.5vh;
     background-color: var(--primary-color) !important;
     color: var(--on-primary-color) !important;
     border: none;
-    border-radius: 24px !important;
+    border-radius: 3vh !important;
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 button:hover {
     background-color: var(--primary-color);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0.5vh 0.75vh rgba(0, 0, 0, 0.2);
 }
 
 button:active {
     background-color: var(--primary-color);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0.25vh 0.5vh rgba(0, 0, 0, 0.2);
 }
 
 /* Inputs y Selects */
 input,
 select {
     width: 100%;
-    padding: 12px;
-    margin-top: 8px;
-    border: 1px solid #ccc;
-    border-radius: 24px;
+    padding: 1.5vh;
+    margin-top: 1vh;
+    border: 0.125vh solid #ccc;
+    border-radius: 3vh;
     background-color: var(--surface-color);
     color: var(--on-surface-color);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -199,7 +197,7 @@ select {
 input:focus,
 select:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(98, 0, 238, 0.2);
+    box-shadow: 0 0 0 0.25vh rgba(98, 0, 238, 0.2);
     outline: none;
 }
 
@@ -219,15 +217,15 @@ select:focus {
 .toast {
     background-color: var(--surface-color);
     color: var(--on-surface-color);
-    padding: 12px 20px;
-    border-radius: 24px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
+    padding: 1.5vh 2.5vh;
+    border-radius: 3vh;
+    box-shadow: 0 0.5vh 0.75vh rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.25vh;
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(2.5vh);
     transition: all 0.3s ease;
     text-align: center;
-    max-width: 80%;
+    max-width: 80vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -239,8 +237,8 @@ select:focus {
 }
 
 .toast-icon {
-    margin-right: 10px;
-    font-size: 24px;
+    margin-right: 1.25vh;
+    font-size: 3vh;
 }
 
 .toast-info {
@@ -278,11 +276,11 @@ select:focus {
 }
 
 .loading-screen .spinner {
-    border: 4px solid var(--primary-color);
+    border: 0.5vh solid var(--primary-color);
     border-left-color: var(--on-primary-color);
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 5vh;
+    height: 5vh;
     animation: spin 1s linear infinite;
     z-index: 1001;
 }
@@ -295,33 +293,33 @@ select:focus {
 
 /* Botón Flotante */
 .fab {
-    border-radius: 16px;
+    border-radius: 2vh;
     background-color: var(--primary-color);
     color: var(--on-primary-color);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 0.375vh 0.625vh -0.125vh rgba(0, 0, 0, 0.2), 0 0.75vh 1.25vh 0 rgba(0, 0, 0, 0.14), 0 0.125vh 2.25vh 0 rgba(0, 0, 0, 0.12);
     cursor: pointer;
     transition: background-color 0.3s, border-radius 0.3s;
 }
 
 .fab:hover {
     background-color: var(--background-color);
-    border-radius: 28px;
+    border-radius: 3.5vh;
 }
 
 .fab .material-icons {
-    font-size: 24px;
+    font-size: 3vh;
 }
 
 /* Recipe Styles */
 .recipe {
     background-color: var(--surface-color);
-    border: 1px solid #ccc;
-    border-radius: 24px;
-    padding: 20px;
-    margin-bottom: 20px;
+    border: 0.125vh solid #ccc;
+    border-radius: 3vh;
+    padding: 2.5vh;
+    margin-bottom: 2.5vh;
 }
 
 .recipe h2 {
@@ -334,14 +332,14 @@ select:focus {
 }
 
 /* Medios Responsivos */
-@media (max-width: 767px) {
+@media (max-width: 95vh) {
     body {
-        font-size: 16px;
+        font-size: 2vh;
     }
 
     .container {
-        margin-bottom: 15%;
-        margin-top: 15%;
+        margin-bottom: 15vh;
+        margin-top: 15vh;
     }
 
     h1,
@@ -350,7 +348,7 @@ select:focus {
     h4,
     h5,
     h6 {
-        font-size: 1.5rem;
+        font-size: 2.5vh;
     }
 
     button,
@@ -358,59 +356,59 @@ select:focus {
     .logout-button {
         background-color: var(--primary-color);
         color: var(--on-primary-color);
-        padding: 12px 24px;
-        font-size: 1rem;
+        padding: 1.5vh 3vh;
+        font-size: 2vh;
         width: auto;
         height: auto;
     }
 
     input,
     select {
-        padding: 12px;
-        font-size: 1rem;
+        padding: 1.5vh;
+        font-size: 2vh;
     }
 
     .profile-content {
-        padding: 20px;
+        padding: 2.5vh;
     }
 
     .construction-warning {
-        padding: 15px;
-        font-size: 1rem;
+        padding: 1.875vh;
+        font-size: 2vh;
     }
 
     .skeleton-loader .skeleton-avatar {
-        width: 120px;
-        height: 120px;
+        width: 15vh;
+        height: 15vh;
     }
 
     .skeleton-loader .skeleton-text {
-        height: 24px;
+        height: 3vh;
     }
 
     .recipe {
-        padding: 20px;
-        font-size: 1rem;
+        padding: 2.5vh;
+        font-size: 2vh;
     }
 
     .exercise {
-        margin-bottom: 20px;
+        margin-bottom: 2.5vh;
     }
 
     .exercise h3 {
-        font-size: 1.25rem;
+        font-size: 2.25vh;
     }
 
     .exercise p {
-        font-size: 1rem;
+        font-size: 2vh;
     }
 
     .exercise img {
-        border-radius: 16px;
+        border-radius: 2vh;
     }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 96vh) {
     .fixed {
         display: none;
     }
@@ -423,19 +421,19 @@ select:focus {
     left: 0;
     right: 0;
     background-color: var(--primary-color);
-    padding: 1rem;
+    padding: 2vh;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    border-top-left-radius: 24px;
-    border-top-right-radius: 24px;
+    border-top-left-radius: 3vh;
+    border-top-right-radius: 3vh;
 }
 
 /* Botones de Tema y Logout */
 .theme-toggle,
 .logout-button {
-    width: 40px;
-    height: 40px;
+    width: 5vh;
+    height: 5vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -444,7 +442,7 @@ select:focus {
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 1.25rem;
+    font-size: 2vh;
     transition: background-color 0.3s ease;
 }
 
@@ -460,15 +458,15 @@ select:focus {
 
 /* Contenedor de Datos */
 .data-container {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
+    max-width: 75vh;
+    margin: 2.5vh auto;
+    padding: 2.5vh;
     background: var(--surface-color);
 }
 
 /* Estilos de Ejercicio */
 .exercise {
-    margin-bottom: 20px;
+    margin-bottom: 2.5vh;
 }
 
 .exercise h3 {
@@ -477,24 +475,24 @@ select:focus {
 }
 
 .exercise p {
-    margin: 5px 0;
+    margin: 0.625vh 0;
     color: var(--on-surface-color);
 }
 
 .exercise img {
     max-width: 100%;
     height: auto;
-    border-radius: 24px;
+    border-radius: 3vh;
 }
 
 /* Advertencia de Construcción */
 .construction-warning {
     background-color: var(--secondary-color);
     color: var(--on-secondary-color);
-    padding: 10px;
+    padding: 1.25vh;
     text-align: center;
-    border-radius: 24px;
-    margin-bottom: 20px;
+    border-radius: 3vh;
+    margin-bottom: 2.5vh;
 }
 
 /* Skeleton Loader */
@@ -502,25 +500,25 @@ select:focus {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 1.25vh;
 }
 
 .skeleton-avatar {
-    width: 100px;
-    height: 100px;
+    width: 12.5vh;
+    height: 12.5vh;
     background-color: #ddd;
-    border-radius: 24px;
+    border-radius: 3vh;
 }
 
 .skeleton-text {
-    width: 80%;
-    height: 20px;
+    width: 80vh;
+    height: 2.5vh;
     background-color: #ddd;
-    border-radius: 24px;
+    border-radius: 3vh;
 }
 
 .skeleton-text.short {
-    width: 60%;
+    width: 60vh;
 }
 
 /* Estilos del Navbar */
@@ -546,22 +544,22 @@ select:focus {
 /* Botón Flotante */
 .floating-button {
     position: fixed;
-    bottom: calc(4% + 70px);
-    /* Ajustado para que no se cruce con el navbar */
-    right: 5%;
+    bottom: calc(12vh + 1.875vh);
+    right: 2.5vh;
     background-color: var(--primary-color);
     color: var(--on-primary-color);
     border: none;
     border-radius: 50%;
-    width: 56px;
-    height: 56px;
-    font-size: 24px;
+    width: 7vh;
+    height: 7vh;
+    font-size: 3vh;
     cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0.25vh 0.625vh rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 2;
+    z-index: 3;
+    /* Asegura que esté por encima del navbar pero por debajo del top app bar */
 }
 
 /* Estilos para el Modal */
@@ -581,19 +579,19 @@ select:focus {
 .modal-content {
     background-color: var(--on-background-color);
     color: var(--on-surface-color);
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid var(--background-color);
-    width: 80%;
-    max-width: 500px;
-    border-radius: 12px;
+    margin: 15vh auto;
+    padding: 2.5vh;
+    border: 0.125vh solid var(--background-color);
+    width: 80vh;
+    max-width: 62.5vh;
+    border-radius: 1.5vh;
 }
 
 /* Botón de Cierre */
 .close-button {
     color: #aaa;
     float: right;
-    font-size: 28px;
+    font-size: 3.5vh;
     font-weight: bold;
 }
 
@@ -608,49 +606,50 @@ select:focus {
 .confirm-button {
     background-color: var(--primary-color) !important;
     color: var(--on-primary-color);
-    padding: 10px 20px;
+    padding: 1.25vh 2.5vh;
     border: none;
-    border-radius: 4px;
+    border-radius: 0.5vh;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 1.25vh;
     display: block;
     width: 100%;
     text-align: center;
 }
+
 .cancel-button {
     background-color: var(--error-color) !important;
     color: var(--on-surface-color);
-    padding: 10px 20px;
+    padding: 1.25vh 2.5vh;
     border: none;
-    border-radius: 4px;
+    border-radius: 0.5vh;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 1.25vh;
     display: block;
     width: 100%;
     text-align: center;
-    box-sizing: border-box; 
+    box-sizing: border-box;
 }
 
 /* Colores de Dificultad */
 .difficulty.beginner {
     background-color: #E0F7FA;
     color: #006064;
-    border-radius: 12px;
-    padding: 4px 8px;
+    border-radius: 1.5vh;
+    padding: 0.5vh 1vh;
 }
 
 .difficulty.intermediate {
     background-color: #FFF3E0;
     color: #E65100;
-    border-radius: 12px;
-    padding: 4px 8px;
+    border-radius: 1.5vh;
+    padding: 0.5vh 1vh;
 }
 
 .difficulty.advanced {
     background-color: #FCE4EC;
     color: #880E4F;
-    border-radius: 12px;
-    padding: 4px 8px;
+    border-radius: 1.5vh;
+    padding: 0.5vh 1vh;
 }
 
 /* Botón Ripple */
@@ -660,9 +659,9 @@ select:focus {
     background-color: #6200ea;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 1.25vh 2.5vh;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 0.5vh;
 }
 
 .ripple {
@@ -684,63 +683,64 @@ select:focus {
 .messages {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 1.25vh;
     color: var(--message-text-color);
-    font-size: 0.9rem;
+    font-size: 1.75vh;
     background-color: var(--message-background-color);
-    border-left: 4px solid var(--message-color);
-    padding: 10px;
-    border-radius: 4px;
+    border-left: 0.5vh solid var(--message-color);
+    padding: 1.25vh;
+    border-radius: 0.5vh;
 }
 
 
 ul li {
-    margin-top: 10px;
+    margin-top: 1.25vh;
 }
 
 .warning {
     color: #880E4F;
     background-color: #FCE4EC;
-    padding: 10px;
-    border-radius: 24px;
-    border-bottom: 4px solid #880E4F;
+    padding: 1.25vh;
+    border-radius: 3vh;
+    border-bottom: 0.5vh solid #880E4F;
 }
 
 .day-card {
     background-color: var(--on-background-color);
-    border: 1px solid var(--primary-color);
-    border-radius: 24px;
-    padding: 15px;
-    margin-bottom: 20px;
+    border: 0.125vh solid var(--primary-color);
+    border-radius: 3vh;
+    padding: 1.875vh;
+    margin-bottom: 2.5vh;
     text-align: center;
     color: var(--on-surface-color);
 }
 
 .day-title {
-    font-size: 1.75em;
-    margin-bottom: 10px;
+    font-size: 2.75vh;
+    margin-bottom: 1.25vh;
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
 }
 
 .accordion {
-    border: 1px solid var(--primary-color);
-    border-radius: 5px;
-    margin-bottom: 10px;
+    border: 0.125vh solid var(--primary-color);
+    border-radius: 0.625vh;
+    margin-bottom: 1.25vh;
 }
 
 .accordion-header {
     background-color: var(--primary-color);
     color: var(--on-primary-color);
-    padding: 10px;
+    padding: 1.25vh;
     cursor: pointer;
-    border-radius: 5px 5px 0 0;
+    border-radius: 0.625vh 0.625vh 0 0;
 }
 
 @keyframes slideDown {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -763,8 +763,8 @@ ul li {
     /* Ocultar inicialmente */
     background-color: var(--primary-color);
     color: var(--on-primary-color);
-    padding: 10px;
-    border-radius: 0 0 5px 5px;
+    padding: 1.25vh;
+    border-radius: 0 0 0.625vh 0.625vh;
 }
 
 .accordion-content.show {
@@ -782,8 +782,8 @@ ul li {
 }
 
 .description {
-    font-size: 1.1em;
-    margin-bottom: 10px;
+    font-size: 2vh;
+    margin-bottom: 1.25vh;
     color: var(--on-surface-color);
 }
 
@@ -793,57 +793,57 @@ ul li {
 }
 
 .details li {
-    margin-bottom: 5px;
+    margin-bottom: 0.625vh;
     color: var(--on-surface-color);
 }
 
 .ingredients,
 .instructions {
-    margin-top: 10px;
+    margin-top: 1.25vh;
     color: var(--on-surface-color);
 }
 
 .ingredients strong,
 .instructions strong {
-    font-size: 1.2em;
+    font-size: 2.25vh;
     color: var(--on-surface-color);
 }
 
 .image-container {
     width: 100%;
-    height: 120px;
+    height: 15vh;
     /* Altura fija para el contenedor */
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 1.25vh;
     position: relative;
 }
 
 .exercise-image {
     width: 100%;
-    height: 120px;
+    height: 15vh;
     /* Altura fija para la imagen */
     object-fit: cover;
     object-position: center;
-    border-radius: 24px;
+    border-radius: 3vh;
     transition: transform 0.3s ease;
 }
 
 .image-container:hover .exercise-image {
     transform: scale(1.1);
-    border-radius: 24px;
+    border-radius: 3vh;
 }
 
 
 /* Estilos para el indicador de estado del ejercicio */
 .progress-container {
     background-color: var(--surface-color);
-    padding: 15px;
-    border-radius: 24px;
-    margin-top: 15px;
-    border: 2px solid var(--primary-lighter);
+    padding: 1.875vh;
+    border-radius: 3vh;
+    margin-top: 1.875vh;
+    border: 0.25vh solid var(--primary-lighter);
     transition: all 0.3s ease;
 }
 
@@ -855,12 +855,12 @@ ul li {
 .progress-status {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 1.25vh;
 }
 
 .progress-status .material-icons {
-    font-size: 24px;
-    margin-right: 10px;
+    font-size: 3vh;
+    margin-right: 1.25vh;
 }
 
 .progress-container:not(.completed) .progress-status .material-icons {
@@ -882,22 +882,22 @@ ul li {
 
 /* Ajustes para la barra de progreso y el timer */
 .progress-bar {
-    margin-top: 10px;
+    margin-top: 1.25vh;
 }
 
 .timer {
-    margin-top: 15px;
+    margin-top: 1.875vh;
 }
 
 .timer-display {
-    font-size: 1.5em;
+    font-size: 2.5vh;
     font-weight: bold;
     color: var(--on-surface-color);
 }
 
 .timer-controls {
     display: flex;
-    gap: 10px;
+    gap: 1.25vh;
 }
 
 .timer-button {
@@ -905,8 +905,8 @@ ul li {
     color: var(--on-primary-color);
     border: none;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 5vh;
+    height: 5vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -919,23 +919,23 @@ ul li {
 }
 
 .timer-button i {
-    font-size: 24px;
+    font-size: 3vh;
 }
 
 /* Estilos para la barra de progreso */
 .progress-bar {
     display: flex;
-    height: 20px;
+    height: 2.5vh;
     background-color: var(--surface-color);
-    border-radius: 10px;
+    border-radius: 1.25vh;
     overflow: hidden;
-    margin-bottom: 10px;
+    margin-bottom: 1.25vh;
 }
 
 .progress-segment {
     flex-grow: 1;
     background-color: var(--primary-lighter);
-    border-right: 1px solid var(--surface-color);
+    border-right: 0.125vh solid var(--surface-color);
     transition: background-color 0.3s ease;
 }
 
@@ -950,23 +950,23 @@ ul li {
 /* Ajustes adicionales */
 .progress-container {
     background-color: var(--surface-color);
-    padding: 15px;
-    border-radius: 24px;
-    margin-top: 15px;
+    padding: 1.875vh;
+    border-radius: 3vh;
+    margin-top: 1.875vh;
 }
 
 .progress-container p {
     color: var(--on-surface-color);
-    margin-bottom: 10px;
+    margin-bottom: 1.25vh;
 }
 
 .switch {
-    margin-top: 10px;
+    margin-top: 1.25vh;
 }
 
 .progress-label {
     color: var(--on-surface-color);
-    margin-left: 10px;
+    margin-left: 1.25vh;
 }
 
 /* Navbar */
@@ -979,11 +979,12 @@ ul li {
     justify-content: space-around;
     align-items: center;
     background-color: var(--primary-color);
-    padding: 8px 16px;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+    padding: 1vh 2vh;
+    box-shadow: 0 -0.25vh 1.25vh rgba(0, 0, 0, 0.1);
+    border-top-left-radius: 2.5vh;
+    border-top-right-radius: 2.5vh;
     z-index: 1000;
+    height: 12vh;
 }
 
 .nav-items {
@@ -991,29 +992,30 @@ ul li {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    max-width: 400px;
+    max-width: 100%;
     margin: 0 auto;
+    height: 100%;
 }
 
 .nav-item {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     color: var(--on-primary-color);
     text-decoration: none;
-    font-size: 12px;
+    font-size: 1.5vh;
     position: relative;
-    padding: 8px;
+    padding: 1vh 0;
     transition: all 0.3s ease;
-    width: 64px;
-    height: 64px;
+    height: 8vh;
     justify-content: center;
 }
 
 .nav-icon {
-    width: 24px;
-    height: 24px;
-    margin-bottom: 4px;
+    width: 3vh;
+    height: 3vh;
+    margin-bottom: 0.5vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1022,38 +1024,37 @@ ul li {
 .nav-item.active {
     color: var(--on-primary-color);
     background-color: var(--primary-container-color);
-    border-radius: 16px;
+    border-radius: 2vh;
 }
 
 .nav-item.active::after {
     content: '';
     position: absolute;
-    bottom: 6px;
+    bottom: 0.75vh;
     left: 50%;
     transform: translateX(-50%);
-    width: 16px;
-    height: 2px;
+    width: 2vh;
+    height: 0.25vh;
     background-color: var(--on-primary-color);
-    border-radius: 2px;
+    border-radius: 0.25vh;
 }
 
 /* Ajustes para diferentes tamaños de pantalla */
 @media (max-width: 360px) {
     .nav-item {
-        width: 56px;
-        height: 56px;
-        font-size: 10px;
+        height: 7vh;
+        font-size: 1.25vh;
     }
 
     .nav-icon {
-        width: 20px;
-        height: 20px;
+        width: 2.5vh;
+        height: 2.5vh;
     }
 
     .floating-button {
-        width: 48px;
-        height: 48px;
-        font-size: 20px;
+        width: 6vh;
+        height: 6vh;
+        font-size: 2.5vh;
     }
 }
 
@@ -1061,14 +1062,9 @@ ul li {
     .md-navbar {
         display: none;
     }
-
-    .floating-button {
-        bottom: 5%;
-    }
 }
 
 /* Ajuste general para el contenido principal */
 .main-content {
-    padding-bottom: 80px;
-    /* Ajusta este valor según sea necesario */
+    padding-bottom: 10vh;
 }

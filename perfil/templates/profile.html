@@ -1,5 +1,4 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends "base.html" %} {% load static %}
 
 {% block title %}Perfil de {{ first_name }}{% endblock %}
 
@@ -9,98 +8,113 @@
 {% endblock %}
 
 {% block content %}
-<div id="profile-content" class="card">
-    <div class="flex items-center justify-between mb-6">
-        <button class="theme-toggle bg-gray-800 text-white p-2 rounded-full" onclick="toggleTheme()">
-            <i class="fa fa-adjust"></i>
-        </button>
-        <h1 class="text-center text-2xl font-bold flex-grow"></h1>
-        <a href="{% url 'logout' %}" class="logout-button bg-gray-800 text-white p-2 rounded-full">
-            <i class="fa fa-sign-out-alt"></i>
-        </a>
+<div id="profile-content">
+    <div class="profile-header">
+        <h1 class="profile-title">{{ first_name }} {{ last_name }}</h1>
+        <div class="profile-actions">
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <span class="material-icons">dark_mode</span>
+            </button>
+            <a href="{% url 'logout' %}" class="logout-button">
+                <span class="material-icons">logout</span>
+            </a>
+        </div>
     </div>
-    <div id="profile-data">
-        <ul>
-            <li><strong>Nombre:</strong> {{ first_name|default_if_none:"No registrado" }}</li>
-            <li><strong>Apellidos:</strong> {{ last_name|default_if_none:"No registrado" }}</li>
-            <li><strong>Correo Electrónico:</strong> {{ email|default_if_none:"No registrado" }}</li>
-            <li><strong>Tipo de dieta:</strong> {% if diet == 'omnivora' %}Omnívora{% elif diet == 'vegana' %}Vegana{% elif diet == 'vegetariana' %}Vegetariana{% elif diet == 'paleo' %}Paleo{% elif diet == 'cetogenica' %}Cetogénica{% else %}No registrado{% endif %}</li>
-            <li><strong>Peso (kg):</strong> {% if weight and weight != 0 %}{{ weight|floatformat:0 }}{% else %}No registrado{% endif %}</li>
-            <li><strong>Altura (cm):</strong> {% if height and height != 0 %}{{ height|floatformat:0 }}{% else %}No registrado{% endif %}</li>
-            <li><strong>IMC:</strong> {% if imc and imc != 0 %}{{ imc }}{% else %}No registrado{% endif %}</li>
-            <li><strong>¿Fumador?:</strong> {% if smoker == True %}Si{% elif smoker == False %}No{% else %}No registrado{% endif %}</li>
-            <li><strong>Horas de ejercicio semanal:</strong> {% if weekly_exercise_hours and weekly_exercise_hours != 0 %}{{ weekly_exercise_hours }}{% else %}No registrado{% endif %}</li>
-            <li><strong>Objetivo:</strong> {% if goal == 'ganar_peso' %}Ganar Peso{% elif goal == 'ganar_musculatura' %}Ganar Musculatura{% elif goal == 'perder_peso' %}Perder Peso{% elif goal == 'mantener_peso' %}Mantener Peso{% elif goal == 'mejorar_condicion_fisica' %}Mejorar Condición Física{% else %}No registrado{% endif %}</li>
-            <li><strong>¿Acceso a gimnasio?:</strong> {% if gym_access == True %}Si{% elif gym_access == False %}No{% else %}No registrado{% endif %}</li>
+    <div id="profile-data" class="card">
+        <ul class="profile-list">
+            <li><span class="profile-label">Correo Electrónico:</span> <span class="profile-value">{{ email|default_if_none:"No registrado" }}</span></li>
+            <li><span class="profile-label">Tipo de dieta:</span> <span class="profile-value">{% if diet == 'omnivora' %}Omnívora{% elif diet == 'vegana' %}Vegana{% elif diet == 'vegetariana' %}Vegetariana{% elif diet == 'paleo' %}Paleo{% elif diet == 'cetogenica' %}Cetogénica{% else %}No registrado{% endif %}</span></li>
+            <li><span class="profile-label">Peso:</span> <span class="profile-value">{% if weight and weight != 0 %}{{ weight|floatformat:0 }} kg{% else %}No registrado{% endif %}</span></li>
+            <li><span class="profile-label">Altura:</span> <span class="profile-value">{% if height and height != 0 %}{{ height|floatformat:0 }} cm{% else %}No registrado{% endif %}</span></li>
+            <li><span class="profile-label">IMC:</span> <span class="profile-value">{% if imc and imc != 0 %}{{ imc }}{% else %}No registrado{% endif %}</span></li>
+            <li><span class="profile-label">¿Fumador?:</span> <span class="profile-value">{% if smoker == True %}Sí{% elif smoker == False %}No{% else %}No registrado{% endif %}</span></li>
+            <li><span class="profile-label">Horas de ejercicio semanal:</span> <span class="profile-value">{% if weekly_exercise_hours and weekly_exercise_hours != 0 %}{{ weekly_exercise_hours }}{% else %}No registrado{% endif %}</span></li>
+            <li><span class="profile-label">Objetivo:</span> <span class="profile-value">{% if goal == 'ganar_peso' %}Ganar Peso{% elif goal == 'ganar_musculatura' %}Ganar Musculatura{% elif goal == 'perder_peso' %}Perder Peso{% elif goal == 'mantener_peso' %}Mantener Peso{% elif goal == 'mejorar_condicion_fisica' %}Mejorar Condición Física{% else %}No registrado{% endif %}</span></li>
+            <li><span class="profile-label">¿Acceso a gimnasio?:</span> <span class="profile-value">{% if gym_access == True %}Sí{% elif gym_access == False %}No{% else %}No registrado{% endif %}</span></li>
         </ul>
     </div>
-    <!-- Botón flotante -->
     <button id="edit-button" class="floating-button material-symbols-outlined">
         edit
     </button>
 </div>
 
 <!-- Modal -->
-<div id="edit-modal" class="modal card">
+<div id="edit-modal" class="modal">
     <div class="modal-content">
-        <span class="close-button">&times;</span>
+        <span class="close-button material-icons">close</span>
         <h2>Editar Perfil</h2>
         <form id="edit-profile-form" method="post" action="{% url 'profile' %}">
             {% csrf_token %}
-            <label for="first_name" class="block mt-4">Nombre:</label>
-            <input type="text" id="first_name" name="first_name" value="{{ first_name|default_if_none:0 }}" required class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+            <div class="form-group">
+                <label for="first_name">Nombre:</label>
+                <input type="text" id="first_name" name="first_name" value="{{ first_name|default_if_none:'' }}" required>
+            </div>
             
-            <label for="last_name" class="block mt-4">Apellidos:</label>
-            <input type="text" id="last_name" name="last_name" value="{{ last_name|default_if_none:0 }}" required class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+            <div class="form-group">
+                <label for="last_name">Apellidos:</label>
+                <input type="text" id="last_name" name="last_name" value="{{ last_name|default_if_none:'' }}" required>
+            </div>
 
-            <label for="diet" class="block mt-4">Tipo de dieta:</label>
-            <select id="diet" name="diet" class="w-full p-2 mt-1 border border-gray-300 rounded-md">
-                <option value="omnivora" {% if diet == 'omnivora' %}selected{% endif %}>Omnívora</option>
-                <option value="vegana" {% if diet == 'vegana' %}selected{% endif %}>Vegana</option>
-                <option value="vegetariana" {% if diet == 'vegetariana' %}selected{% endif %}>Vegetariana</option>
-                <option value="paleo" {% if diet == 'paleo' %}selected{% endif %}>Paleo</option>
-                <option value="cetogenica" {% if diet == 'cetogenica' %}selected{% endif %}>Cetogénica</option>
-            </select>
+            <div class="form-group">
+                <label for="diet">Tipo de dieta:</label>
+                <select id="diet" name="diet">
+                    <option value="omnivora" {% if diet == 'omnivora' %}selected{% endif %}>Omnívora</option>
+                    <option value="vegana" {% if diet == 'vegana' %}selected{% endif %}>Vegana</option>
+                    <option value="vegetariana" {% if diet == 'vegetariana' %}selected{% endif %}>Vegetariana</option>
+                    <option value="paleo" {% if diet == 'paleo' %}selected{% endif %}>Paleo</option>
+                    <option value="cetogenica" {% if diet == 'cetogenica' %}selected{% endif %}>Cetogénica</option>
+                </select>
+            </div>
 
-            <label for="weight" class="block mt-4">Peso (kg):</label>
-            <input type="number" step="0.01" id="weight" name="weight" value="{{ weight|default_if_none:0 }}" class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+            <div class="form-group">
+                <label for="weight">Peso (kg):</label>
+                <input type="number" step="0.01" id="weight" name="weight" value="{{ weight|default_if_none:0 }}">
+            </div>
 
-            <label for="height" class="block mt-4">Altura (cm):</label>
-            <input type="number" step="0.01" id="height" name="height" value="{{ height|default_if_none:0 }}" class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+            <div class="form-group">
+                <label for="height">Altura (cm):</label>
+                <input type="number" step="0.01" id="height" name="height" value="{{ height|default_if_none:0 }}">
+            </div>
 
-            <label for="imc" class="block mt-4">IMC:</label>
-            <input type="float" id="imc" name="imc" value="{% if imc %}{{ imc }}{% else %}0{% endif %}" readonly class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+            <div class="form-group">
+                <label for="imc">IMC:</label>
+                <input type="float" id="imc" name="imc" value="{% if imc %}{{ imc }}{% else %}0{% endif %}" readonly>
+            </div>
 
-            <div class="form-group mt-4">
-                <label for="smoker" class="block">¿Fumador?</label>
-                <div class="toggle-switch mt-2">
+            <div class="form-group">
+                <label for="smoker">¿Fumador?</label>
+                <div class="toggle-switch">
                     <input type="checkbox" id="smoker" name="smoker" {% if smoker %}checked{% endif %}>
                     <label for="smoker"></label>
                 </div>
             </div>
 
-            <label for="weekly_exercise_hours" class="block mt-4">Horas de ejercicio semanal:</label>
-            <input type="number" step="0.01" id="weekly_exercise_hours" name="weekly_exercise_hours" value="{{ weekly_exercise_hours|default_if_none:0 }}" class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+            <div class="form-group">
+                <label for="weekly_exercise_hours">Horas de ejercicio semanal:</label>
+                <input type="number" step="0.01" id="weekly_exercise_hours" name="weekly_exercise_hours" value="{{ weekly_exercise_hours|default_if_none:0 }}">
+            </div>
 
-            <label for="goal" class="block mt-4">Objetivo:</label>
-            <select id="goal" name="goal" class="w-full p-2 mt-1 border border-gray-300 rounded-md">
-                <option value="" {% if goal == None %}selected{% endif %}></option>
-                <option value="ganar_peso" {% if goal == 'ganar_peso' %}selected{% endif %}>Ganar Peso</option>
-                <option value="ganar_musculatura" {% if goal == 'ganar_musculatura' %}selected{% endif %}>Ganar Musculatura</option>
-                <option value="perder_peso" {% if goal == 'perder_peso' %}selected{% endif %}>Perder Peso</option>
-                <option value="mantener_peso" {% if goal == 'mantener_peso' %}selected{% endif %}>Mantener Peso</option>
-                <option value="mejorar_condicion_fisica" {% if goal == 'mejorar_condicion_fisica' %}selected{% endif %}>Mejorar Condición Física</option>
-            </select>
+            <div class="form-group">
+                <label for="goal">Objetivo:</label>
+                <select id="goal" name="goal">
+                    <option value="" {% if goal == None %}selected{% endif %}></option>
+                    <option value="ganar_peso" {% if goal == 'ganar_peso' %}selected{% endif %}>Ganar Peso</option>
+                    <option value="ganar_musculatura" {% if goal == 'ganar_musculatura' %}selected{% endif %}>Ganar Musculatura</option>
+                    <option value="perder_peso" {% if goal == 'perder_peso' %}selected{% endif %}>Perder Peso</option>
+                    <option value="mantener_peso" {% if goal == 'mantener_peso' %}selected{% endif %}>Mantener Peso</option>
+                    <option value="mejorar_condicion_fisica" {% if goal == 'mejorar_condicion_fisica' %}selected{% endif %}>Mejorar Condición Física</option>
+                </select>
+            </div>
 
-            <div class="form-group mt-4">
-                <label for="gym_access" class="block">¿Acceso a gimnasio?</label>
-                <div class="toggle-switch mt-2">
+            <div class="form-group">
+                <label for="gym_access">¿Acceso a gimnasio?</label>
+                <div class="toggle-switch">
                     <input type="checkbox" id="gym_access" name="gym_access" {% if gym_access %}checked{% endif %}>
                     <label for="gym_access"></label>
                 </div>
             </div>
 
-            <input type="submit" value="Guardar" class="w-full mt-6 p-2 bg-primary text-primary-foreground rounded-md cursor-pointer hover:bg-primary-foreground hover:text-primary">
+            <button type="submit" class="submit-button">Guardar</button>
         </form>
     </div>
 </div>
@@ -156,7 +170,69 @@
 
 {% block extra_css %}
 <style>
-    /* ... Otros estilos ... */
+    .profile-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+        padding: 15px;
+    }
+
+    .profile-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .profile-actions {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 200px;
+    }
+
+    .profile-list {
+        list-style-type: none;
+        padding: 0 15px;
+    }
+
+    .profile-list li {
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .profile-label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        font-size: 0.9rem;
+    }
+
+    .profile-value {
+        color: var(--on-surface-color);
+        font-size: 1rem;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid var(--primary-color);
+        border-radius: 24px;
+        font-size: 16px;
+    }
 
     .toggle-switch {
         position: relative;
@@ -203,14 +279,72 @@
         transform: translateX(26px);
     }
 
-    /* Ajuste para centrar la bolita del switch */
-    .toggle-switch label:before {
-        top: 50%;
-        transform: translateY(-50%);
+    .submit-button {
+        width: 100%;
+        padding: 12px;
+        background-color: var(--primary-color);
+        color: var(--on-primary-color);
+        border: none;
+        border-radius: 24px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
     }
 
-    .toggle-switch input:checked + label:before {
-        transform: translate(26px, -50%);
+    .submit-button:hover {
+        background-color: var(--primary-dark);
+    }
+
+    .modal-content {
+        padding: 20px;
+        border-radius: 24px;
+    }
+
+    .close-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    #profile-content {
+        padding-top: 80px;
+        padding-bottom: 100px;
+    }
+
+    @media (max-width: 600px) {
+        .profile-header {
+            padding: 10px;
+        }
+
+        .profile-title {
+            font-size: 1.2rem;
+        }
+
+        .profile-list {
+            padding: 0 10px;
+        }
+
+        .profile-label,
+        .profile-value {
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            font-size: 14px;
+        }
+
+        .submit-button {
+            font-size: 14px;
+        }
+
+
+        #profile-content {
+            padding-top: 60px;
+            padding-bottom: 80px;
+        }
     }
 </style>
 {% endblock %}
