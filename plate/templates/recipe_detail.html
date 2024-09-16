@@ -18,16 +18,16 @@
         <h2 class="recipe-title">{{ receta.nombre }}</h2>
         <p class="recipe-description">{{ receta.desc }}</p>
         <div class="recipe-meta">
-            <span class="recipe-time"><i class="material-icons">schedule</i> {{ receta.tiempo }}</span>
-            <span class="recipe-difficulty"><i class="material-icons">fitness_center</i> {{ receta.dificultad }}</span>
+            <span class="chip recipe-time"><i class="material-icons">schedule</i> {{ receta.tiempo }}</span>
+            <span class="chip recipe-difficulty"><i class="material-icons">fitness_center</i> {{ receta.dificultad }}</span>
         </div>
         <div class="recipe-section ingredients">
             <h3><i class="material-icons">list</i> Ingredientes:</h3>
-            <ul>
+            <div class="chip-container">
                 {% for ingrediente in receta.ingredientes %}
-                    <li>{{ ingrediente }}</li>
+                    <span class="chip">{{ ingrediente }}</span>
                 {% endfor %}
-            </ul>
+            </div>
         </div>
         <div class="recipe-section instructions">
             <h3><i class="material-icons">restaurant</i> Instrucciones:</h3>
@@ -38,7 +38,7 @@
             </ol>
         </div>
         {% if receta.advertencia %}
-            <div class="recipe-warning">
+            <div class="recipe-warning chip">
                 <i class="material-icons">warning</i>
                 <p>Advertencia: {{ receta.advertencia }}</p>
             </div>
@@ -78,20 +78,24 @@
 
     .recipe-meta {
         display: flex;
-        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
         margin-bottom: 30px;
-        font-size: 1.1em;
     }
 
-    .recipe-time, .recipe-difficulty {
-        display: flex;
+    .chip {
+        display: inline-flex;
         align-items: center;
-        color: var(--on-surface-color);
+        padding: 5px 10px;
+        background-color: var(--surface-variant-color);
+        color: var(--on-surface-variant-color);
+        border-radius: 16px;
+        font-size: 0.9em;
     }
 
-    .recipe-time i, .recipe-difficulty i {
+    .chip i {
         margin-right: 5px;
-        color: var(--primary-color);
+        font-size: 1.2em;
     }
 
     .recipe-section {
@@ -110,11 +114,17 @@
         margin-right: 10px;
     }
 
-    .ingredients ul, .instructions ol {
+    .chip-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .instructions ol {
         padding-left: 30px;
     }
 
-    .ingredients li, .instructions li {
+    .instructions li {
         color: var(--on-surface-color);
         margin-bottom: 10px;
         line-height: 1.5;
@@ -123,15 +133,6 @@
     .recipe-warning {
         background-color: var(--error-color);
         color: var(--on-error-color);
-        padding: 15px;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-    }
-
-    .recipe-warning i {
-        margin-right: 10px;
-        font-size: 24px;
     }
 
     .btn-back {
@@ -169,11 +170,6 @@
 
         .recipe-title {
             font-size: 2em;
-        }
-
-        .recipe-meta {
-            flex-direction: column;
-            gap: 10px;
         }
 
         .btn-back {

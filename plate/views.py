@@ -82,10 +82,12 @@ def plate(request):
                 recipe_data['id'] = recipe.id
                 recetas_del_dia[tipo].append(recipe_data)
 
-    return render(request, 'plate.html', {
+    response = render(request, 'plate.html', {
         'recetas_del_dia': recetas_del_dia,
         'dia_actual': dia_actual
     })
+    response['Cache-Control'] = 'public, max-age=0, s-maxage=86400, stale-while-revalidate'
+    return response
 
 @login_required
 @csrf_exempt
