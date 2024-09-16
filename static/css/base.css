@@ -19,6 +19,7 @@
     --message-background-color: var(--primary-lighter) !important;
     --message-text-color: var(--on-primary-color) !important;
     --accent-color: #880E4F;
+    --primary-container-color: rgba(3, 153, 146, 0.2);
 }
 
 :root[data-theme='dark'] {
@@ -38,6 +39,7 @@
     --on-surface-color: #ffffff !important;
     --on-error-color: #000000 !important;
     --accent-color: #03dac6;
+    --primary-container-color: rgba(3, 153, 146, 0.2);
 }
 
 
@@ -865,4 +867,65 @@ ul li {
 .progress-label {
     color: var(--on-surface-color);
     margin-left: 10px;
+}
+
+.md-navbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: var(--primary-color);
+    padding: 8px 0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    z-index: 1000;
+    max-height: 65px;
+}
+
+.md-navbar-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--on-primary-color);
+    transition: all 0.3s ease;
+    padding: 8px 12px;
+    border-radius: 16px;
+    width: 33.33%;
+}
+
+.md-navbar-item.active {
+    background-color: var(--primary-container-color);
+    padding: 4px 8px;
+    margin: 4px;
+}
+
+.md-navbar-icon {
+    font-size: 24px;
+    margin-bottom: 4px;
+    transition: all 0.3s ease;
+
+}
+
+.md-navbar-label {
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.md-navbar-item:hover .md-navbar-icon,
+.md-navbar-item:hover .md-navbar-label,
+.md-navbar-item.active .md-navbar-icon,
+.md-navbar-item.active .md-navbar-label {
+    transform: translateY(-2px);
+}
+
+@media (min-width: 768px) {
+    .md-navbar {
+        display: none;
+    }
 }

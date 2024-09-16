@@ -51,16 +51,19 @@
     <div class="container">
         {% block content %}{% endblock %}
     </div>
-    <nav class="fixed bottom-0 left-0 right-0 bg-primary py-1 px-2 flex justify-around items-center md:hidden navbar-high-zindex" style="border-top-left-radius: 24px; border-top-right-radius: 24px;">
-        <button class="focus:outline-none rounded-full nav-item ripple-button {% if request.path == '/workout/' %}active{% endif %}" onclick="window.location.href='/workout/'">
-            <span class="material-icons text-primary-foreground">fitness_center</span>
-        </button>
-        <button class="focus:outline-none rounded-full nav-item ripple-button {% if request.path == '/plate' %}active{% endif %}" onclick="window.location.href='/plate'">
-            <span class="material-icons text-primary-foreground">restaurant</span>
-        </button>
-        <button class="focus:outline-none rounded-full nav-item ripple-button {% if request.path == '/perfil/' %}active{% endif %}" onclick="window.location.href='/perfil/'">
-            <span class="material-icons text-primary-foreground">person</span>
-        </button>
+    <nav class="md-navbar">
+        <a href="/workout/" class="md-navbar-item {% if request.path == '/workout/' or request.path == '/workout/data_preview/' %}active{% endif %}">
+            <span class="material-icons md-navbar-icon">fitness_center</span>
+            <span class="md-navbar-label">Workout</span>
+        </a>
+        <a href="/plate" class="md-navbar-item {% if request.path == '/plate/' %}active{% endif %}">
+            <span class="material-icons md-navbar-icon">restaurant</span>
+            <span class="md-navbar-label">Plate</span>
+        </a>
+        <a href="/perfil/" class="md-navbar-item {% if request.path == '/perfil/' %}active{% endif %}">
+            <span class="material-icons md-navbar-icon">person</span>
+            <span class="md-navbar-label">Perfil</span>
+        </a>
     </nav>
     <script>
         function toggleTheme() {
