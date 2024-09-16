@@ -14,37 +14,8 @@
     <script src="{% static 'js/theme.js' %}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <link rel="manifest" href="{% static 'manifest.json' %}">
+    <link rel="manifest" href="{% static 'pwa/manifest.json' %}">
     <meta name="theme-color" content="#000000">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    borderRadius: {
-                        'none': '0',
-                        'sm': '0.125rem',
-                        DEFAULT: '24px', // Cambia el valor por defecto a 24px
-                        'md': '0.375rem',
-                        'lg': '0.5rem',
-                        'full': '9999px',
-                    },
-                    colors: {
-                        primary: '#343d42', // Color primario
-                        'primary-foreground': '#ffffff', // Color de primer plano primario
-                        secondary: '#03dac6', // Color secundario
-                        background: '#f4f4f4', // Color de fondo
-                        surface: '#ffffff', // Color de superficie
-                        error: '#b00020', // Color de error
-                        'on-primary': '#ffffff', // Color sobre primario
-                        'on-secondary': '#000000', // Color sobre secundario
-                        'on-background': '#000000', // Color sobre fondo
-                        'on-surface': '#000000', // Color sobre superficie
-                        'on-error': '#ffffff', // Color sobre error
-                    },
-                },
-            },
-        }
-    </script>
 </head>
 <body>
     <div id="loading-screen" class="loading-screen" style="display: none;">
@@ -153,5 +124,7 @@
             });
         });
     </script>
+    {% block extra_js %}{% endblock %}
+    {% block extra_css %}{% endblock %}
 </body>
 </html>

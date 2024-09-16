@@ -8,54 +8,52 @@
     Generar Rutina de Ejercicios
 {% endblock %}
 
-{% block top_app_bar_right %}
-    <button class="app-bar-button" id="generate-routine-button" onclick="submitForm()">
-        <span class="material-icons">play_arrow</span>
-        <span class="button-text">Generar Rutina</span>
-    </button>
-{% endblock %}
-
 {% block content %}
 <div class="card-container">
-    <div class="screens-wrapper">
+    <div class="screens-wrapper" id="screensWrapper">
         <div id="screen1" class="screen active">
             <div class="card">
-                <h2>Información Personal</h2>
-                <div class="form-group">
-                    <label for="edad">Edad:</label>
-                    <input type="number" id="edad" name="edad" value="{{ user.age|default_if_none:0 }}" required>
-                </div>
-                <div class="form-group">
-                    <label for="altura">Altura (cm):</label>
-                    <input type="number" id="altura" name="altura" value="{{ user.height|default_if_none:0 }}" required>
-                </div>
-                <div class="form-group">
-                    <label for="peso">Peso (kg):</label>
-                    <input type="number" id="peso" name="peso" value="{{ user.weight|default_if_none:0 }}" required>
+                <div class="card-content">
+                    <h2>Información Personal</h2>
+                    <div class="form-group">
+                        <label for="edad">Edad:</label>
+                        <input type="number" id="edad" name="edad" value="{{ user.age|default_if_none:0 }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="altura">Altura (cm):</label>
+                        <input type="number" id="altura" name="altura" value="{{ user.height|default_if_none:0 }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="peso">Peso (kg):</label>
+                        <input type="number" id="peso" name="peso" value="{{ user.weight|default_if_none:0 }}" required>
+                    </div>
                 </div>
                 <div class="button-container">
+                    <div></div>
                     <button class="next-button" onclick="nextScreen(2)">Siguiente</button>
                 </div>
             </div>
         </div>
         <div id="screen2" class="screen">
             <div class="card">
-                <h2>Hábitos y Preferencias</h2>
-                <div class="form-group">
-                    <label for="ejercicio_semanal">Horas de ejercicio semanal:</label>
-                    <input type="number" id="ejercicio_semanal" name="ejercicio_semanal" value="{{ user.weekly_exercise_hours|default_if_none:0 }}" required>
-                </div>
-                <div class="form-group">
-                    <label for="dieta">Tipo de dieta:</label>
-                    <select id="dieta" name="dieta">
-                        <option value="omnivora" {% if user.diet == 'omnivora' %}selected{% endif %}>Omnívora</option>
-                        <option value="vegetariana" {% if user.diet == 'vegetariana' %}selected{% endif %}>Vegetariana</option>
-                        <option value="vegana" {% if user.diet == 'vegana' %}selected{% endif %}>Vegana</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="smoker">¿Eres fumador?</label>
-                    <input type="checkbox" id="smoker" name="smoker" {% if user.is_smoker %}checked{% endif %}>
+                <div class="card-content">
+                    <h2>Hábitos y Preferencias</h2>
+                    <div class="form-group">
+                        <label for="ejercicio_semanal">Horas de ejercicio semanal:</label>
+                        <input type="number" id="ejercicio_semanal" name="ejercicio_semanal" value="{{ user.weekly_exercise_hours|default_if_none:0 }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dieta">Tipo de dieta:</label>
+                        <select id="dieta" name="dieta">
+                            <option value="omnivora" {% if user.diet == 'omnivora' %}selected{% endif %}>Omnívora</option>
+                            <option value="vegetariana" {% if user.diet == 'vegetariana' %}selected{% endif %}>Vegetariana</option>
+                            <option value="vegana" {% if user.diet == 'vegana' %}selected{% endif %}>Vegana</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="smoker">¿Eres fumador?</label>
+                        <input type="checkbox" id="smoker" name="smoker" {% if user.is_smoker %}checked{% endif %}>
+                    </div>
                 </div>
                 <div class="button-container">
                     <button class="prev-button" onclick="prevScreen(1)">Anterior</button>
@@ -65,27 +63,33 @@
         </div>
         <div id="screen3" class="screen">
             <div class="card">
-                <h2>Objetivos y Recursos</h2>
-                <div class="form-group">
-                    <label for="goal">Objetivo:</label>
-                    <select id="goal" name="goal">
-                        <option value="ganar_peso" {% if user.goal == 'ganar_peso' %}selected{% endif %}>Ganar Peso</option>
-                        <option value="ganar_musculatura" {% if user.goal == 'ganar_musculatura' %}selected{% endif %}>Ganar Musculatura</option>
-                        <option value="perder_peso" {% if user.goal == 'perder_peso' %}selected{% endif %}>Perder Peso</option>
-                        <option value="mantener_peso" {% if user.goal == 'mantener_peso' %}selected{% endif %}>Mantener Peso</option>
-                        <option value="mejorar_condicion_fisica" {% if user.goal == 'mejorar_condicion_fisica' %}selected{% endif %}>Mejorar Condición Física</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="gym_access">¿Tienes acceso a un gimnasio?</label>
-                    <input type="checkbox" id="gym_access" name="gym_access" {% if user.gym_access %}checked{% endif %}>
-                </div>
-                <div class="form-group">
-                    <label for="imc">IMC:</label>
-                    <input type="text" id="imc" name="imc" value="{{ user.imc|default_if_none:0 }}" readonly>
+                <div class="card-content">
+                    <h2>Objetivos y Recursos</h2>
+                    <div class="form-group">
+                        <label for="goal">Objetivo:</label>
+                        <select id="goal" name="goal">
+                            <option value="ganar_peso" {% if user.goal == 'ganar_peso' %}selected{% endif %}>Ganar Peso</option>
+                            <option value="ganar_musculatura" {% if user.goal == 'ganar_musculatura' %}selected{% endif %}>Ganar Musculatura</option>
+                            <option value="perder_peso" {% if user.goal == 'perder_peso' %}selected{% endif %}>Perder Peso</option>
+                            <option value="mantener_peso" {% if user.goal == 'mantener_peso' %}selected{% endif %}>Mantener Peso</option>
+                            <option value="mejorar_condicion_fisica" {% if user.goal == 'mejorar_condicion_fisica' %}selected{% endif %}>Mejorar Condición Física</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="gym_access">¿Tienes acceso a un gimnasio?</label>
+                        <input type="checkbox" id="gym_access" name="gym_access" {% if user.gym_access %}checked{% endif %}>
+                    </div>
+                    <div class="form-group">
+                        <label for="imc">IMC:</label>
+                        <input type="text" id="imc" name="imc" value="{{ user.imc|default_if_none:0 }}" readonly>
+                    </div>
                 </div>
                 <div class="button-container">
                     <button class="prev-button" onclick="prevScreen(2)">Anterior</button>
+                    <button class="generate-button" onclick="submitForm()">
+                        <span class="material-icons">play_arrow</span>
+                        Generar Rutina
+                    </button>
                 </div>
             </div>
         </div>
@@ -104,28 +108,57 @@
     <input type="hidden" name="goal" id="form_goal">
     <input type="hidden" name="imc" id="form_imc">
 </form>
-
 {% endblock %}
 
 {% block extra_js %}
 <script>
+    let currentScreen = 1;
+    let startX, startY, endX, endY;
+    const screensWrapper = document.getElementById('screensWrapper');
+
+    screensWrapper.addEventListener('touchstart', function(e) {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+    });
+
+    screensWrapper.addEventListener('touchend', function(e) {
+        endX = e.changedTouches[0].clientX;
+        endY = e.changedTouches[0].clientY;
+        handleSwipe();
+    });
+
+    function handleSwipe() {
+        const diffX = startX - endX;
+        const diffY = startY - endY;
+
+        if (Math.abs(diffX) > Math.abs(diffY)) {
+            if (diffX > 50 && currentScreen < 3) {
+                nextScreen(currentScreen + 1);
+            } else if (diffX < -50 && currentScreen > 1) {
+                prevScreen(currentScreen - 1);
+            }
+        }
+    }
+
     function nextScreen(screenNumber) {
-        const currentScreen = document.querySelector('.screen.active');
-        const nextScreen = document.getElementById(`screen${screenNumber}`);
-        if (currentScreen && nextScreen) {
-            currentScreen.classList.remove('active');
-            nextScreen.classList.add('active');
+        const currentScreenElement = document.querySelector('.screen.active');
+        const nextScreenElement = document.getElementById(`screen${screenNumber}`);
+        if (currentScreenElement && nextScreenElement) {
+            currentScreenElement.classList.remove('active');
+            nextScreenElement.classList.add('active');
             document.querySelector('.screens-wrapper').style.transform = `translateX(-${(screenNumber - 1) * 33.33}%)`;
+            currentScreen = screenNumber;
         }
     }
 
     function prevScreen(screenNumber) {
-        const currentScreen = document.querySelector('.screen.active');
-        const prevScreen = document.getElementById(`screen${screenNumber}`);
-        if (currentScreen && prevScreen) {
-            currentScreen.classList.remove('active');
-            prevScreen.classList.add('active');
+        const currentScreenElement = document.querySelector('.screen.active');
+        const prevScreenElement = document.getElementById(`screen${screenNumber}`);
+        if (currentScreenElement && prevScreenElement) {
+            currentScreenElement.classList.remove('active');
+            prevScreenElement.classList.add('active');
             document.querySelector('.screens-wrapper').style.transform = `translateX(-${(screenNumber - 1) * 33.33}%)`;
+            currentScreen = screenNumber;
         }
     }
 
@@ -189,12 +222,22 @@
     }
 
     .card {
-        background-color: var(--surface-color);
+        background-color: var(--on-background-color);
         padding: 20px;
         border-radius: 24px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 400px;
+        width: 99%;
+        height: 70vh;
+        max-width: none;
+        margin: 0 auto;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-content {
+        flex-grow: 1;
+        overflow-y: auto;
     }
 
     .form-group {
@@ -222,10 +265,13 @@
         display: flex;
         justify-content: space-between;
         margin-top: 20px;
+        padding-top: 10px;
+        border-top: 1px solid var(--outline-color);
     }
 
     .next-button,
-    .prev-button {
+    .prev-button,
+    .generate-button {
         background-color: var(--primary-color);
         color: var(--on-primary-color);
         border: none;
@@ -233,11 +279,18 @@
         padding: 10px 20px;
         cursor: pointer;
         transition: background-color 0.3s ease;
+        display: flex;
+        align-items: center;
     }
 
     .next-button:hover,
-    .prev-button:hover {
+    .prev-button:hover,
+    .generate-button:hover {
         background-color: var(--primary-darker);
+    }
+
+    .generate-button .material-icons {
+        margin-right: 5px;
     }
 </style>
 {% endblock %}
