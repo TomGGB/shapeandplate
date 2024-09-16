@@ -149,5 +149,5 @@ def delete_routine(request):
         user = request.user
         ExerciseRoutine.objects.filter(user=user).delete()
         FoodRecipe.objects.filter(user=user).delete()
-        return render(request, 'workout.html')
-    return render(request, 'workout.html')
+        return redirect('workout')
+    return redirect('workout')
