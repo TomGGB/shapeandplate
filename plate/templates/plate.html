@@ -24,9 +24,9 @@
                     <a href="{% url 'recipe_detail' receta.id %}">
                         <h4 class="recipe-name">{{ receta.nombre }}</h4>
                         <p class="recipe-description">{{ receta.desc|truncatechars:100 }}</p>
-                        <div class="recipe-details">
-                            <span><i class="material-icons">schedule</i> {{ receta.tiempo }}</span>
-                            <span><i class="material-icons">fitness_center</i> {{ receta.dificultad }}</span>
+                        <div class="recipe-meta">
+                            <span class="chip recipe-time"><i class="material-icons">schedule</i> {{ receta.tiempo }}</span>
+                            <span class="chip recipe-difficulty"><i class="material-icons">bolt</i> {{ receta.dificultad }}</span>
                         </div>
                     </a>
                 </div>
@@ -184,6 +184,31 @@
         .fab .material-icons {
             margin-right: 0;
         }
+    }
+
+    /* Estilos de los chips */
+    .chip {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 12px;
+        background-color: var(--primary-container-color);
+        color: var(--on-primary-container-color);
+        border-radius: 16px;
+        font-size: 0.9em;
+        margin-right: 8px;
+        margin-bottom: 8px;
+    }
+
+    .chip i {
+        margin-right: 5px;
+        font-size: 1.2em;
+    }
+
+    .recipe-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 30px;
     }
 </style>
 {% endblock %}
