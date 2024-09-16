@@ -22,12 +22,77 @@
     .instructions li {
         margin-bottom: 10px;
     }
+    .day-card {
+        background-color: var(--surface-color);
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .day-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: var(--primary-color);
+    }
+    .meal-type {
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 15px;
+        margin-bottom: 10px;
+        color: var(--secondary-color);
+    }
+    .recipe-card {
+        background-color: var(--background-color);
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    .recipe-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .recipe-name {
+        font-size: 18px;
+        font-weight: bold;
+        color: var(--on-surface-color);
+    }
+    .recipe-details {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        color: var(--on-surface-variant-color);
+        margin-bottom: 10px;
+    }
+    .recipe-description {
+        font-size: 14px;
+        color: var(--on-surface-variant-color);
+        margin-bottom: 10px;
+    }
+    .ingredients-list, .instructions-list {
+        list-style-type: none;
+        padding-left: 0;
+    }
+    .ingredients-list li, .instructions-list li {
+        margin-bottom: 5px;
+    }
+    .instructions-list {
+        counter-reset: step-counter;
+    }
+    .instructions-list li {
+        counter-increment: step-counter;
+    }
+    .instructions-list li::before {
+        content: counter(step-counter) ". ";
+        font-weight: bold;
+        color: var(--primary-color);
+    }
 </style>
-<div class="top-app-bar">
-    <span class="material-icons" style="vertical-align: middle; font-size: 24px;">menu_book</span>
-    <h1 style="display: inline; vertical-align: middle;">Recetas Personalizadas</h1>
-</div>
-{% if recetas_por_dia %}
+
+{% if recetas_por_dia_y_tipo %}
 <div class="card-container">
     <div class="card">
         <h2>¡Recuerda!</h2>
@@ -36,52 +101,64 @@
     </div>
 </div>
 <div class="card-container">
-    {% for dia, recetas_dia in recetas_por_dia.items %}
+    {% for dia, tipos in recetas_por_dia_y_tipo.items %}
         <div class="day-card">
             <h2 class="day-title">{{ dia }}</h2>
-            {% for receta in recetas_dia %}
-                <div class="accordion">
-                    <div class="accordion-header" onclick="toggleAccordion(this)">
-                        <h3>{{ receta.nombre }}</h3>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="card-content">
-                            <p class="description">{{ receta.desc }}</p>
-                            <ul class="details">
-                                <li><strong>Tiempo de preparación:</strong> {{ receta.tiempo }}</li>
-                                <li><strong>Dificultad:</strong> {{ receta.dificultad }}</li>
-                            </ul><br>
+            {% for tipo, recetas in tipos.items %}
+                <h3 class="meal-type">{{ tipo }}</h3>
+                {% for receta in recetas %}
+                    <div class="recipe-card">
+                        <div class="recipe-header">
+                            <h4 class="recipe-name">{{ receta.nombre }}</h4>
+                            <button class="toggle-recipe-details" onclick="toggleRecipeDetails(this)">
+                                <span class="material-icons">expand_more</span>
+                            </button>
+                        </div>
+                        <div class="recipe-details">
+                            <span>Tiempo: {{ receta.tiempo }}</span>
+                            <span>Dificultad: {{ receta.dificultad }}</span>
+                        </div>
+                        <p class="recipe-description">{{ receta.desc }}</p>
+                        <div class="recipe-full-details" style="display: none;">
                             <div class="ingredients">
-                                <strong>Ingredientes:</strong>
-                                <ul>
+                                <h5>Ingredientes:</h5>
+                                <ul class="ingredients-list">
                                     {% for ingrediente in receta.ingredientes %}
                                         <li>{{ ingrediente }}</li>
                                     {% endfor %}
                                 </ul>
-                            </div><br>
+                            </div>
                             <div class="instructions">
-                                <strong>Instrucciones:</strong>
-                                <ol>
+                                <h5>Instrucciones:</h5>
+                                <ol class="instructions-list">
                                     {% for paso in receta.instrucciones %}
                                         <li>{{ paso }}</li>
                                     {% endfor %}
                                 </ol>
                             </div>
+                            {% if receta.advertencia %}
+                                <p class="warning">Advertencia: {{ receta.advertencia }}</p>
+                            {% endif %}
                         </div>
                     </div>
-                </div>
+                {% endfor %}
             {% endfor %}
         </div>
     {% endfor %}
 </div>
 
 <script>
-    function toggleAccordion(element) {
-        const content = element.nextElementSibling;
-        if (content.style.display === "block") {
-            content.style.display = "none";
+    function toggleRecipeDetails(button) {
+        const recipeCard = button.closest('.recipe-card');
+        const fullDetails = recipeCard.querySelector('.recipe-full-details');
+        const icon = button.querySelector('.material-icons');
+        
+        if (fullDetails.style.display === 'none') {
+            fullDetails.style.display = 'block';
+            icon.textContent = 'expand_less';
         } else {
-            content.style.display = "block";
+            fullDetails.style.display = 'none';
+            icon.textContent = 'expand_more';
         }
     }
 </script>

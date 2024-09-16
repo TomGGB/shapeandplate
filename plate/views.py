@@ -17,29 +17,29 @@ def plate(request):
         return redirect('workout')
 
     if food_recipes.exists():
-        recetas_por_dia = {}
+        recetas_por_dia_y_tipo = {}
         for recipe in food_recipes:
             dia = recipe.recipe.get('dia')
-            if dia not in recetas_por_dia:
-                recetas_por_dia[dia] = []
+            tipo = recipe.recipe.get('tipo')
+            if dia not in recetas_por_dia_y_tipo:
+                recetas_por_dia_y_tipo[dia] = {}
+            if tipo not in recetas_por_dia_y_tipo[dia]:
+                recetas_por_dia_y_tipo[dia][tipo] = []
             
             # Procesar las instrucciones
             instrucciones = recipe.recipe.get('instrucciones', '')
             if isinstance(instrucciones, str):
-                # Si es una cadena, dividirla en pasos
                 pasos = [paso.strip() for paso in instrucciones.split('.') if paso.strip()]
             elif isinstance(instrucciones, list):
-                # Si ya es una lista, usarla directamente
                 pasos = instrucciones
             else:
-                # Si no es ni cadena ni lista, usar una lista vacía
                 pasos = []
             
             recipe_data = recipe.recipe.copy()
             recipe_data['instrucciones'] = pasos
-            recetas_por_dia[dia].append(recipe_data)
+            recetas_por_dia_y_tipo[dia][tipo].append(recipe_data)
         
-        return render(request, 'plate.html', {'recetas_por_dia': recetas_por_dia})
+        return render(request, 'plate.html', {'recetas_por_dia_y_tipo': recetas_por_dia_y_tipo})
     else:
         # Obtén la última rutina de ejercicios
         latest_routine = exercise_routines.latest('created_at')

@@ -582,8 +582,8 @@ select:focus {
     margin: 15vh auto;
     padding: 2.5vh;
     border: 0.125vh solid var(--background-color);
-    width: 80vh;
-    max-width: 62.5vh;
+    width: 80vw;
+    max-width: 80vw;
     border-radius: 1.5vh;
 }
 

@@ -87,6 +87,7 @@ def generate_workout_routine(data):
     
     try:
         response = model.generate_content(mensaje)
+        print(f"Respuesta del modelo para la rutina de ejercicios: {response.text}")  # Debug print
         routine = json.loads(response.text)
         
         # Añadir imágenes a cada ejercicio
@@ -94,10 +95,11 @@ def generate_workout_routine(data):
             image_url = get_exercise_image(exercise['nombre_en'])
             if image_url:
                 exercise['imgurl'] = image_url
+            print(f"Ejercicio: {exercise['nombre']}, URL de imagen: {image_url}")  # Debug print
         
         return routine
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error en generate_workout_routine: {e}")  # Debug print
         return {"error": "No se pudo generar la rutina de ejercicios. Por favor, inténtalo de nuevo."}
 
 def generate_recipes(data, previous_recipes=None):
@@ -113,7 +115,7 @@ def generate_recipes(data, previous_recipes=None):
         "8. Proporciona una variedad de recetas para evitar la monotonía, incluyendo desayunos, almuerzos, cenas y colaciones.\n\n"
         "Para cada receta, incluye:\n"
         "1. dia: Día de la semana.\n"
-        "2. nombre: Nombre descriptivo de la receta.\n"
+        "2. nombre: Nombre descriptivo de la receta sin incluir el tipo de comida (desayuno, almuerzo, cena o colación).\n"
         "3. tipo: 'Desayuno', 'Almuerzo', 'Cena' o 'Colación'.\n"
         "4. ingredientes: Lista de ingredientes con cantidades.\n"
         "5. instrucciones: Pasos detallados para preparar la receta.\n"
@@ -121,7 +123,8 @@ def generate_recipes(data, previous_recipes=None):
         "7. dificultad: 'Fácil', 'Media' o 'Difícil'.\n"
         "8. desc: Breve descripción de la receta y sus beneficios nutricionales.\n"
         "9. advertencia: Solo para recetas de dificultad alta o que requieran precauciones especiales.\n\n"
-        "Asegúrate de que las recetas sean variadas y no se repitan con las recetas previas proporcionadas."
+        "Asegúrate de que las recetas sean variadas y no se repitan con las recetas previas proporcionadas.\n"
+        "IMPORTANTE: La respuesta debe ser un objeto JSON con una clave 'plan_semanal' que contenga la lista de recetas."
     )
     model = create_model(system_instruction)
     extra_fields = {
@@ -132,22 +135,31 @@ def generate_recipes(data, previous_recipes=None):
     
     try:
         response = model.generate_content(mensaje)
+        print(f"Respuesta del modelo para las recetas: {response.text}")  # Debug print
         recipes_data = json.loads(response.text)
         
         # Verifica si 'plan_semanal' está en recipes_data
         if 'plan_semanal' not in recipes_data:
-            print(f"Respuesta inesperada: {recipes_data}")
+            print(f"Respuesta inesperada: {recipes_data}")  # Debug print
             return {"error": "Formato de respuesta inesperado. Por favor, inténtelo de nuevo."}
         
         new_recipes = recipes_data['plan_semanal']
         
+        # Filtrar campos desconocidos de cada receta
+        allowed_fields = ['dia', 'nombre', 'tipo', 'ingredientes', 'instrucciones', 'tiempo', 'dificultad', 'desc', 'advertencia']
+        filtered_recipes = []
+        for recipe in new_recipes:
+            filtered_recipe = {k: v for k, v in recipe.items() if k in allowed_fields}
+            filtered_recipes.append(filtered_recipe)
+        
         if previous_recipes:
             previous_recipes_set = {json.dumps(recipe, sort_keys=True) for recipe in previous_recipes}
-            unique_new_recipes = [recipe for recipe in new_recipes if json.dumps(recipe, sort_keys=True) not in previous_recipes_set]
+            unique_new_recipes = [recipe for recipe in filtered_recipes if json.dumps(recipe, sort_keys=True) not in previous_recipes_set]
+            print(f"Recetas únicas generadas: {len(unique_new_recipes)}")  # Debug print
         else:
-            unique_new_recipes = new_recipes
+            unique_new_recipes = filtered_recipes
         
         return {"plan_semanal": unique_new_recipes}
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error en generate_recipes: {e}")  # Debug print
         return {"error": f"No se pudieron generar las recetas: {str(e)}"}
