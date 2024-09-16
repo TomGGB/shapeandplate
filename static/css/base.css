@@ -553,14 +553,14 @@ select:focus {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 999;
+    z-index: 2;
 }
 
 /* Estilos para el Modal */
 .modal {
     display: none;
     position: fixed;
-    z-index: 2;
+    z-index: 3;
     left: 0;
     top: 0;
     width: 100%;
