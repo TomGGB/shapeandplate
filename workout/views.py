@@ -115,7 +115,6 @@ def data_preview(request):
             latest_routine.progress = progress_data
             latest_routine.exercise_times = exercise_times
             latest_routine.save()
-
         # Actualiza los datos de la rutina con el progreso
         for i, exercise in enumerate(routine_data['rutina']):
             exercise['progress'] = progress_data.get(str(i), {'completed': False, 'count': 0})
@@ -142,7 +141,7 @@ def data_preview(request):
         routine.save()
 
         return render(request, 'data_preview.html', {'exercise_routine': routine_data})
-
+    
 @csrf_exempt
 @login_required
 def delete_routine(request):

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'shape-and-plate-cache-v1';
+const CACHE_NAME = 'shape-and-plate-cache-v3';
 const urlsToCache = [
   '/',
   '/workout/',
@@ -11,6 +11,13 @@ const urlsToCache = [
   '/static/navbar/fork.svg',
 ];
 
+const DB_RELATED_URLS = [
+  '/data_preview',
+  '/generate_workout',
+  '/plate',
+  '/profile',
+];
+
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -19,15 +26,19 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.match(event.request).then((response) => {
-        const fetchPromise = fetch(event.request).then((networkResponse) => {
-          cache.put(event.request, networkResponse.clone());
-          return networkResponse;
-        });
-        return response || fetchPromise;
-      });
+  event.respondWith(fetch(event.request));
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
     })
   );
 });

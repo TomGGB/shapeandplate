@@ -75,8 +75,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.middleware.cache.UpdateCacheMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'shapeandplate.urls'
@@ -165,9 +163,3 @@ EMAIL_HOST_USER = base64.b64decode(os.getenv('EMAIL_HOST_USER')).decode('utf-8')
 EMAIL_HOST_PASSWORD = base64.b64decode(os.getenv('EMAIL_HOST_PASSWORD')).decode('utf-8')
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'unique-snowflake',
-    }
-}

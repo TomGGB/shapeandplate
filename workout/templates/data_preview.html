@@ -69,9 +69,14 @@
                         <div class="progress-bar">
                             {% with total_sessions=ejercicio.sesiones|default:1 %}
                                 {% for _ in total_sessions|rjust:total_sessions %}
-                                    <div class="progress-segment" data-session="{{ forloop.counter }}"></div>
+                                    <div class="progress-segment" data-session="{{ forloop.counter }}">
+                                        <div class="progress-fill"></div>
+                                    </div>
                                 {% endfor %}
                             {% endwith %}
+                        </div>
+                        <div class="segment-completion-animation">
+                            <span class="material-icons star-icon">star</span>
                         </div>
                         <div class="timer" data-exercise-index="{{ forloop.counter0 }}" data-duration="{{ ejercicio.duracion|cut:" minutos"|cut:" segundos" }}" data-sessions="{{ ejercicio.sesiones|default:'1' }}">
                             <div class="timer-display">
@@ -129,6 +134,7 @@ function startTimer(exerciseIndex) {
         } else if (timers[exerciseIndex] % duration === 0) {
             pauseTimer(exerciseIndex);
             currentSession[exerciseIndex]++;
+            playSegmentCompletionAnimation(exerciseIndex, currentSession[exerciseIndex] - 1);
         }
     }, 1000);
 
@@ -157,12 +163,30 @@ function updateProgressBar(exerciseIndex, duration, sessions) {
     const progressBar = document.querySelector(`.progress-container[data-exercise-index="${exerciseIndex}"] .progress-bar`);
     const progressSegments = progressBar.querySelectorAll('.progress-segment');
     const completedSessions = Math.floor(timers[exerciseIndex] / duration);
+    const currentSessionProgress = (timers[exerciseIndex] % duration) / duration * 100;
 
     progressSegments.forEach((segment, index) => {
         if (index < completedSessions) {
-            segment.classList.add('completed');
+            segment.querySelector('.progress-fill').style.width = '100%';
+        } else if (index === completedSessions) {
+            segment.querySelector('.progress-fill').style.width = `${currentSessionProgress}%`;
+        } else {
+            segment.querySelector('.progress-fill').style.width = '0%';
         }
     });
+}
+
+function playSegmentCompletionAnimation(exerciseIndex, segmentIndex) {
+    const progressContainer = document.querySelector(`.progress-container[data-exercise-index="${exerciseIndex}"]`);
+    const starIcon = progressContainer.querySelector('.star-icon');
+    
+    starIcon.style.display = 'block';
+    starIcon.classList.add('confetti-animation');
+    
+    setTimeout(() => {
+        starIcon.classList.remove('confetti-animation');
+        starIcon.style.display = 'none';
+    }, 1000);
 }
 
 function completeExercise(exerciseIndex) {
@@ -175,6 +199,24 @@ function completeExercise(exerciseIndex) {
     progressContainer.querySelectorAll('.progress-bar, .timer').forEach(
         element => element.style.display = 'none'
     );
+
+    // Enviar solicitud al servidor para actualizar el estado del ejercicio
+    fetch('{% url "data_preview" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: `exercise_index=${exerciseIndex}&completed=true&time_spent=${timers[exerciseIndex] || 0}`
+    }).then(response => {
+        if (response.ok) {
+            console.log('Ejercicio marcado como completado en el servidor');
+            // Recargar la página para reflejar los cambios
+            window.location.reload();
+        } else {
+            console.error('Error al marcar el ejercicio como completado en el servidor');
+        }
+    });
 }
 
 function updateProgress(exerciseIndex, completed) {
@@ -187,8 +229,18 @@ function updateProgress(exerciseIndex, completed) {
         body: `exercise_index=${exerciseIndex}&completed=${completed}&time_spent=${timers[exerciseIndex] || 0}`
     }).then(response => {
         if (response.ok) {
-            location.reload();
+            return response.json();
         }
+        throw new Error('Error en la respuesta del servidor');
+    }).then(data => {
+        if (data.success) {
+            console.log('Progreso actualizado correctamente');
+            location.reload();
+        } else {
+            console.error('Error al actualizar el progreso:', data.error);
+        }
+    }).catch(error => {
+        console.error('Error al actualizar el progreso:', error);
     });
 }
 
@@ -279,15 +331,48 @@ document.addEventListener('DOMContentLoaded', function() {
     flex-grow: 1;
     background-color: var(--primary-lighter);
     border-right: 1px solid var(--surface-color);
-    transition: background-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
 .progress-segment:last-child {
     border-right: none;
 }
 
-.progress-segment.completed {
+.progress-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
     background-color: var(--primary-color);
+    transition: width 1s ease-in-out;
+}
+
+.segment-completion-animation {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+
+.star-icon {
+    font-size: 36px;
+    color: var(--primary-foreground-color);
+    text-shadow: 0 0 10px var(--primary-color);
+    transition: all 0.5s ease;
+    display: none;
+}
+
+.star-icon.confetti-animation {
+    animation: confetti 1s ease-out;
+}
+
+@keyframes confetti {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    50% { transform: translate(-50%, -200%) scale(1.5) rotate(180deg); opacity: 0.5; }
+    100% { transform: translate(-50%, -300%) scale(1) rotate(360deg); opacity: 0; }
 }
 
 /* Estilos para el indicador de estado del ejercicio */
@@ -298,6 +383,7 @@ document.addEventListener('DOMContentLoaded', function() {
     margin-top: 15px;
     border: 2px solid var(--primary-lighter);
     transition: all 0.3s ease;
+    position: relative;
 }
 
 .progress-container.completed {
