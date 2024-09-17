@@ -13,7 +13,7 @@
             "type": "image/png"
         }
     ],
-    "orientation": "any",
+    "orientation": "portrait",
     "scope": "/",
     "lang": "es"
 }
