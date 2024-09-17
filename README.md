@@ -1,17 +1,21 @@
 # Shape and Plate
 
-Shape and Plate es una aplicación web que te ayuda a generar rutinas de ejercicio personalizadas y te proporciona recetas de comida basadas en tus datos y necesidades nutricionales. Utiliza inteligencia artificial para crear planes de ejercicio y alimentación adaptados a cada usuario.
+Shape and Plate es una aplicación web progresiva (PWA) que utiliza inteligencia artificial para generar rutinas de ejercicio personalizadas y proporcionar recetas de comida basadas en los datos y necesidades nutricionales de cada usuario.
 
 ## Características
 
 - Generación de rutinas de ejercicio personalizadas.
 - Generación de recetas de comida basadas en los datos del usuario y las necesidades nutricionales de la rutina.
 - Interfaz amigable y fácil de usar.
+- Funcionalidad de PWA para instalación en dispositivos móviles.
+- Modo oscuro/claro.
+- Animación de carga personalizada.
 
 ## Requisitos
 
 - Python 3.x
 - Django
+- MySQL
 - Google Cloud SDK (para BigQuery y otras funcionalidades de Google)
 
 ## Instalación
@@ -36,6 +40,7 @@ Shape and Plate es una aplicación web que te ayuda a generar rutinas de ejercic
 4. Configura las variables de entorno:
     - Crea un archivo `.env` en el directorio raíz del proyecto y añade las siguientes variables:
         ```
+        DJANGO_ENV=development
         GOOGLE_API_KEY=tu_google_api_key
         GOOGLE_APPLICATION_CREDENTIALS_JSON='{
           "type": "service_account",
@@ -43,6 +48,11 @@ Shape and Plate es una aplicación web que te ayuda a generar rutinas de ejercic
           "private_key_id": "tu_private_key_id",
           ...
         }'
+        MYSQLDATABASE=nombre_de_tu_base_de_datos
+        MYSQLUSER=tu_usuario_mysql
+        MYSQLPASSWORD=tu_contraseña_mysql
+        MYSQLHOST=tu_host_mysql
+        MYSQLPORT=tu_puerto_mysql
         ```
 
 5. Realiza las migraciones de la base de datos:
@@ -68,14 +78,21 @@ Shape and Plate es una aplicación web que te ayuda a generar rutinas de ejercic
 
 ### Generar Rutina de Ejercicio
 
-1. Ve a la página principal de la aplicación.
-2. Completa el formulario con tus datos personales (edad, altura, peso, ejercicio semanal, tipo de dieta).
-3. Haz clic en "Generar Rutina" para obtener una rutina de ejercicio personalizada.
+1. Inicia sesión o regístrate en la aplicación.
+2. Ve a la sección "Workout".
+3. Completa el formulario con tus datos personales (edad, altura, peso, ejercicio semanal, tipo de dieta).
+4. Haz clic en "Generar Rutina" para obtener una rutina de ejercicio personalizada.
 
 ### Generar Recetas de Comida
 
-1. Después de generar tu rutina de ejercicio, la aplicación te proporcionará recetas de comida basadas en tus datos y las necesidades nutricionales de la rutina.
-2. Revisa las recetas y sigue las instrucciones para preparar tus comidas.
+1. Después de generar tu rutina de ejercicio, ve a la sección "Plate".
+2. La aplicación te proporcionará recetas de comida basadas en tus datos y las necesidades nutricionales de la rutina.
+3. Revisa las recetas y sigue las instrucciones para preparar tus comidas.
+
+## Características Adicionales
+
+- Modo oscuro/claro: Puedes cambiar entre el modo oscuro y claro usando el botón en la barra de navegación.
+- PWA: La aplicación puede ser instalada como una PWA en dispositivos móviles para un acceso más rápido y una experiencia similar a una aplicación nativa.
 
 ## Contribuir
 
