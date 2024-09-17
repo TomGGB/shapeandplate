@@ -275,21 +275,15 @@ select:focus {
     z-index: 1000;
 }
 
-.loading-screen .spinner {
-    border: 0.5vh solid var(--primary-color);
-    border-left-color: var(--on-primary-color);
-    border-radius: 50%;
-    width: 5vh;
-    height: 5vh;
-    animation: spin 1s linear infinite;
-    z-index: 1001;
+dotlottie-player {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
 
 /* Botón Flotante */
 .fab {
