@@ -1075,3 +1075,36 @@ ul li {
 .main-content {
     padding-bottom: 10vh;
 }
+
+
+.pwa-warning-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    padding: 20px;
+    background-color: var(--surface-color);
+    color: var(--on-surface-color);
+}
+
+.pwa-warning-content h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.pwa-warning-content p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.install-button {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: var(--on-primary-color);
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}

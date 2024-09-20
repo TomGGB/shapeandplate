@@ -25,50 +25,60 @@
     <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
 </head>
 <body>
-    <div id="loading-screen" class="loading-screen" style="display: none;">
-        <div class="loading-content">
-            <dotlottie-player src="https://lottie.host/d3fa4b13-6943-41ce-b122-d80bfc9a5beb/e3lMUDJTrq.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>
-            <p class="loading-text">Cargando...</p>
+    <div id="app-content" style="display: none;">
+        <div id="loading-screen" class="loading-screen" style="display: none;">
+            <div class="loading-content">
+                <dotlottie-player src="https://lottie.host/d3fa4b13-6943-41ce-b122-d80bfc9a5beb/e3lMUDJTrq.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>
+                <p class="loading-text">Cargando...</p>
+            </div>
+        </div>
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+        <nav class="md-navbar">
+            <div class="nav-items">
+                <a href="/workout/" class="nav-item {% if request.path == '/workout/' or request.path == '/workout/data_preview/' %}active{% endif %}" data-index="0">
+                    <div class="nav-icon">
+                        <img src="{% static 'navbar/dumbbell.svg' %}" alt="Workout" width="20" height="20">
+                    </div>
+                    <span>Workout</span>
+                </a>
+                <a href="/plate" class="nav-item {% if request.path == '/plate/' %}active{% endif %}" data-index="1">
+                    <div class="nav-icon">
+                        <img src="{% static 'navbar/fork.svg' %}" alt="Plate" width="20" height="20">
+                    </div>
+                    <span>Plate</span>
+                </a>
+                <a href="/perfil/" class="nav-item {% if request.path == '/perfil/' %}active{% endif %}" data-index="2">
+                    <div class="nav-icon">
+                        <span class="material-icons">person</span>
+                    </div>
+                    <span>Perfil</span>
+                </a>
+            </div>
+        </nav>
+        <div class="top-app-bar">
+            <div class="top-app-bar-left">
+                {% block page_title %}
+                <span class="material-icons">home</span>
+                <h1>Shape & Plate</h1>
+                {% endblock %}
+            </div>
+            <div class="top-app-bar-right">
+                {% block top_app_bar_right %}
+                <button id="theme-toggle" class="app-bar-button" onclick="toggleTheme()" style="display: none;">
+                    <span class="material-icons">brightness_6</span>
+                </button>
+                {% endblock %}
+            </div>
         </div>
     </div>
-    <div class="container">
-        {% block content %}{% endblock %}
-    </div>
-    <nav class="md-navbar">
-        <div class="nav-items">
-            <a href="/workout/" class="nav-item {% if request.path == '/workout/' or request.path == '/workout/data_preview/' %}active{% endif %}" data-index="0">
-                <div class="nav-icon">
-                    <img src="{% static 'navbar/dumbbell.svg' %}" alt="Workout" width="20" height="20">
-                </div>
-                <span>Workout</span>
-            </a>
-            <a href="/plate" class="nav-item {% if request.path == '/plate/' %}active{% endif %}" data-index="1">
-                <div class="nav-icon">
-                    <img src="{% static 'navbar/fork.svg' %}" alt="Plate" width="20" height="20">
-                </div>
-                <span>Plate</span>
-            </a>
-            <a href="/perfil/" class="nav-item {% if request.path == '/perfil/' %}active{% endif %}" data-index="2">
-                <div class="nav-icon">
-                    <span class="material-icons">person</span>
-                </div>
-                <span>Perfil</span>
-            </a>
-        </div>
-    </nav>
-    <div class="top-app-bar">
-        <div class="top-app-bar-left">
-            {% block page_title %}
-            <span class="material-icons">home</span>
-            <h1>Shape & Plate</h1>
-            {% endblock %}
-        </div>
-        <div class="top-app-bar-right">
-            {% block top_app_bar_right %}
-            <button class="app-bar-button" onclick="toggleTheme()">
-                <span class="material-icons">brightness_6</span>
-            </button>
-            {% endblock %}
+    <div id="pwa-warning" style="display: none;">
+        <div class="pwa-warning-content">
+            <img src="{% static 'img/faviconblanco.png' %}" alt="Shape&Plate Logo" style="width: 100px; height: 100px; margin-bottom: 20px;">
+            <h1>Esta aplicación solo está disponible como aplicación</h1>
+            <p>Por favor, instala Shape&Plate como una aplicación para usarla.</p>
+            <button id="install-pwa" class="install-button">Instalar Shape&Plate</button>
         </div>
     </div>
     <script>
@@ -179,5 +189,36 @@
         });
     </script>
     {% block extra_css %}{% endblock %}
+    <script>
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+
+        function checkIfPWA() {
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+            const isInWebAppiOS = (window.navigator.standalone === true);
+            const isPWA = isStandalone || isInWebAppiOS;
+
+            document.getElementById('app-content').style.display = isPWA ? 'block' : 'none';
+            document.getElementById('pwa-warning').style.display = isPWA ? 'none' : 'block';
+        }
+
+        document.getElementById('install-pwa').addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    console.log('User accepted the install prompt');
+                }
+                deferredPrompt = null;
+            }
+        });
+
+        window.addEventListener('load', checkIfPWA);
+        window.addEventListener('resize', checkIfPWA);
+    </script>
 </body>
 </html>
