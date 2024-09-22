@@ -52,7 +52,7 @@ class ExerciseRoutine(models.Model):
     exercise_times = models.JSONField(default=dict)
 
     def __str__(self):
-        return f"Rutina de {self.user.username} creada el {self.created_at}"
+        return f"Rutina de {self.user.first_name} {self.user.last_name} creada el {self.created_at}"
 
 class FoodRecipe(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
