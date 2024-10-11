@@ -101,8 +101,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'shapeandplate.wsgi.application'
 
+
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+if DJANGO_ENV == 'production':
+    DATABASES = {
+        'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': os.getenv('MYSQLDATABASE'),
         'USER': os.getenv('MYSQLUSER'),
@@ -112,8 +121,10 @@ DATABASES = {
         'OPTIONS': {
             'connect_timeout': 60,
             }
+        }
     }
-}
+
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
