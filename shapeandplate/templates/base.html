@@ -39,13 +39,13 @@
             <div class="nav-items">
                 <a href="/workout/" class="nav-item {% if request.path == '/workout/' or request.path == '/workout/data_preview/' %}active{% endif %}" data-index="0">
                     <div class="nav-icon">
-                        <img src="{% static 'navbar/dumbbell.svg' %}" alt="Workout" width="20" height="20">
+                        <span class="material-icons">fitness_center</span>
                     </div>
                     <span>Workout</span>
                 </a>
                 <a href="/plate" class="nav-item {% if request.path == '/plate/' %}active{% endif %}" data-index="1">
                     <div class="nav-icon">
-                        <img src="{% static 'navbar/fork.svg' %}" alt="Plate" width="20" height="20">
+                        <span class="material-icons">restaurant</span>
                     </div>
                     <span>Plate</span>
                 </a>
