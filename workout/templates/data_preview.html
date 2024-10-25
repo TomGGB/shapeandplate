@@ -17,76 +17,90 @@
 
 {% block content %}
 <div class="card-container">
-    {% for ejercicio in exercise_routine.rutina %}
-        <div class="card">
-            {% if ejercicio.i %}
-                <span class="difficulty">Dificultad: </span>
-                <span class="difficulty {% if ejercicio.i == 'Baja' %}beginner{% elif ejercicio.i == 'Media' %}intermediate{% else %}advanced{% endif %}">{{ ejercicio.i }}</span><br>
-            {% endif %}
-            <h2>{{ ejercicio.nombre }}</h2>
-            {% if ejercicio.imgurl %}
-                <div class="image-container">
-                    <img src="{{ ejercicio.imgurl }}" alt="{{ ejercicio.nombre }}" class="exercise-image">
-                </div>
-            {% endif %}
-            <p>{{ ejercicio.desc }}</p>
-            <div class="exercise-attributes">
-                {% if ejercicio.duracion %}
-                    <div class="chip">
-                        <i class="material-icons">schedule</i>
-                        <span>{{ ejercicio.duracion }}</span>
+    <div class="screens-wrapper" id="screensWrapper">
+        {% for ejercicio in exercise_routine.rutina %}
+            <div id="screen{{ forloop.counter }}" class="screen {% if forloop.first %}active{% endif %}">
+                <div class="card">
+                    {% if not forloop.last %}
+                        <div class="swipe-indicator">
+                            <span class="material-icons">swipe_left</span>
+                            <span class="swipe-text">Desliza</span>
+                        </div>
+                    {% endif %}
+                    <div class="card-scroll-container">
+                        {% if ejercicio.i %}
+                            <div class="difficulty-container">
+                                <span class="difficulty">Dificultad: </span>
+                                <span class="difficulty {% if ejercicio.i == 'Baja' %}beginner{% elif ejercicio.i == 'Media' %}intermediate{% else %}advanced{% endif %}">{{ ejercicio.i }}</span>
+                            </div>
+                        {% endif %}
+                        <h2>{{ ejercicio.nombre }}</h2>
+                        {% if ejercicio.imgurl %}
+                            <div class="image-container">
+                                <img src="{{ ejercicio.imgurl }}" alt="{{ ejercicio.nombre }}" class="exercise-image">
+                            </div>
+                        {% endif %}
+                        <p>{{ ejercicio.desc }}</p>
+                        <div class="exercise-attributes">
+                            {% if ejercicio.duracion %}
+                                <div class="chip">
+                                    <i class="material-icons">schedule</i>
+                                    <span>{{ ejercicio.duracion }}</span>
+                                </div>
+                            {% endif %}
+                            {% if ejercicio.rep %}
+                                <div class="chip">
+                                    <i class="material-icons">replay</i>
+                                    <span>{{ ejercicio.rep }} repeteciones por serie</span>
+                                </div>
+                            {% endif %}
+                            {% if ejercicio.sesiones %}
+                                <div class="chip">
+                                    <i class="material-icons">event</i>
+                                    <span>{{ ejercicio.sesiones }} series</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        {% if ejercicio.advertencia %}
+                            <p class="warning">{{ ejercicio.advertencia }}</p>
+                        {% endif %}
                     </div>
-                {% endif %}
-                {% if ejercicio.rep %}
-                    <div class="chip">
-                        <i class="material-icons">replay</i>
-                        <span>{{ ejercicio.rep }} repeteciones por serie</span>
-                    </div>
-                {% endif %}
-                {% if ejercicio.sesiones %}
-                    <div class="chip">
-                        <i class="material-icons">event</i>
-                        <span>{{ ejercicio.sesiones }} series</span>
-                    </div>
-                {% endif %}
-            </div><br>
-            {% if ejercicio.advertencia %}
-                <p class="warning">{{ ejercicio.advertencia }}</p>
-            {% endif %}
-            {% if ejercicio.duracion or ejercicio.sesiones %}
-                <div class="progress-container {% if ejercicio.progress.completed %}completed{% endif %}" data-exercise-index="{{ forloop.counter0 }}">
-                    <div class="progress-status">
-                        <span class="material-icons">{% if ejercicio.progress.completed %}check_circle{% else %}radio_button_unchecked{% endif %}</span>
-                        <span class="status-text">{% if ejercicio.progress.completed %}Completado{% else %}Pendiente{% endif %}</span>
-                    </div>
-                    {% if not ejercicio.progress.completed %}
-                        <div class="progress-bar">
-                            {% with total_sessions=ejercicio.sesiones|default:1 %}
-                                {% for _ in total_sessions|rjust:total_sessions %}
-                                    <div class="progress-segment" data-session="{{ forloop.counter }}">
-                                        <div class="progress-fill"></div>
+                    {% if ejercicio.duracion or ejercicio.sesiones %}
+                        <div class="progress-container {% if ejercicio.progress.completed %}completed{% endif %}" data-exercise-index="{{ forloop.counter0 }}">
+                            <div class="progress-status">
+                                <span class="material-icons">{% if ejercicio.progress.completed %}check_circle{% else %}radio_button_unchecked{% endif %}</span>
+                                <span class="status-text">{% if ejercicio.progress.completed %}Completado{% else %}Pendiente{% endif %}</span>
+                            </div>
+                            {% if not ejercicio.progress.completed %}
+                                <div class="progress-bar">
+                                    {% with total_sessions=ejercicio.sesiones|default:1 %}
+                                        {% for _ in total_sessions|rjust:total_sessions %}
+                                            <div class="progress-segment" data-session="{{ forloop.counter }}">
+                                                <div class="progress-fill"></div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endwith %}
+                                </div>
+                                <div class="segment-completion-animation">
+                                    <span class="material-icons star-icon">star</span>
+                                </div>
+                                <div class="timer" data-exercise-index="{{ forloop.counter0 }}" data-duration="{{ ejercicio.duracion|cut:" minutos"|cut:" segundos" }}" data-sessions="{{ ejercicio.sesiones|default:'1' }}">
+                                    <div class="timer-display">
+                                        <span class="current-time">00:00</span>
+                                        <span class="total-time">/ {{ ejercicio.duracion }}</span>
                                     </div>
-                                {% endfor %}
-                            {% endwith %}
-                        </div>
-                        <div class="segment-completion-animation">
-                            <span class="material-icons star-icon">star</span>
-                        </div>
-                        <div class="timer" data-exercise-index="{{ forloop.counter0 }}" data-duration="{{ ejercicio.duracion|cut:" minutos"|cut:" segundos" }}" data-sessions="{{ ejercicio.sesiones|default:'1' }}">
-                            <div class="timer-display">
-                                <span class="current-time">00:00</span>
-                                <span class="total-time">/ {{ ejercicio.duracion }}</span>
-                            </div>
-                            <div class="timer-controls">
-                                <button class="timer-button start-timer"><i class="material-icons">play_arrow</i></button>
-                                <button class="timer-button pause-timer" style="display:none;"><i class="material-icons">pause</i></button>
-                            </div>
+                                    <div class="timer-controls">
+                                        <button class="timer-button start-timer"><i class="material-icons">play_arrow</i></button>
+                                        <button class="timer-button pause-timer" style="display:none;"><i class="material-icons">pause</i></button>
+                                    </div>
+                                </div>
+                            {% endif %}
                         </div>
                     {% endif %}
                 </div>
-            {% endif %}
-        </div>
-    {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
 </div>
 
 <!-- Modal de confirmación -->
@@ -264,6 +278,103 @@ document.addEventListener('DOMContentLoaded', function() {
         timerElement.querySelector('.total-time').textContent = `/ ${formatTotalTime(duration)}`;
     });
 });
+
+// Código de deslizamiento
+let currentScreen = 1;
+let startX, startY;
+let initialTransform = 0;
+const screensWrapper = document.getElementById('screensWrapper');
+const totalScreens = {{ exercise_routine.rutina|length }};
+const screenWidth = 100 / totalScreens;
+let isDragging = false;
+let minSwipeDistance = 50;
+let maxSwipeDistance = window.innerWidth * 0.4; // 40% del ancho de la pantalla
+
+screensWrapper.addEventListener('touchstart', function(e) {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    initialTransform = getCurrentTranslate();
+    isDragging = true;
+    this.style.transition = 'none';
+});
+
+screensWrapper.addEventListener('touchmove', function(e) {
+    if (!isDragging) return;
+    
+    const x = e.touches[0].clientX;
+    const diff = startX - x;
+    
+    // Verificar si el deslizamiento es más horizontal que vertical
+    const diffY = Math.abs(e.touches[0].clientY - startY);
+    if (Math.abs(diff) < diffY) return;
+    
+    // Reducir la velocidad del movimiento
+    const percentMove = (diff / window.innerWidth) * 25; // Reducido a 25%
+    const newTransform = initialTransform + percentMove;
+    
+    // Añadir resistencia en los límites
+    if (newTransform < 0 || newTransform > (totalScreens - 1) * screenWidth) {
+        const resistance = 0.2; // Más resistencia
+        const adjustedTransform = newTransform < 0 
+            ? newTransform * resistance 
+            : (totalScreens - 1) * screenWidth + (newTransform - (totalScreens - 1) * screenWidth) * resistance;
+        this.style.transform = `translateX(-${adjustedTransform}%)`;
+    } else {
+        this.style.transform = `translateX(-${newTransform}%)`;
+    }
+});
+
+screensWrapper.addEventListener('touchend', function(e) {
+    if (!isDragging) return;
+    
+    isDragging = false;
+    this.style.transition = 'transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1)';
+    const endX = e.changedTouches[0].clientX;
+    const diffX = startX - endX;
+    
+    // Limitar la distancia máxima de swipe
+    const limitedDiff = Math.min(Math.abs(diffX), maxSwipeDistance);
+    
+    if (limitedDiff >= minSwipeDistance) {
+        const direction = diffX > 0 ? 1 : -1;
+        const targetScreen = Math.min(
+            Math.max(1, currentScreen + direction),
+            totalScreens
+        );
+        moveToScreen(targetScreen);
+    } else {
+        // Volver a la pantalla actual si el swipe no fue suficiente
+        moveToScreen(currentScreen);
+    }
+    
+    startX = null;
+});
+
+function getCurrentTranslate() {
+    const style = window.getComputedStyle(screensWrapper);
+    const matrix = new WebKitCSSMatrix(style.transform);
+    return (-matrix.m41 / screensWrapper.offsetWidth) * 100;
+}
+
+function moveToScreen(screenNumber) {
+    if (screenNumber < 1) screenNumber = 1;
+    if (screenNumber > totalScreens) screenNumber = totalScreens;
+    
+    const translate = (screenNumber - 1) * screenWidth;
+    screensWrapper.style.transform = `translateX(-${translate}%)`;
+    currentScreen = screenNumber;
+    
+    // Actualizar clases active con transición suave
+    document.querySelectorAll('.screen').forEach((screen, index) => {
+        setTimeout(() => {
+            if (index + 1 === screenNumber) {
+                screen.classList.add('active');
+            } else {
+                screen.classList.remove('active');
+            }
+        }, 50);
+    });
+}
 </script>
 
 <style>
@@ -460,6 +571,188 @@ document.addEventListener('DOMContentLoaded', function() {
     font-size: 1em;
     color: var(--on-surface-secondary-color);
 }
+
+/* Nuevos estilos para el deslizamiento */
+.screens-wrapper {
+    display: flex;
+    transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+    width: calc(100% * {{ exercise_routine.rutina|length }});
+    height: 100%;
+    touch-action: pan-y;
+    user-select: none;
+}
+
+.screen {
+    flex: 0 0 calc(100% / {{ exercise_routine.rutina|length }});
+    width: calc(100% / {{ exercise_routine.rutina|length }});
+    height: 79dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1dvh;
+    box-sizing: border-box;
+}
+
+.screen.active {
+    display: flex;
+    opacity: 1;
+}
+
+/* Ajuste para el contenedor de tarjetas */
+.card-container {
+    flex-grow: 1;
+    overflow: hidden;
+    width: 100%;
+    height: calc(100%% - 9dvh);
+    margin: 0;
+    padding: 0;
+}
+
+.card {
+    background-color: var(--on-background-color);
+    padding: 2dvh;
+    border-radius: 3dvh;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    gap: 1.5dvh;
+    position: relative;
+}
+
+/* Contenedor para el contenido scrolleable */
+.card-scroll-container {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5dvh;
+    padding-right: 1dvh;
+}
+
+.difficulty-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1dvh;
+    align-items: center;
+}
+
+/* Ajustes para el contenido interno */
+.difficulty {
+    font-size: max(1.2dvh, 12px);
+    padding: 0.5dvh 1dvh;
+    border-radius: 1dvh;
+    display: inline-block;
+    margin-bottom: 1dvh;
+}
+
+.difficulty.beginner {
+    background-color: var(--success-color);
+    color: var(--on-success-color);
+}
+
+.difficulty.intermediate {
+    background-color: var(--warning-color);
+    color: var(--on-warning-color);
+}
+
+.difficulty.advanced {
+    background-color: var(--error-color);
+    color: var(--on-error-color);
+}
+
+h2 {
+    font-size: max(2dvh, 16px);
+    margin: 0;
+}
+
+p {
+    font-size: max(1.6dvh, 14px);
+    line-height: 1.4;
+    margin: 0;
+}
+
+.image-container {
+    width: 100%;
+    aspect-ratio: 16/9;
+    margin: 0;
+}
+
+.exercise-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 2dvh;
+}
+
+.exercise-attributes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1dvh;
+    margin: 0;
+}
+
+.chip {
+    font-size: max(1.4dvh, 12px);
+    padding: 1dvh 1.5dvh;
+    border-radius: 2dvh;
+}
+
+.progress-container {
+    margin-top: auto;
+    padding: 1.5dvh;
+    border-radius: 2dvh;
+}
+
+.timer {
+    margin-top: 1dvh;
+}
+
+.timer-display {
+    font-size: max(1.8dvh, 16px);
+}
+
+.progress-status {
+    font-size: max(1.6dvh, 14px);
+}
+
+.progress-status .material-icons {
+    font-size: max(2dvh, 18px);
+}
+
+.swipe-indicator {
+    position: absolute;
+    top: 2dvh;
+    right: 2dvh;
+    display: flex;
+    align-items: center;
+    gap: 0.5dvh;
+    background-color: var(--surface-color);
+    padding: 0.8dvh 1.2dvh;
+    border-radius: 2dvh;
+    opacity: 0.8;
+    animation: fadeInOut 2s ease-in-out infinite;
+}
+
+.swipe-indicator .material-icons {
+    font-size: 2dvh;
+    color: var(--primary-color);
+}
+
+.swipe-text {
+    font-size: 1.4dvh;
+    color: var(--primary-color);
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
 </style>
 
 {% endblock %}
+
+
+

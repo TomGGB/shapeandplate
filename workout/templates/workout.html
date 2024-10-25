@@ -203,24 +203,27 @@
         flex-grow: 1;
         overflow: hidden;
         width: 100%;
+        height: 79dvh;
+        margin: 0;
+        padding: 0;
     }
 
     .screens-wrapper {
         display: flex;
         transition: transform 0.5s ease;
         width: 300%;
-        touch-action: pan-y;
-        user-select: none;
+        height: 100%;
     }
 
     .screen {
         flex: 0 0 33.33%;
         width: 33.33%;
+        height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
-        touch-action: pan-y;
-        user-select: none;
+        padding: 2dvh;
+        box-sizing: border-box;
     }
 
     .screen.active {
@@ -229,14 +232,10 @@
 
     .card {
         background-color: var(--on-background-color);
-        padding: 20px;
-        border-radius: 24px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        width: 99%;
-        height: 70vh;
-        max-width: none;
-        margin: 0 auto;
-        overflow-y: auto;
+        padding: 2dvh;
+        border-radius: 3dvh;
+        width: 100%;
+        height: 100%;
         display: flex;
         flex-direction: column;
     }
@@ -244,59 +243,37 @@
     .card-content {
         flex-grow: 1;
         overflow-y: auto;
+        padding: 1dvh;
     }
 
     .form-group {
-        margin-bottom: 20px;
+        margin-bottom: 2dvh;
     }
 
     .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        color: var(--on-surface-color);
+        font-size: 1.8dvh;
+        margin-bottom: 1dvh;
     }
 
     .form-group input[type="number"],
     .form-group input[type="text"],
     .form-group select {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid var(--outline-color);
-        border-radius: 4px;
-        background-color: var(--surface-color);
-        color: var(--on-surface-color);
+        font-size: 1.8dvh;
+        padding: 1.5dvh;
+        border-radius: 1dvh;
     }
 
     .button-container {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
-        padding-top: 10px;
-        border-top: 1px solid var(--outline-color);
+        padding-top: 2dvh;
+        margin-top: 2dvh;
     }
 
     .next-button,
     .prev-button,
     .generate-button {
-        background-color: var(--primary-color);
-        color: var(--on-primary-color);
-        border: none;
-        border-radius: 24px;
-        padding: 10px 20px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        display: flex;
-        align-items: center;
-    }
-
-    .next-button:hover,
-    .prev-button:hover,
-    .generate-button:hover {
-        background-color: var(--primary-darker);
-    }
-
-    .generate-button .material-icons {
-        margin-right: 5px;
+        font-size: 1.8dvh;
+        padding: 1.5dvh 3dvh;
+        border-radius: 2dvh;
     }
 
     .toggle-switch {

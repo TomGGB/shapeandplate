@@ -68,7 +68,7 @@ def generate_workout_routine(data):
         "Para cada ejercicio, proporciona:\n"
         "1. nombre: Proporciona un nombre muy descriptivo y específico en español para el ejercicio, incluyendo detalles sobre la posición del cuerpo, el movimiento y cualquier equipo utilizado. Por ejemplo, 'Sentadillas profundas con salto y brazos extendidos' o 'Flexiones de pecho en declive con pies elevados en banco'.\n"
         "2. nombre_en: El nombre del ejercicio en inglés, igualmente muy descriptivo y específico. IMPORTANTE: Siempre comienza con 'Person doing' o 'Person performing' para asegurar que la búsqueda de imágenes muestre a una persona realizando el ejercicio. Por ejemplo, 'Person doing deep jump squats with extended arms' o 'Person performing decline push-ups with feet elevated on bench'.\n"
-        "3. duracion: Duración del ejercicio (NO incluir para calentamiento y enfriamiento).\n"
+        "3. duracion: Duración del ejercicio en segundos (NO incluir para calentamiento y enfriamiento). Si la duración es mayor a un minuto, separa el ejercicio en series.\n"
         "4. rep: Número de repeticiones (si aplica, NO incluir para calentamiento y enfriamiento).\n"
         "5. sesiones: Número de series o sesiones (NO incluir para calentamiento y enfriamiento).\n"
         "6. i: Intensidad (puede ser 'Baja', 'Media' o 'Alta', NO incluir para calentamiento y enfriamiento).\n"
