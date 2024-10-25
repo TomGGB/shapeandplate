@@ -996,7 +996,7 @@ ul li {
     border-top-left-radius: 2.5vh;
     border-top-right-radius: 2.5vh;
     z-index: 1000;
-    height: 12vh;
+    height: 12dvh;
 }
 
 .nav-items {
