@@ -189,15 +189,6 @@
             deferredPrompt = e;
         });
 
-        function checkIfPWA() {
-            const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-            const isInWebAppiOS = (window.navigator.standalone === true);
-            const isPWA = isStandalone || isInWebAppiOS;
-
-            document.getElementById('app-content').style.display = isPWA ? 'block' : 'none';
-            document.getElementById('pwa-warning').style.display = isPWA ? 'none' : 'block';
-        }
-
         document.getElementById('install-pwa').addEventListener('click', async () => {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
