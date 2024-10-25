@@ -25,7 +25,7 @@
     <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
 </head>
 <body>
-    <div id="app-content" style="display: none;">
+    <div id="app-content">
         <div id="loading-screen" class="loading-screen" style="display: none;">
             <div class="loading-content">
                 <dotlottie-player src="https://lottie.host/d3fa4b13-6943-41ce-b122-d80bfc9a5beb/e3lMUDJTrq.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>
@@ -71,14 +71,6 @@
                 </button>
                 {% endblock %}
             </div>
-        </div>
-    </div>
-    <div id="pwa-warning" style="display: none;">
-        <div class="pwa-warning-content">
-            <img src="{% static 'img/faviconblanco.png' %}" alt="Shape&Plate Logo" style="width: 100px; height: 100px; margin-bottom: 20px;">
-            <h1>Esta aplicación solo está disponible al ser instalada</h1>
-            <p>Por favor, instala Shape&Plate como una aplicación para usarla.</p>
-            <button id="install-pwa" class="install-button">Instalar Shape&Plate</button>
         </div>
     </div>
     <script>
