@@ -63,13 +63,13 @@
 
 {% block extra_css %}
 <style>
-    .card-container.plate {
-        margin-bottom: 13dvh;
+    .card-container {
+        display: flex;
+        flex-direction: column;
+        gap: 2vh;
+        margin: 2vh auto;
+        padding: 2vh;
     }
-
-    .card-container.top-card {
-    }
-
 
     .info-card {
         color: var(--on-primary-color);

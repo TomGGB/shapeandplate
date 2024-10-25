@@ -135,14 +135,7 @@ body {
 }
 
 /* Cards */
-.card-container {
-    display: flex;
-    flex-direction: column;
-    gap: 2vh;
-    max-width: 75vh;
-    margin: 2vh auto;
-    padding: 2vh;
-}
+
 
 .card {
     background-color: var(--on-background-color);
