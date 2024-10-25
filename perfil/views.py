@@ -124,6 +124,7 @@ def profile(request):
     if request.method == 'POST':
         user.first_name = request.POST.get('first_name', user.first_name)
         user.last_name = request.POST.get('last_name', user.last_name)
+        user.age = request.POST.get('age', user.age)
         user.email = request.POST.get('email', user.email)
         user.diet = request.POST.get('diet', user.diet)
         user.weight = request.POST.get('weight', user.weight)
@@ -149,6 +150,7 @@ def profile(request):
         'first_name': user.first_name,
         'last_name': user.last_name,
         'email': user.email,
+        'age': user.age,
         'diet': user.diet,
         'weight': user.weight,
         'height': user.height,

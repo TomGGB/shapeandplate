@@ -25,6 +25,7 @@
             <li><span class="profile-label">Correo Electrónico:</span> <span class="profile-value">{{ email|default_if_none:"No registrado" }}</span></li>
             <li><span class="profile-label">Tipo de dieta:</span> <span class="profile-value">{% if diet == 'omnivora' %}Omnívora{% elif diet == 'vegana' %}Vegana{% elif diet == 'vegetariana' %}Vegetariana{% elif diet == 'paleo' %}Paleo{% elif diet == 'cetogenica' %}Cetogénica{% else %}No registrado{% endif %}</span></li>
             <li><span class="profile-label">Peso:</span> <span class="profile-value">{% if weight and weight != 0 %}{{ weight|floatformat:0 }} kg{% else %}No registrado{% endif %}</span></li>
+            <li><span class="profile-label">Edad:</span> <span class="profile-value">{% if age and age != 0 %}{{ age|floatformat:0 }} años{% else %}No registrado{% endif %}</span></li>
             <li><span class="profile-label">Altura:</span> <span class="profile-value">{% if height and height != 0 %}{{ height|floatformat:0 }} cm{% else %}No registrado{% endif %}</span></li>
             <li><span class="profile-label">IMC:</span> <span class="profile-value">{% if imc and imc != 0 %}{{ imc }}{% else %}No registrado{% endif %}</span></li>
             <li><span class="profile-label">¿Fumador?:</span> <span class="profile-value">{% if smoker == True %}Sí{% elif smoker == False %}No{% else %}No registrado{% endif %}</span></li>
@@ -53,6 +54,11 @@
             <div class="form-group">
                 <label for="last_name">Apellidos:</label>
                 <input type="text" id="last_name" name="last_name" value="{{ last_name|default_if_none:'' }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="age">Edad:</label>
+                <input type="number" id="age" name="age" value="{{ age|default_if_none:0 }}">
             </div>
 
             <div class="form-group">
@@ -309,8 +315,7 @@
     }
 
     #profile-content {
-        padding-top: 80px;
-        padding-bottom: 100px;
+        padding-bottom: 13dvh;
     }
 
     @media (max-width: 600px) {
@@ -341,10 +346,10 @@
         }
 
 
-        #profile-content {
-            padding-top: 60px;
-            padding-bottom: 80px;
-        }
+    }
+
+    .profile-data {
+        margin: 
     }
 </style>
 {% endblock %}

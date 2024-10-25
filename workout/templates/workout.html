@@ -93,8 +93,8 @@
                 <div class="button-container">
                     <button class="prev-button" onclick="prevScreen(2)">Anterior</button>
                     <button class="generate-button" onclick="submitForm()">
-                        <span class="material-icons">play_arrow</span>
-                        Generar Rutina
+                        <span class="material-icons">fitness_center</span>
+                        <span>Generar</span>
                     </button>
                 </div>
             </div>
@@ -264,23 +264,66 @@
     }
 
     .button-container {
-        padding-top: 2dvh;
-        margin-top: 2dvh;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 2dvh;
+        box-sizing: border-box;
     }
 
-    .next-button,
-    .prev-button,
+    .prev-button, .generate-button, .next-button {
+        padding: 1.25dvh 2.5dvh;
+        border-radius: 3dvh;
+        border: none;
+        cursor: pointer;
+        font-size: 1.6dvh;
+        transition: background-color 0.3s ease;
+    }
+
+    .prev-button {
+        background-color: var(--surface-color);
+        color: var(--primary-color);
+        border: 0.2dvh solid var(--primary-color);
+    }
+
     .generate-button {
-        font-size: 1.8dvh;
-        padding: 1.5dvh 3dvh;
-        border-radius: 2dvh;
+        background-color: var(--primary-color);
+        color: var(--on-primary-color);
+        display: flex;
+        align-items: center;
+        gap: 0.8dvh;
+    }
+
+    .generate-button .material-icons {
+        font-size: 2dvh;
+    }
+
+    .generate-button span {
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .prev-button:hover {
+        background-color: var(--primary-lighter);
+    }
+
+    .generate-button:hover {
+        background-color: var(--secondary-color);
+    }
+
+    .toggle-switch-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 1.5dvh 0;
     }
 
     .toggle-switch {
         position: relative;
-        display: inline-block;
-        width: 60px;
-        height: 34px;
+        width: 5dvh;
+        height: 4dvh;
+        margin: 0.4dvh;
     }
 
     .toggle-switch input {
@@ -296,39 +339,39 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: #ccc;
-        transition: .4s;
-        border-radius: 34px;
+        background-color: var(--surface-color);
+        transition: .3s;
+        border-radius: 3dvh;
+        border: 0.2dvh solid var(--primary-lighter);
     }
 
     .toggle-switch label:before {
         position: absolute;
         content: "";
-        height: 26px;
-        width: 26px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        transition: .4s;
+        height: 2.2dvh;
+        width: 2.2dvh;
+        left: 0.4dvh;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: var(--primary-lighter);
+        transition: .3s;
         border-radius: 50%;
     }
 
     .toggle-switch input:checked + label {
         background-color: var(--primary-color);
+        border-color: var(--primary-color);
     }
 
     .toggle-switch input:checked + label:before {
-        transform: translateX(26px);
+        transform: translate(2.2dvh, -50%);
+        background-color: var(--on-primary-color);
     }
 
-    /* Ajuste para centrar la bolita del switch */
-    .toggle-switch label:before {
-        top: 50%;
-        transform: translateY(-50%);
-    }
-
-    .toggle-switch input:checked + label:before {
-        transform: translate(26px, -50%);
+    .form-group label {
+        font-size: 1.6dvh;
+        color: var(--on-surface-color);
     }
 </style>
 {% endblock %}
+

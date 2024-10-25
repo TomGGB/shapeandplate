@@ -638,6 +638,7 @@ dotlottie-player {
     display: block;
     text-align: center;
     box-sizing: border-box;
+    width: 100%;
 }
 
 /* Colores de Dificultad */
