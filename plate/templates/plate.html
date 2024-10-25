@@ -7,14 +7,14 @@
 {% endblock %}
 {% block content %}
 {% if recetas_del_dia %}
-<div class="card-container">
+<div class="card-container top-card">
     <div class="card info-card">
         <h2>¡Recuerda!</h2>
         <p>Las recetas se actualizan cada vez que generas una nueva rutina de ejercicios ya que se adaptan a tus necesidades nutricionales.</p>
         <p>¡No olvides revisarlas!</p>
     </div>
 </div>
-<div class="card-container">
+<div class="card-container plate">
     <h2 class="day-title">Tus recetas recomendadas para hoy ({{ dia_actual }}):</h2>
     {% for tipo, recetas in recetas_del_dia.items %}
         <h3 class="meal-type {{ tipo|lower }}">{{ tipo }}</h3>
@@ -63,11 +63,13 @@
 
 {% block extra_css %}
 <style>
-    .card-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
+    .card-container.plate {
+        margin-bottom: 13dvh;
     }
+
+    .card-container.top-card {
+    }
+
 
     .info-card {
         color: var(--on-primary-color);

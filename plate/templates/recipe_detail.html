@@ -15,7 +15,7 @@
         <span>Volver</span>
     </a>
     <div class="card recipe-detail">
-        <h2 class="recipe-title">{{ receta.nombre }}</h2>
+        <h1 class="recipe-title">{{ receta.nombre }}</h1>
         <p class="recipe-description">{{ receta.desc }}</p>
         <div class="recipe-meta">
             <span class="chip recipe-time"><i class="material-icons">schedule</i> {{ receta.tiempo }}</span>
@@ -56,10 +56,17 @@
         position: relative;
     }
 
+    h1 {
+        font-size: 2.5em;
+        color: var(--on-surface-color) !important;
+        font-family: 'Roboto', sans-serif;
+    }
+
     .recipe-detail {
         background-color: var(--on-background-color);
+        margin-top: 7dvh;
         border-radius: 15px;
-        padding: 30px;
+        margin-bottom: 13dvh;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
@@ -164,10 +171,6 @@
     @media (max-width: 600px) {
         .card-container {
             padding: 10px;
-        }
-
-        .recipe-detail {
-            padding: 20px;
         }
 
         .recipe-title {
