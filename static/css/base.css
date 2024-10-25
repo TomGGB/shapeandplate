@@ -351,6 +351,7 @@ dotlottie-player {
 
     .container {
         padding-top: 9dvh;
+        max-width: 79dvh;
     }
 
     h1,
