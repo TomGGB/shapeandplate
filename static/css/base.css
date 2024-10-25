@@ -343,17 +343,15 @@ dotlottie-player {
     color: var(--on-surface-color);
 }
 
+.container {
+    padding-top: 9dvh;
+    padding-bottom: 12dvh;
+}
 /* Medios Responsivos */
 @media (max-width: 95vh) {
     body {
         font-size: 2vh;
     }
-
-    .container {
-        padding-top: 9dvh;
-        max-width: 79dvh;
-    }
-
     h1,
     h2,
     h3,
