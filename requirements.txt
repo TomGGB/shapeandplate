@@ -9,3 +9,4 @@ djangorestframework
 whitenoise
 django-pwa
 PyMySQL
+pytz
