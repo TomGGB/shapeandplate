@@ -65,7 +65,7 @@
         </h2>
         {% if today_exercises %}
             <div class="workout-list">
-                {% for exercise in today_exercises %}
+                {% for exercise in today_exercises|slice:":3" %}
                 <div class="exercise-item">
                     <div class="exercise-info">
                         <div class="exercise-header">
@@ -90,6 +90,9 @@
                 </div>
                 {% endfor %}
             </div>
+            {% if today_exercises|length > 3 %}
+                <p class="more-exercises">y {{ today_exercises|length|add:"-3" }} más...</p>
+            {% endif %}
             <a href="{% url 'data_preview' %}" class="view-all-btn">
                 <span class="material-icons">arrow_forward</span>
                 Ver todos los ejercicios
@@ -256,6 +259,14 @@
     justify-content: center;
     gap: 1dvh;
     font-size: 1.4dvh;
+}
+
+.more-exercises {
+    text-align: center;
+    color: var(--on-surface-secondary-color);
+    font-size: 1.2dvh;
+    margin: 1dvh 0;
+    font-style: italic;
 }
 </style>
 
