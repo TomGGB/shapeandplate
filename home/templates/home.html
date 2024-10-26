@@ -67,17 +67,25 @@
             <div class="workout-list">
                 {% for exercise in today_exercises %}
                 <div class="exercise-item">
-                    <div class="exercise-status">
-                        <span class="material-icons">radio_button_unchecked</span>
-                    </div>
-                    <div class="exercise-details">
-                        <h3>{{ exercise.nombre }}</h3>
-                        {% if exercise.rep %}
-                            <p>{{ exercise.rep }} repeticiones</p>
-                        {% endif %}
-                        {% if exercise.duracion %}
-                            <p>{{ exercise.duracion }}</p>
-                        {% endif %}
+                    <div class="exercise-info">
+                        <div class="exercise-header">
+                            <span class="material-icons status-icon">radio_button_unchecked</span>
+                            <h3>{{ exercise.nombre }}</h3>
+                        </div>
+                        <div class="exercise-details">
+                            {% if exercise.rep %}
+                                <div class="exercise-stat">
+                                    <span class="material-icons">replay</span>
+                                    <span>{{ exercise.rep }} repeticiones</span>
+                                </div>
+                            {% endif %}
+                            {% if exercise.duracion %}
+                                <div class="exercise-stat">
+                                    <span class="material-icons">schedule</span>
+                                    <span>{{ exercise.duracion }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
@@ -180,6 +188,74 @@
     width: 100%;
     justify-content: center;
     margin-top: 2dvh;
+}
+
+.workout-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5dvh;
+}
+
+.exercise-item {
+    background-color: var(--surface-color);
+    border-radius: 1.5dvh;
+    padding: 1.5dvh;
+}
+
+.exercise-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1dvh;
+}
+
+.exercise-header {
+    display: flex;
+    align-items: center;
+    gap: 1dvh;
+}
+
+.exercise-header h3 {
+    margin: 0;
+    font-size: 1.6dvh;
+    color: var(--on-surface-color);
+}
+
+.status-icon {
+    color: var(--primary-color);
+    font-size: 2dvh;
+}
+
+.exercise-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1dvh;
+    margin-left: 3dvh;
+}
+
+.exercise-stat {
+    display: flex;
+    align-items: center;
+    gap: 0.5dvh;
+    color: var(--on-surface-secondary-color);
+    font-size: 1.2dvh;
+}
+
+.exercise-stat .material-icons {
+    font-size: 1.6dvh;
+}
+
+.view-all-btn {
+    margin-top: 2dvh;
+    background-color: var(--primary-color);
+    color: var(--on-primary-color);
+    padding: 1.5dvh;
+    border-radius: 1dvh;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1dvh;
+    font-size: 1.4dvh;
 }
 </style>
 

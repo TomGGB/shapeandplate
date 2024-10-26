@@ -53,14 +53,17 @@ def index(request):
         progress_data = exercise_routine.progress or {}
 
         for i, exercise in enumerate(routine_data.get('rutina', [])):
-            total_exercises += 1
-            exercise_progress = progress_data.get(str(i), {})
-            exercise['completed'] = exercise_progress.get('completed', False)
-            
-            if exercise['completed']:
-                completed_count += 1
-            else:
-                today_exercises.append(exercise)
+            # Excluir ejercicios que contengan 'calentamiento' o 'enfriamiento' en su nombre
+            nombre_ejercicio = exercise.get('nombre', '').lower()
+            if 'calentamiento' not in nombre_ejercicio and 'enfriamiento' not in nombre_ejercicio:
+                total_exercises += 1
+                exercise_progress = progress_data.get(str(i), {})
+                exercise['completed'] = exercise_progress.get('completed', False)
+                
+                if exercise['completed']:
+                    completed_count += 1
+                else:
+                    today_exercises.append(exercise)
 
     completion_percentage = (completed_count / total_exercises * 100) if total_exercises > 0 else 0
 
