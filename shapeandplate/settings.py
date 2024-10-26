@@ -54,9 +54,9 @@ PWA_APP_DESCRIPTION = 'Shape and Plate es una aplicación web que te ayuda a gen
 PWA_APP_THEME_COLOR = '#000000'
 PWA_APP_BACKGROUND_COLOR = '#ffffff'
 PWA_APP_DISPLAY = 'standalone'
-PWA_APP_SCOPE = '/'
+PWA_APP_SCOPE = '/home/'
 PWA_APP_ORIENTATION = 'portrait'
-PWA_APP_START_URL = '/'
+PWA_APP_START_URL = '/home/'
 PWA_APP_ICONS = [
     {
         'src': '/static/img/favicon.png',

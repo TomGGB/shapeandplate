@@ -1,13 +1,15 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import TemplateView
+from django.shortcuts import redirect
+
+def redirect_to_home(request):
+    return redirect('home')
 
 urlpatterns = [
+    path('', redirect_to_home, name='root'),  # Nueva línea para redirigir
     path('admin/', admin.site.urls),
     path('workout/', include('workout.urls')),
-    path('', include('home.urls')),
-    path('', include('pwa.urls')),
     path('perfil/', include('perfil.urls')),
     path('plate/', include('plate.urls')),
-    path('404/', TemplateView.as_view(template_name='404.html')),
+    path('home/', include('home.urls')),
 ]
