@@ -1,14 +1,11 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic.base import RedirectView
-from workout.views import index  
-from home.views import index as index
 from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('workout/', include('workout.urls')),
-    path('', index, name='home'),
+    path('', include('home.urls')),
     path('', include('pwa.urls')),
     path('perfil/', include('perfil.urls')),
     path('plate/', include('plate.urls')),
