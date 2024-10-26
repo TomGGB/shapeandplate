@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block page_title %}
+    <span class="material-icons">home</span>
+    <h1>Resumen Diario</h1>
+{% endblock %}
+
+{% block content %}
+<div class="card-container">
+    <!-- Métricas de progreso -->
+    <div class="card metrics-card">
+        <h2>
+            <span class="material-icons">analytics</span>
+            Progreso del Día
+        </h2>
+        <div class="metrics-content">
+            <div class="progress-circle" data-percentage="{{ completion_percentage }}">
+                <div class="progress-circle-inner">
+                    <span class="percentage">{{ completion_percentage }}%</span>
+                    <span class="label">Completado</span>
+                </div>
+            </div>
+            <div class="metrics-details">
+                <div class="metric">
+                    <span class="metric-value">{{ completed_count }}/{{ total_exercises }}</span>
+                    <span class="metric-label">Ejercicios Completados</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comida actual según la hora -->
+    <div class="card">
+        <h2>
+            <span class="material-icons">restaurant</span>
+            Comida Actual
+        </h2>
+        <div class="meal-content">
+            {% if current_meal %}
+                <div class="meal-time">{{ current_meal_type }}</div>
+                <div class="meal-details">
+                    <h3>{{ current_meal.nombre }}</h3>
+                    <p>{{ current_meal.desc }}</p>
+                    {% if current_meal.id %}
+                        <a href="{% url 'recipe_detail' current_meal.id %}" class="view-recipe-btn">
+                            <span class="material-icons">visibility</span>
+                            Ver Receta
+                        </a>
+                    {% endif %}
+                </div>
+            {% else %}
+                <p>No hay comidas programadas para este momento</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Ejercicios pendientes -->
+    <div class="card">
+        <h2>
+            <span class="material-icons">fitness_center</span>
+            Ejercicios Pendientes
+        </h2>
+        {% if today_exercises %}
+            <div class="workout-list">
+                {% for exercise in today_exercises %}
+                <div class="exercise-item">
+                    <div class="exercise-status">
+                        <span class="material-icons">radio_button_unchecked</span>
+                    </div>
+                    <div class="exercise-details">
+                        <h3>{{ exercise.nombre }}</h3>
+                        {% if exercise.rep %}
+                            <p>{{ exercise.rep }} repeticiones</p>
+                        {% endif %}
+                        {% if exercise.duracion %}
+                            <p>{{ exercise.duracion }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <a href="{% url 'data_preview' %}" class="view-all-btn">
+                <span class="material-icons">arrow_forward</span>
+                Ver todos los ejercicios
+            </a>
+        {% else %}
+            <p>¡Felicitaciones! Has completado todos los ejercicios del día</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+
+
+.card-container {
+    display: flex;
+    flex-direction: column;
+    padding: 2dvh;
+    gap: 2dvh;
+}
+
+.metrics-card {
+    background-color: var(--primary-container-color);
+    color: var(--on-primary-container-color);
+}
+
+.metrics-content {
+    display: flex;
+    align-items: center;
+    gap: 2dvh;
+    padding: 2dvh;
+}
+
+.progress-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: conic-gradient(
+        var(--primary-color) calc(var(--percentage) * 1%),
+        var(--surface-color) 0
+    );
+    position: relative;
+}
+
+.progress-circle-inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.percentage {
+    font-size: 1.8dvh;
+    font-weight: bold;
+    display: block;
+}
+
+.label {
+    font-size: 1.2dvh;
+}
+
+.metrics-details {
+    flex: 1;
+}
+
+.metric {
+    text-align: center;
+}
+
+.metric-value {
+    font-size: 2dvh;
+    font-weight: bold;
+    display: block;
+}
+
+.metric-label {
+    font-size: 1.4dvh;
+}
+
+.view-recipe-btn, .view-all-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5dvh;
+    padding: 1dvh 2dvh;
+    background-color: var(--primary-color);
+    color: var(--on-primary-color);
+    border-radius: 2dvh;
+    text-decoration: none;
+    margin-top: 1dvh;
+    font-size: 1.4dvh;
+}
+
+.view-all-btn {
+    width: 100%;
+    justify-content: center;
+    margin-top: 2dvh;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const progressCircle = document.querySelector('.progress-circle');
+    if (progressCircle) {
+        const percentage = progressCircle.dataset.percentage;
+        progressCircle.style.setProperty('--percentage', percentage);
+    }
+});
+</script>
+{% endblock %}

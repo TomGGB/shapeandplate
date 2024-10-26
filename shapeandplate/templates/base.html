@@ -37,19 +37,25 @@
         </div>
         <nav class="md-navbar">
             <div class="nav-items">
-                <a href="/workout/" class="nav-item {% if request.path == '/workout/' or request.path == '/workout/data_preview/' %}active{% endif %}" data-index="0">
+                <a href="/" class="nav-item {% if request.path == '/' %}active{% endif %}" data-index="0">
+                    <div class="nav-icon">
+                        <span class="material-icons">home</span>
+                    </div>
+                    <span>Home</span>
+                </a>
+                <a href="/workout/" class="nav-item {% if request.path == '/workout/' %}active{% endif %}" data-index="1">
                     <div class="nav-icon">
                         <span class="material-icons">fitness_center</span>
                     </div>
                     <span>Workout</span>
                 </a>
-                <a href="/plate" class="nav-item {% if request.path == '/plate/' %}active{% endif %}" data-index="1">
+                <a href="/plate" class="nav-item {% if request.path == '/plate/' %}active{% endif %}" data-index="2">
                     <div class="nav-icon">
                         <span class="material-icons">restaurant</span>
                     </div>
                     <span>Plate</span>
                 </a>
-                <a href="/perfil/" class="nav-item {% if request.path == '/perfil/' %}active{% endif %}" data-index="2">
+                <a href="/perfil/" class="nav-item {% if request.path == '/perfil/' %}active{% endif %}" data-index="3">
                     <div class="nav-icon">
                         <span class="material-icons">person</span>
                     </div>

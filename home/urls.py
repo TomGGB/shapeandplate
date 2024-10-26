@@ -6,11 +6,5 @@ from home.views import index as index
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('workout/', include('workout.urls')),
     path('', index, name='home'),
-    path('', include('pwa.urls')),
-    path('perfil/', include('perfil.urls')),
-    path('plate/', include('plate.urls')),
-    path('404/', TemplateView.as_view(template_name='404.html')),
 ]
