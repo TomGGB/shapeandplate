@@ -48,32 +48,33 @@ def index(request):
     completed_count = 0
     total_exercises = 0
 
-    if exercise_routine:
+    if exercise_routine and exercise_routine.routine:
         routine_data = exercise_routine.routine
         progress_data = exercise_routine.progress or {}
+        all_exercises = []
 
         for i, exercise in enumerate(routine_data.get('rutina', [])):
-            # Excluir ejercicios que contengan 'calentamiento' o 'enfriamiento' en su nombre
             nombre_ejercicio = exercise.get('nombre', '').lower()
             if 'calentamiento' not in nombre_ejercicio and 'enfriamiento' not in nombre_ejercicio:
-                total_exercises += 1
                 exercise_progress = progress_data.get(str(i), {})
                 exercise['completed'] = exercise_progress.get('completed', False)
+                all_exercises.append(exercise)
                 
                 if exercise['completed']:
                     completed_count += 1
                 else:
                     today_exercises.append(exercise)
+                total_exercises += 1
 
-    completion_percentage = (completed_count / total_exercises * 100) if total_exercises > 0 else 0
+    completion_percentage = (completed_count / len(all_exercises) * 100) if all_exercises else 0
 
     context = {
         'current_meal': current_meal,
         'current_meal_type': current_meal_type,
-        'today_exercises': today_exercises[:3],
+        'today_exercises': today_exercises,
         'completion_percentage': round(completion_percentage, 1),
         'completed_count': completed_count,
-        'total_exercises': total_exercises
+        'total_exercises': len(all_exercises) if all_exercises else 0
     }
 
     return render(request, 'home.html', context)

@@ -17,11 +17,9 @@
             Progreso del Día
         </h2>
         <div class="metrics-content">
-            <div class="progress-circle" data-percentage="{{ completion_percentage }}">
-                <div class="progress-circle-inner">
-                    <span class="percentage">{{ completion_percentage }}%</span>
-                    <span class="label">Completado</span>
-                </div>
+            <div class="progress-text">{{ completion_percentage }}% Completado</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" data-percentage="{{ completion_percentage }}"></div>
             </div>
             <div class="metrics-details">
                 <div class="metric">
@@ -122,42 +120,40 @@
 
 .metrics-content {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 2dvh;
     padding: 2dvh;
 }
 
-.progress-circle {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    background: conic-gradient(
-        var(--primary-color) calc(var(--percentage) * 1%),
-        var(--surface-color) 0
-    );
+.progress-bar-container {
+    width: 100%;
+    height: 20px;
+    background-color: var(--surface-variant-color);
+    border-radius: 10px;
+    overflow: hidden;
     position: relative;
 }
 
-.progress-circle-inner {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
+.progress-bar {
+    height: 100%;
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    width: 0;
 }
 
-.percentage {
+.progress-text {
+    text-align: center;
     font-size: 1.8dvh;
     font-weight: bold;
-    display: block;
-}
-
-.label {
-    font-size: 1.2dvh;
+    margin-bottom: 1dvh;
 }
 
 .metrics-details {
-    flex: 1;
+    display: flex;
+    justify-content: center;
+    margin-top: 1dvh;
 }
 
 .metric {
@@ -165,13 +161,13 @@
 }
 
 .metric-value {
-    font-size: 2dvh;
+    font-size: 2.2dvh;
     font-weight: bold;
-    display: block;
 }
 
 .metric-label {
     font-size: 1.4dvh;
+    color: var(--on-primary-container-color);
 }
 
 .view-recipe-btn, .view-all-btn {
@@ -272,10 +268,12 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const progressCircle = document.querySelector('.progress-circle');
-    if (progressCircle) {
-        const percentage = progressCircle.dataset.percentage;
-        progressCircle.style.setProperty('--percentage', percentage);
+    const progressBar = document.querySelector('.progress-bar');
+    if (progressBar) {
+        const percentage = parseFloat(progressBar.dataset.percentage) || 0;
+        setTimeout(() => {
+            progressBar.style.width = `${percentage}%`;
+        }, 100);
     }
 });
 </script>
