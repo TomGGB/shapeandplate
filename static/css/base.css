@@ -337,7 +337,7 @@ dotlottie-player {
 }
 
 .container {
-    padding-top: 8dvh;
+    margin-top: 8dvh;
     margin-bottom: 12dvh;
 }
 /* Medios Responsivos */
