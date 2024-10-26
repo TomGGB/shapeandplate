@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 import base64
 
+
 load_dotenv()  # Cargar variables de entorno desde el archivo .env
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-h5g!v%*t)-y(j%4p4d218ihigtu2y$e2_6-)er#w5_)ea(ih!i'
 
 DJANGO_ENV = os.getenv('DJANGO_ENV')
-DEBUG = DJANGO_ENV == 'development'
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'shapeandplate-production.up.railway.app',
