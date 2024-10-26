@@ -37,7 +37,13 @@
             Comida Actual
         </h2>
         <div class="meal-content">
-            {% if current_meal %}
+            {% if not has_recipes %}
+                <p>No hay recetas generadas. Ve a la sección de recetas para generar tu dieta personalizada.</p>
+                <a href="{% url 'plate' %}" class="view-recipe-btn">
+                    <span class="material-icons">restaurant</span>
+                    Generar Recetas
+                </a>
+            {% elif current_meal %}
                 <div class="meal-time">{{ current_meal_type }}</div>
                 <div class="meal-details">
                     <h3>{{ current_meal.nombre }}</h3>
@@ -61,7 +67,13 @@
             <span class="material-icons">fitness_center</span>
             Ejercicios Pendientes
         </h2>
-        {% if today_exercises %}
+        {% if not has_routine %}
+            <p>No hay rutina de ejercicios generada. Genera una rutina personalizada para comenzar.</p>
+            <a href="{% url 'workout' %}" class="view-all-btn">
+                <span class="material-icons">fitness_center</span>
+                Generar Rutina
+            </a>
+        {% elif today_exercises %}
             <div class="workout-list">
                 {% for exercise in today_exercises|slice:":3" %}
                 <div class="exercise-item">

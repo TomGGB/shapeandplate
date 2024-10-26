@@ -76,7 +76,7 @@ def generate_workout_routine(data):
         "8. advertencia: Incluye una advertencia si el ejercicio es de intensidad alta o requiere precauciones especiales.\n\n"
         "Los ejercicios deben ser personalizados según si el usuario tiene acceso a un gimnasio o no. Si no tiene acceso, sugiere alternativas con objetos que pueda tener en casa, siendo específico sobre qué objetos usar.\n"
         "Ten en cuenta la edad y la cantidad de ejercicio semanal que hace el usuario para determinar la cantidad de sesiones, repeticiones y duración de cada ejercicio.\n"
-        "El calentamiento debe ser el primer ejercicio y el enfriamiento el último. Estos NO deben tener intensidad, sesiones, repeticiones ni duración, solo una descripción detallada.\n"
+        "El calentamiento debe ser el primer ejercicio y el enfriamiento el último, este orden es estrictamente necesario. Estos NO deben tener intensidad, sesiones, repeticiones ni duración, solo una descripción detallada.\n"
         "Asegúrate de que cada nombre de ejercicio sea único, muy descriptivo y específicamente relacionado con la acción física del ejercicio, tanto en español como en inglés. Evita nombres genéricos o poco descriptivos en el nombre en inglés como 'Person doing', este nombre en ingles debe ser aplicada a cada ejercicio, aplica tambien al calentamiento y enfriamiento."
     )
     model = create_model(system_instruction)

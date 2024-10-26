@@ -12,6 +12,9 @@ def index(request):
     chile_tz = pytz.timezone('America/Santiago')
     current_time = datetime.now(chile_tz)
     hour = current_time.hour
+    current_meal_type = None
+    current_meal = None
+    all_exercises = []
 
     # Determinar el tipo de comida según la hora
     if 6 <= hour < 10:
@@ -68,13 +71,19 @@ def index(request):
 
     completion_percentage = (completed_count / len(all_exercises) * 100) if all_exercises else 0
 
+    # Verificar si hay rutinas y recetas
+    has_routine = ExerciseRoutine.objects.filter(user=request.user).exists()
+    has_recipes = FoodRecipe.objects.filter(user=request.user).exists()
+
     context = {
         'current_meal': current_meal,
         'current_meal_type': current_meal_type,
         'today_exercises': today_exercises,
         'completion_percentage': round(completion_percentage, 1),
         'completed_count': completed_count,
-        'total_exercises': len(all_exercises) if all_exercises else 0
+        'total_exercises': len(all_exercises) if all_exercises else 0,
+        'has_routine': has_routine,
+        'has_recipes': has_recipes
     }
 
     return render(request, 'home.html', context)
