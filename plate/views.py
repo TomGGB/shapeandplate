@@ -99,4 +99,5 @@ def delete_recipe(request):
 @login_required
 def recipe_detail(request, recipe_id):
     recipe = get_object_or_404(FoodRecipe, id=recipe_id, user=request.user)
-    return render(request, 'recipe_detail.html', {'receta': recipe.recipe})
+    instrucciones = recipe.recipe.get('instrucciones', '').split('. ')
+    return render(request, 'recipe_detail.html', {'receta': recipe.recipe, 'instrucciones': instrucciones})
