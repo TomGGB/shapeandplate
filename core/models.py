@@ -25,6 +25,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=30)
     age = models.IntegerField(blank=True, null=True)
     diet = models.CharField(max_length=100, blank=True, null=True)
+    allergies = models.TextField(blank=True, null=True)  # Campo para almacenar alergias
     weight = models.IntegerField(("weight in kg"), blank=True, null=True)
     height = models.IntegerField(("height in cm"), blank=True, null=True)
     smoker = models.BooleanField(default=False)

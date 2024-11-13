@@ -112,9 +112,10 @@ def generate_recipes(data, previous_recipes=None):
         "5. Si el usuario es fumador, incorpora alimentos ricos en antioxidantes y que promuevan la salud pulmonar.\n"
         "6. Ajusta las porciones y frecuencia de comidas según las horas de ejercicio semanal del usuario.\n"
         "7. Utiliza ingredientes y nombres de alimentos comunes en Chile.\n"
-        "8. Proporciona una variedad de recetas para evitar la monotonía, incluyendo desayunos, almuerzos, cenas y colaciones.\n"
-        "9. Para almuerzos y cenas, crea recetas más elaboradas y complejas, con múltiples pasos de preparación y una combinación más sofisticada de ingredientes. Estas deben tener una dificultad 'Media' o 'Difícil'.\n"
-        "10. Para desayunos y colaciones, mantén las recetas más simples y rápidas de preparar, con una dificultad 'Fácil' o 'Media'.\n\n"
+        "8. Evita los ingredientes a los que el usuario es alérgico: {', '.join(data['allergies'])}.\n"
+        "9. Proporciona una variedad de recetas para evitar la monotonía, incluyendo desayunos, almuerzos, cenas y colaciones.\n"
+        "10. Para almuerzos y cenas, crea recetas más elaboradas y complejas, con múltiples pasos de preparación y una combinación más sofisticada de ingredientes. Estas deben tener una dificultad 'Media' o 'Difícil'.\n"
+        "11. Para desayunos y colaciones, mantén las recetas más simples y rápidas de preparar, con una dificultad 'Fácil' o 'Media'.\n\n"
         "Para cada receta, incluye:\n"
         "1. dia: Día de la semana.\n"
         "2. nombre: Nombre descriptivo de la receta sin incluir el tipo de comida (desayuno, almuerzo, cena o colación).\n"
@@ -131,23 +132,19 @@ def generate_recipes(data, previous_recipes=None):
     model = create_model(system_instruction)
     extra_fields = {
         'Rutina de ejercicios': data["routine"],
-        'Recetas previas': previous_recipes if previous_recipes else "Ninguna"
+        'Alergias': data["allergies"]
     }
     mensaje = create_message(data, extra_fields)
     
     try:
         response = model.generate_content(mensaje)
-        print(f"Respuesta del modelo para las recetas: {response.text}")  # Debug print
         recipes_data = json.loads(response.text)
         
-        # Verifica si 'plan_semanal' está en recipes_data
         if 'plan_semanal' not in recipes_data:
-            print(f"Respuesta inesperada: {recipes_data}")  # Debug print
             return {"error": "Formato de respuesta inesperado. Por favor, inténtelo de nuevo."}
         
         new_recipes = recipes_data['plan_semanal']
         
-        # Filtrar campos desconocidos de cada receta
         allowed_fields = ['dia', 'nombre', 'tipo', 'ingredientes', 'instrucciones', 'tiempo', 'dificultad', 'desc', 'advertencia']
         filtered_recipes = []
         for recipe in new_recipes:
@@ -157,11 +154,9 @@ def generate_recipes(data, previous_recipes=None):
         if previous_recipes:
             previous_recipes_set = {json.dumps(recipe, sort_keys=True) for recipe in previous_recipes}
             unique_new_recipes = [recipe for recipe in filtered_recipes if json.dumps(recipe, sort_keys=True) not in previous_recipes_set]
-            print(f"Recetas únicas generadas: {len(unique_new_recipes)}")  # Debug print
         else:
             unique_new_recipes = filtered_recipes
         
         return {"plan_semanal": unique_new_recipes}
     except Exception as e:
-        print(f"Error en generate_recipes: {e}")  # Debug print
         return {"error": f"No se pudieron generar las recetas: {str(e)}"}
