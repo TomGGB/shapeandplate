@@ -131,7 +131,7 @@ def generate_recipes(data, previous_recipes=None):
     )
     model = create_model(system_instruction)
     extra_fields = {
-        'Rutina de ejercicios': data["routine"],
+        'Acceso a gimnasio': "Sí" if data["gym_access"] else "No",
         'Alergias': data["allergies"]
     }
     mensaje = create_message(data, extra_fields)
