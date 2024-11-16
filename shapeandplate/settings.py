@@ -168,11 +168,11 @@ SITE_ID = 2
 
 # Configuración de correo electrónico
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.google.com')
-EMAIL_PORT = os.getenv('EMAIL_PORT', 587)
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'SHAPEANDPLATE@GMAIL.COM')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '1234')
-DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'shapeandplate@gmail.com')
+EMAIL_HOST_USER = base64.b64decode(os.getenv('EMAIL_HOST_USER')).decode('utf-8')
+EMAIL_HOST_PASSWORD = base64.b64decode(os.getenv('EMAIL_HOST_PASSWORD')).decode('utf-8')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 
