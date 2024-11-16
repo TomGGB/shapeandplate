@@ -66,9 +66,8 @@
                         {% endif %}
                     </div>
                     {% if ejercicio.duracion or ejercicio.sesiones %}
-                        <!-- Agrega el evento de clic al círculo de estado del ejercicio -->
                         <div class="progress-container {% if ejercicio.progress.completed %}completed{% endif %}" data-exercise-index="{{ forloop.counter0 }}">
-                            <div class="progress-status" onclick="toggleExerciseCompletion({{ forloop.counter0 }})">
+                            <div class="progress-status">
                                 <span class="material-icons">{% if ejercicio.progress.completed %}check_circle{% else %}radio_button_unchecked{% endif %}</span>
                                 <span class="status-text">{% if ejercicio.progress.completed %}Completado{% else %}Pendiente{% endif %}</span>
                             </div>
@@ -251,19 +250,6 @@ function updateProgress(exerciseIndex, completed) {
     }).catch(error => {
         console.error('Error al actualizar el progreso:', error);
     });
-}
-
-function toggleExerciseCompletion(exerciseIndex) {
-    const progressContainer = document.querySelector(`.progress-container[data-exercise-index="${exerciseIndex}"]`);
-    const isCompleted = progressContainer.classList.contains('completed');
-    
-    if (isCompleted) {
-        // Si ya está completado, no hacer nada
-        return;
-    }
-    
-    // Marcar el ejercicio como completado
-    completeExercise(exerciseIndex);
 }
 
 document.querySelectorAll('.start-timer').forEach(button => {
@@ -766,3 +752,6 @@ p {
 </style>
 
 {% endblock %}
+
+
+

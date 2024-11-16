@@ -32,7 +32,6 @@
             <li><span class="profile-label">Horas de ejercicio semanal:</span> <span class="profile-value">{% if weekly_exercise_hours and weekly_exercise_hours != 0 %}{{ weekly_exercise_hours }}{% else %}No registrado{% endif %}</span></li>
             <li><span class="profile-label">Objetivo:</span> <span class="profile-value">{% if goal == 'ganar_peso' %}Ganar Peso{% elif goal == 'ganar_musculatura' %}Ganar Musculatura{% elif goal == 'perder_peso' %}Perder Peso{% elif goal == 'mantener_peso' %}Mantener Peso{% elif goal == 'mejorar_condicion_fisica' %}Mejorar Condición Física{% else %}No registrado{% endif %}</span></li>
             <li><span class="profile-label">¿Acceso a gimnasio?:</span> <span class="profile-value">{% if gym_access == True %}Sí{% elif gym_access == False %}No{% else %}No registrado{% endif %}</span></li>
-            <li><span class="profile-label">Allergias:</span> <span class="profile-value">{% if allergies %}{{ allergies }}{% else %}No registrado{% endif %}</span></li>
         </ul>
     </div>
     <button id="edit-button" class="floating-button material-symbols-outlined">
@@ -119,11 +118,6 @@
                     <input type="checkbox" id="gym_access" name="gym_access" {% if gym_access %}checked{% endif %}>
                     <label for="gym_access"></label>
                 </div>
-            </div>
-
-            <div class="form-group">
-                <label for="allergies">Alergias:</label>
-                <input type="text" id="allergies" name="allergies" value="{{ allergies|default_if_none:'' }}">
             </div>
 
             <button type="submit" class="submit-button">Guardar</button>

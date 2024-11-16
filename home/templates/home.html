@@ -27,10 +27,6 @@
                     <span class="metric-label">Ejercicios Completados</span>
                 </div>
             </div>
-            <button id="share-button" class="btn">
-                <span class="material-icons">share</span>
-                Compartir Progreso
-            </button>
         </div>
     </div>
 
@@ -280,29 +276,8 @@
     margin: 1dvh 0;
     font-style: italic;
 }
-
-#share-button {
-    display: flex;
-    align-items: center;
-    background-color: var(--primary-color);
-    color: var(--on-primary-color);
-    padding: 10px 20px;
-    border: none;
-    border-radius: 24px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-}
-#share-button:hover {
-    background-color: var(--primary-dark);
-}
-#share-button .material-icons {
-    margin-right: 8px;
-}
 </style>
-{% endblock %}
 
-{% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const progressBar = document.querySelector('.progress-bar');
@@ -312,27 +287,6 @@ document.addEventListener('DOMContentLoaded', function() {
             progressBar.style.width = `${percentage}%`;
         }, 100);
     }
-});
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    var shareButton = document.getElementById('share-button');
-    shareButton.addEventListener('click', function() {
-        if (navigator.share) {
-            navigator.share({
-                title: 'Mi progreso en ShapeAndPlate',
-                text: 'He completado {{ completion_percentage }}% de mis ejercicios hoy en ShapeAndPlate!',
-                url: '{{ request.build_absolute_uri }}',
-            }).then(() => {
-                console.log('Contenido compartido exitosamente');
-            }).catch((error) => {
-                console.error('Error al compartir:', error);
-            });
-        } else {
-            alert('La función de compartir no es compatible con este navegador.');
-        }
-    });
 });
 </script>
 {% endblock %}

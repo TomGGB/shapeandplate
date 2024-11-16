@@ -132,7 +132,6 @@ def profile(request):
         user.smoker = 'smoker' in request.POST
         user.weekly_exercise_hours = request.POST.get('weekly_exercise_hours', user.weekly_exercise_hours)
         user.gym_access = 'gym_access' in request.POST
-        user.allergies = request.POST.get('allergies', user.allergies)
         
         imc = request.POST.get('imc', user.imc)
         goal = request.POST.get('goal', user.goal)
@@ -160,7 +159,6 @@ def profile(request):
         'imc': user.imc,
         'goal': user.goal,
         'gym_access': user.gym_access,
-        'allergies': user.allergies,
     }
     return render(request, 'profile.html', context)
 
