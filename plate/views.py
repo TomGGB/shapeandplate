@@ -25,9 +25,10 @@ def plate(request):
         if form.is_valid():
             allergies = form.cleaned_data['allergies']
             # Guarda las alergias en el perfil del usuario
+            user = request.user
             user.allergies = allergies
             user.save()
-            messages.success(request, '¡Alergias actualizadas correctamente! La próxima vez que se generen recetas se tendrán en consideración.')
+            messages.success(request, '¡Alergias actualizadas correctamente! la proxima vez que se generen recetas se tendrán en consideración.')
             return redirect('plate')
     else:
         # Inicializa el formulario con las alergias actuales del usuario
@@ -35,12 +36,15 @@ def plate(request):
 
     # Definir los días de la semana
     dias_semana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
+    
     # Obtener el día actual
     today = timezone.now()
     start_of_week = today - timedelta(days=today.weekday())
     week_days = [(start_of_week + timedelta(days=i)).strftime('%d') for i in range(7)]
+    
     # Combinar días de la semana y números de días
     week_info = list(zip(dias_semana, week_days))
+
     # Obtener el día seleccionado o el día actual
     selected_day = request.GET.get('day')
     if selected_day:
@@ -55,38 +59,19 @@ def plate(request):
                 tipo = recipe.recipe.get('tipo')
                 if tipo not in recetas_del_dia:
                     recetas_del_dia[tipo] = []
+                
                 recipe_data = recipe.recipe.copy()
                 recipe_data['id'] = recipe.id
                 recetas_del_dia[tipo].append(recipe_data)
-    else:
-        # Generar nuevas recetas si no existen
-        data = {
-            'edad': user.age,
-            'altura': user.height,
-            'peso': user.weight,
-            'ejercicio_semanal': user.weekly_exercise_hours,
-            'dieta': user.diet,
-            'imc': user.imc,
-            'objetivo': user.goal,
-            'smoker': user.smoker,
-            'gym_access': user.gym_access,
-            'allergies': user.allergies.split(',') if user.allergies else []
-        }
-        new_recipes = generate_recipes(data)
-        if 'plan_semanal' in new_recipes:
-            for recipe in new_recipes['plan_semanal']:
-                FoodRecipe.objects.create(user=user, recipe=recipe)
-            messages.success(request, 'Nuevas recetas generadas exitosamente.')
-            return redirect('plate')
-        else:
-            messages.error(request, 'No se pudieron generar nuevas recetas. Por favor, intenta de nuevo.')
 
-    return render(request, 'plate.html', {
+    response = render(request, 'plate.html', {
         'recetas_del_dia': recetas_del_dia,
         'dia_actual': dia_actual,
         'week_info': week_info,
         'form': form,  # Añade el formulario al contexto
     })
+    response['Cache-Control'] = 'public, max-age=0, s-maxage=86400, stale-while-revalidate'
+    return response
 
 @login_required
 @csrf_exempt
@@ -99,5 +84,4 @@ def delete_recipe(request):
 @login_required
 def recipe_detail(request, recipe_id):
     recipe = get_object_or_404(FoodRecipe, id=recipe_id, user=request.user)
-    instrucciones = recipe.recipe.get('instrucciones', '').split('. ')
-    return render(request, 'recipe_detail.html', {'receta': recipe.recipe, 'instrucciones': instrucciones})
+    return render(request, 'recipe_detail.html', {'receta': recipe.recipe})
