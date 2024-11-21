@@ -38,12 +38,15 @@ def index(request):
     current_meal = None
     if current_meal_type:
         recipes = FoodRecipe.objects.filter(user=request.user)
-        for recipe in recipes:
-            if recipe.recipe.get('dia') == dia_actual and recipe.recipe.get('tipo') == current_meal_type:
-                recipe_data = recipe.recipe
-                recipe_data['id'] = recipe.id
-                current_meal = recipe_data
-                break
+        if recipes.exists():
+            latest_recipe = recipes.latest('created_at')
+            plan_semanal = latest_recipe.plan_semanal.get('plan_semanal', [])
+            
+            for recipe in plan_semanal:
+                if recipe.get('dia') == dia_actual and recipe.get('tipo') == current_meal_type:
+                    recipe['id'] = recipe.get('id', 0)  # Asignar ID si no existe
+                    current_meal = recipe
+                    break
 
     # Obtener ejercicios pendientes y métricas
     exercise_routine = ExerciseRoutine.objects.filter(user=request.user).first()
