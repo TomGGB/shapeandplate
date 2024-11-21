@@ -20,7 +20,7 @@ def create_model(system_instruction):
         "response_mime_type": "application/json",
     }
     return genai.GenerativeModel(
-        model_name="gemini-1.5-pro",
+        model_name="gemini-1.5-flash-8b",
         generation_config=generation_config,
         system_instruction=system_instruction
     )
@@ -105,39 +105,32 @@ def generate_workout_routine(data):
 def generate_recipes(data, previous_recipes=None):
     system_instruction = (
         "Eres un chef nutricionista experto. Crea un plan de alimentación semanal altamente personalizado basado en los datos del usuario y su rutina de ejercicios, siguiendo estas pautas:\n\n"
-        "1. Ajusta las calorías y macronutrientes según el objetivo del usuario (pérdida de peso, ganancia de masa muscular, etc.).\n"
-        "2. Considera la edad, peso, altura e IMC para determinar las necesidades nutricionales específicas.\n"
-        "3. Adapta las recetas a la dieta del usuario (vegetariana, vegana, sin gluten, etc.).\n"
-        "4. Incluye alimentos que complementen la rutina de ejercicios, proporcionando los nutrientes necesarios para la recuperación muscular.\n"
-        "5. Si el usuario es fumador, incorpora alimentos ricos en antioxidantes y que promuevan la salud pulmonar.\n"
-        "6. Ajusta las porciones y frecuencia de comidas según las horas de ejercicio semanal del usuario.\n"
-        "7. Utiliza ingredientes y nombres de alimentos comunes en Chile.\n"
-        "8. Evita los ingredientes a los que el usuario es alérgico: {', '.join(data['allergies'])}.\n"
-        "9. Proporciona una variedad de recetas para evitar la monotonía, incluyendo desayunos, almuerzos, cenas y colaciones.\n"
-        "10. Para almuerzos y cenas, crea recetas más elaboradas y complejas, con múltiples pasos de preparación y una combinación más sofisticada de ingredientes. Estas deben tener una dificultad 'Media' o 'Difícil'.\n"
-        "11. Para desayunos y colaciones, mantén las recetas más simples y rápidas de preparar, con una dificultad 'Fácil' o 'Media'.\n\n"
-        "Para cada receta, incluye:\n"
-        "1. dia: Día de la semana.\n"
-        "2. nombre: Nombre descriptivo de la receta sin incluir el tipo de comida (desayuno, almuerzo, cena o colación).\n"
-        "3. tipo: 'Desayuno', 'Almuerzo', 'Cena' o 'Colación'.\n"
-        "4. ingredientes: Lista de ingredientes con cantidades.\n"
-        "5. instrucciones: Pasos detallados para preparar la receta. Para almuerzos y cenas, incluye técnicas culinarias más avanzadas.\n"
-        "6. tiempo: Tiempo de preparación. Almuerzos y cenas deberían tener tiempos de preparación más largos.\n"
-        "7. dificultad: 'Fácil', 'Media' o 'Difícil'. Almuerzos y cenas deben ser 'Media' o 'Difícil'.\n"
-        "8. desc: Breve descripción de la receta y sus beneficios nutricionales.\n"
-        "9. advertencia: Solo para recetas de dificultad alta o que requieran precauciones especiales.\n\n"
-        "Asegúrate de que las recetas sean variadas y no se repitan con las recetas previas proporcionadas.\n"
-        "IMPORTANTE: La respuesta debe ser un objeto JSON con una clave 'plan_semanal' que contenga la lista de recetas."
+        "1. Genera recetas para los siete días de la semana.\n"
+        "2. Incluye todas las comidas principales: desayuno, almuerzo, cena y colaciones si son necesarias.\n"
+        "3. Ajusta las calorías y macronutrientes según el objetivo del usuario (pérdida de peso, ganancia de masa muscular, etc.).\n"
+        "4. Considera las necesidades nutricionales específicas basadas en la edad, peso, altura e IMC del usuario.\n"
+        "9. Asegúrate de que las recetas sean variadas y no se repitan con las recetas previas proporcionadas.\n\n"
+        "IMPORTANTE: La respuesta debe ser un objeto JSON con una clave 'plan_semanal' que contenga una lista de recetas para cada día de la semana. Cada receta debe incluir los siguientes campos:\n"
+        "- 'dia': Día de la semana.\n"
+        "- 'tipo': Tipo de comida ('Desayuno', 'Almuerzo', 'Cena', 'Colación').\n"
+        "- 'nombre': Nombre de la receta.\n"
+        "- 'ingredientes': Lista de ingredientes.\n"
+        "- 'instrucciones': Pasos para preparar la receta.\n"
+        "- 'tiempo': Tiempo de preparación.\n"
+        "- 'dificultad': Dificultad de la receta.\n"
+        "- 'desc': Breve descripción de la receta.\n"
+        "- 'advertencia': Advertencias si las hay.\n"
     )
     model = create_model(system_instruction)
     extra_fields = {
         'Acceso a gimnasio': "Sí" if data["gym_access"] else "No",
-        'Alergias': data["allergies"]
+        'Alergias': data["allergies"],
     }
     mensaje = create_message(data, extra_fields)
     
     try:
         response = model.generate_content(mensaje)
+        print("Respuesta del modelo:", response.text)  # Agrega esta línea para depuración
         recipes_data = json.loads(response.text)
         
         if 'plan_semanal' not in recipes_data:

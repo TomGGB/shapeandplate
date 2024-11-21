@@ -41,40 +41,33 @@
 </div>
 
 {% if recetas_del_dia %}
-<div class="card-container top-card">
-    <div class="card info-card">
-        <h2>¡Recuerda!</h2>
-        <p>Las recetas se actualizan cada vez que generas una nueva rutina de ejercicios ya que se adaptan a tus necesidades nutricionales.</p>
-        <p>¡No olvides revisarlas!</p>
+    <div class="card-container plate">
+        <h2 class="day-title">Tus recetas recomendadas para hoy ({{ dia_actual }}):</h2>
+        {% for tipo, recetas in recetas_del_dia.items %}
+            <h3 class="meal-type {{ tipo|lower }}">{{ tipo }}</h3>
+            <div class="recipe-grid">
+                {% for receta in recetas %}
+                    <div class="card recipe-card {{ tipo|lower }}">
+                        <a href="{% url 'recipe_detail' receta.id %}">
+                            <h4 class="recipe-name">{{ receta.nombre }}</h4>
+                            <p class="recipe-description">{{ receta.desc|truncatechars:100 }}</p>
+                            <div class="recipe-meta">
+                                <span class="chip recipe-time"><i class="material-icons">schedule</i> {{ receta.tiempo }}</span>
+                                <span class="chip recipe-difficulty"><i class="material-icons">bolt</i> {{ receta.dificultad }}</span>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
     </div>
-</div>
-<div class="card-container plate">
-    <h2 class="day-title">Tus recetas recomendadas para hoy ({{ dia_actual }}):</h2>
-    {% for tipo, recetas in recetas_del_dia.items %}
-        <h3 class="meal-type {{ tipo|lower }}">{{ tipo }}</h3>
-        <div class="recipe-grid">
-            {% for receta in recetas %}
-                <div class="card recipe-card {{ tipo|lower }}">
-                    <a href="{% url 'recipe_detail' receta.id %}">
-                        <h4 class="recipe-name">{{ receta.nombre }}</h4>
-                        <p class="recipe-description">{{ receta.desc|truncatechars:100 }}</p>
-                        <div class="recipe-meta">
-                            <span class="chip recipe-time"><i class="material-icons">schedule</i> {{ receta.tiempo }}</span>
-                            <span class="chip recipe-difficulty"><i class="material-icons">bolt</i> {{ receta.dificultad }}</span>
-                        </div>
-                    </a>
-                </div>
-            {% endfor %}
-        </div>
-    {% endfor %}
-</div>
 {% else %}
-<div class="card-container">
-    <div class="card info-card">
-        <h2>No hay recetas disponibles para hoy</h2>
-        <p>Genera una nueva rutina de ejercicios para obtener recetas personalizadas.</p>
+    <div class="card-container">
+        <div class="card info-card">
+            <h2>No hay recetas disponibles para hoy</h2>
+            <p>Genera una nueva rutina de ejercicios para obtener recetas personalizadas.</p>
+        </div>
     </div>
-</div>
 {% endif %}
 {% endblock %}
 {% block extra_css %}

@@ -57,7 +57,11 @@ class ExerciseRoutine(models.Model):
 
 class FoodRecipe(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    recipe = models.JSONField()
+    plan_semanal = models.JSONField()  # Almacena todo el plan semanal
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
 
     def __str__(self):
-        return f"Recipe for {self.user.first_name} {self.user.last_name}"
+        return f"Plan semanal de recetas para {self.user.first_name} {self.user.last_name}"

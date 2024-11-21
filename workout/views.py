@@ -92,6 +92,8 @@ def data_preview(request):
         progress_data = latest_routine.progress
         exercise_times = latest_routine.exercise_times
 
+
+
         if request.method == 'POST':
             exercise_index = int(request.POST.get('exercise_index'))
             completed = request.POST.get('completed') == 'true'
@@ -135,12 +137,18 @@ def data_preview(request):
             'gym_access': user.gym_access
         }
         routine_data = generate_workout_routine(data)
+        if 'error' in routine_data:
+            messages.error(request, 'No se pudo generar la rutina de ejercicios. Por favor, intenta de nuevo.')
+            return redirect('workout')
 
-        # Guarda la nueva rutina en la base de datos
-        routine = ExerciseRoutine.objects.create(user=user, routine=routine_data)
-        routine.save()
+        else:
+            # Guarda la nueva rutina en la base de datos
+            routine = ExerciseRoutine.objects.create(user=user, routine=routine_data)
+            routine.save()
 
-        return render(request, 'data_preview.html', {'exercise_routine': routine_data})
+            return render(request, 'data_preview.html', {'exercise_routine': routine_data})
+
+        
     
 @csrf_exempt
 @login_required
