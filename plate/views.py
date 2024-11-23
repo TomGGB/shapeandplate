@@ -75,12 +75,17 @@ def plate(request):
     recetas_semana = {dia: {} for dia in dias_semana}
 
     if food_recipes.exists():
-        # Obtener el plan_semanal más reciente
         latest_food_recipe = food_recipes.latest('created_at')
         plan_semanal = latest_food_recipe.plan_semanal.get('plan_semanal', [])
 
-        for idx, receta in enumerate(plan_semanal):
-            receta['id'] = idx  # Asignar un identificador único
+        # Crear un contador global para IDs únicos
+        id_counter = 0
+        
+        # Asignar IDs únicos a todas las recetas
+        for receta in plan_semanal:
+            receta['id'] = id_counter
+            id_counter += 1
+            
             dia = receta.get('dia')
             tipo = receta.get('tipo')
             if dia in recetas_semana:
@@ -115,12 +120,12 @@ def delete_recipe(request):
     return redirect('plate')
 
 @login_required
-def recipe_detail(request, recipe_idx):
+def recipe_detail(request, recipe_id):  # Cambiar recipe_idx a recipe_id
     food_recipe = FoodRecipe.objects.filter(user=request.user).latest('created_at')
     plan_semanal = food_recipe.plan_semanal.get('plan_semanal', [])
-    if recipe_idx < 0 or recipe_idx >= len(plan_semanal):
+    if recipe_id < 0 or recipe_id >= len(plan_semanal):
         messages.error(request, 'Receta no encontrada.')
         return redirect('plate')
-    receta = plan_semanal[recipe_idx]
+    receta = plan_semanal[recipe_id]
     instrucciones = receta.get('instrucciones', [])
     return render(request, 'recipe_detail.html', {'receta': receta, 'instrucciones': instrucciones})
