@@ -75,6 +75,7 @@ def signup(request):
         email = request.POST['email']
         password = request.POST['password']
         password_confirm = request.POST['password_confirm']
+        gender = request.POST['gender']
 
         if password != password_confirm:
             messages.error(request, 'Las contraseñas no coinciden. Por favor, inténtalo de nuevo.')
@@ -88,7 +89,8 @@ def signup(request):
             first_name=first_name,
             last_name=last_name,
             email=email,
-            password=password
+            password=password,
+            gender=gender
         )
         user.is_active = False  # Desactivar la cuenta hasta que se verifique el correo
         user.save()
@@ -133,6 +135,7 @@ def profile(request):
         user.weekly_exercise_hours = request.POST.get('weekly_exercise_hours', user.weekly_exercise_hours)
         user.gym_access = 'gym_access' in request.POST
         user.allergies = request.POST.get('allergies', user.allergies)
+        user.gender = request.POST.get('gender', user.gender)
         
         imc = request.POST.get('imc', user.imc)
         goal = request.POST.get('goal', user.goal)
@@ -161,6 +164,7 @@ def profile(request):
         'goal': user.goal,
         'gym_access': user.gym_access,
         'allergies': user.allergies,
+        'gender' : user.gender
     }
     return render(request, 'profile.html', context)
 

@@ -66,25 +66,60 @@ def generate_workout(request):
             'imc': user.imc,
             'objetivo': user.goal,
             'smoker': user.smoker,
-            'gym_access': user.gym_access
+            'gym_access': user.gym_access,
+            'allergies': user.allergies,
+            'gender': user.gender  # Añadir el campo de género
         }
         routine_data = generate_workout_routine(data)
-
-        if not routine_data:
-            messages.error(request, 'No se pudo generar la rutina de ejercicios. Por favor, intenta de nuevo.')
+        
+        # Verificar si hay error antes de guardar
+        if isinstance(routine_data, dict) and 'error' in routine_data:
+            messages.error(request, routine_data['error'])
             return redirect('workout')
 
-        # Guarda la rutina en la base de datos
+        # Verificar que tenga la estructura correcta
+        if not isinstance(routine_data, dict) or 'rutina' not in routine_data:
+            messages.error(request, 'La rutina generada no tiene el formato correcto.')
+            return redirect('workout')
+
+        # Si todo está bien, guardar la rutina
         routine = ExerciseRoutine.objects.create(user=user, routine=routine_data)
         routine.save()
-
+        
         messages.success(request, 'Nueva rutina de ejercicios generada exitosamente.')
         return redirect('data_preview')
+
+    return redirect('workout')
 
 @login_required
 def data_preview(request):
     user = request.user
     exercise_routines = ExerciseRoutine.objects.filter(user=user)
+
+    if not exercise_routines.exists():
+        data = {
+            'edad': user.age,
+            'altura': user.height,
+            'peso': user.weight,
+            'ejercicio_semanal': user.weekly_exercise_hours,
+            'dieta': user.diet,
+            'imc': user.imc,
+            'objetivo': user.goal,
+            'smoker': user.smoker,
+            'gym_access': user.gym_access,
+            'gender': user.gender
+        }
+        
+        routine_data = generate_workout_routine(data)
+        
+        # Verificar si hay error o formato incorrecto
+        if isinstance(routine_data, dict) and ('error' in routine_data or 'rutina' not in routine_data):
+            messages.error(request, 'No se pudo generar la rutina de ejercicios. Por favor, intenta de nuevo.')
+            return redirect('workout')
+            
+        # Si todo está bien, guardar la rutina
+        routine = ExerciseRoutine.objects.create(user=user, routine=routine_data)
+        return render(request, 'data_preview.html', {'exercise_routine': routine_data})
 
     if exercise_routines.exists():
         latest_routine = exercise_routines.latest('created_at')

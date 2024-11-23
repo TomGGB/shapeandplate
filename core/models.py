@@ -36,6 +36,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
+    GENDER_CHOICES = [
+        ('M', 'Masculino'),
+        ('F', 'Femenino')
+    ]
+    gender = models.CharField(
+        max_length=1, 
+        choices=GENDER_CHOICES,
+        verbose_name="Sexo",
+        blank=True,
+        null=True
+    )
 
     objects = UserManager()
 

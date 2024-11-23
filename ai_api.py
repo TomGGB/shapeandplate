@@ -62,9 +62,11 @@ def generate_workout_routine(data):
         "2. Para usuarios mayores de 50 años o con poco ejercicio semanal, enfócate en ejercicios de baja impacto y fortalecimiento gradual.\n"
         "3. Si el usuario tiene sobrepeso (IMC > 25), incluye ejercicios que sean seguros para sus articulaciones.\n"
         "4. Ajusta la dificultad: para principiantes (0-2 horas semanales), usa intensidad 'Baja'; para intermedios (3-5 horas), 'Media'; para avanzados (6+ horas), 'Alta'.\n"
-        "5. Considera el objetivo del usuario (pérdida de peso, tonificación, etc.) al seleccionar los tipos de ejercicios.\n"
-        "6. Si el usuario es fumador, incluye más ejercicios cardiovasculares y de capacidad pulmonar.\n"
-        "7. Adapta los ejercicios según el acceso a gimnasio, sugiriendo alternativas con objetos caseros si no tiene acceso.\n\n"
+        "5. Considera el objetivo del usuario y su género al seleccionar los tipos de ejercicios.\n"
+        "6. Para mujeres, ajusta los ejercicios considerando diferencias fisiológicas y hormonales.\n"
+        "7. Para hombres, adapta los ejercicios según sus características musculares específicas.\n"
+        "8. Si el usuario es fumador, incluye más ejercicios cardiovasculares y de capacidad pulmonar.\n"
+        "9. Adapta los ejercicios según el acceso a gimnasio, sugiriendo alternativas con objetos caseros si no tiene acceso.\n\n"
         "Para cada ejercicio, proporciona:\n"
         "1. nombre: Proporciona un nombre muy descriptivo y específico en español para el ejercicio, incluyendo detalles sobre la posición del cuerpo, el movimiento y cualquier equipo utilizado. Por ejemplo, 'Sentadillas profundas con salto y brazos extendidos' o 'Flexiones de pecho en declive con pies elevados en banco'.\n"
         "2. nombre_en: El nombre del ejercicio en inglés, igualmente muy descriptivo y específico. IMPORTANTE: Siempre comienza con 'Person doing' o 'Person performing' para asegurar que la búsqueda de imágenes muestre a una persona realizando el ejercicio. Por ejemplo, 'Person doing deep jump squats with extended arms' o 'Person performing decline push-ups with feet elevated on bench'.\n"
@@ -81,7 +83,8 @@ def generate_workout_routine(data):
     )
     model = create_model(system_instruction)
     extra_fields = {
-        'Acceso a gimnasio': "Sí" if data["gym_access"] else "No"
+        'Acceso a gimnasio': "Sí" if data["gym_access"] else "No",
+        'Género': "Masculino" if data["gender"] == 'M' else "Femenino" if data["gender"] == 'F' else "No especificado"
     }
     mensaje = create_message(data, extra_fields)
     
@@ -107,10 +110,10 @@ def generate_recipes(data, previous_recipes=None):
         "Eres un chef nutricionista experto. Crea un plan de alimentación semanal altamente personalizado basado en los datos del usuario y su rutina de ejercicios, siguiendo estas pautas:\n\n"
         "1. Genera recetas para los siete días de la semana.\n"
         "2. Incluye todas las comidas principales: desayuno, almuerzo, cena y colaciones si son necesarias.\n"
-        "3. Ajusta las calorías y macronutrientes según el objetivo del usuario (pérdida de peso, ganancia de masa muscular, etc.).\n"
-        "4. Considera las necesidades nutricionales específicas basadas en la edad, peso, altura e IMC del usuario.\n"
-        "9. Asegúrate de que las recetas sean variadas y no se repitan con las recetas previas proporcionadas.\n\n"
-        "IMPORTANTE: La respuesta debe ser un objeto JSON con una clave 'plan_semanal' que contenga una lista de recetas para cada día de la semana. Cada receta debe incluir los siguientes campos:\n"
+        "3. Ajusta las calorías y macronutrientes según el objetivo, rutina y género del usuario.\n"
+        "4. Considera las necesidades nutricionales específicas según el género y rutina.\n"
+        "8. Asegúrate de incluir advertencias si las recetas contienen alérgenos comunes o ingredientes que puedan causar problemas de salud.\n"
+        "IMPORTANTE: La respuesta debe ser un objeto JSON con una clave 'plan_semanal' que contenga una lista de recetas para cada día de la semana ASEGURATE DE QUE SE GENEREN RECETAS PARA LA SEMANA COMPLETA. Cada receta debe incluir los siguientes campos:\n"
         "- 'dia': Día de la semana.\n"
         "- 'tipo': Tipo de comida ('Desayuno', 'Almuerzo', 'Cena', 'Colación').\n"
         "- 'nombre': Nombre de la receta.\n"

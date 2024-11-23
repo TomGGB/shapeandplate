@@ -27,6 +27,14 @@
                         <label for="peso">Peso (kg):</label>
                         <input type="number" id="peso" name="peso" value="{{ user.weight|default_if_none:0 }}" required>
                     </div>
+                    <div class="form-group">
+                        <label for="gender">Sexo:</label>
+                        <select id="gender" name="gender" disabled>
+                            <option value="M" {% if user.gender == 'M' %}selected{% endif %}>Masculino</option>
+                            <option value="F" {% if user.gender == 'F' %}selected{% endif %}>Femenino</option>
+                        </select>
+                        <small>El sexo solo puede modificarse desde el perfil</small>
+                    </div>
                 </div>
                 <div class="button-container">
                     <div></div>
@@ -374,4 +382,3 @@
     }
 </style>
 {% endblock %}
-

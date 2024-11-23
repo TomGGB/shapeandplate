@@ -19,8 +19,8 @@ def plate(request):
     if not exercise_routines.exists():
         messages.error(request, 'Primero debes generar una rutina de ejercicios.')
         return redirect('workout')
-    else:
-        latest_routine = exercise_routines.latest('created_at')
+
+    latest_routine = exercise_routines.latest('created_at')
 
     # Generar recetas si no existen
     if not food_recipes.exists():
@@ -34,19 +34,21 @@ def plate(request):
             'objetivo': user.goal,
             'smoker': user.smoker,
             'gym_access': user.gym_access,
-            'allergies': user.allergies if user.allergies else '', 
+            'allergies': user.allergies if user.allergies else '',
             'routine': latest_routine.routine,
+            'gender': user.gender
         }
+        
         recipes_data = generate_recipes(data)
-
-        if 'error' in recipes_data:
-            messages.error(request, 'Hubo un error al generar las recetas. Por favor, intenta de nuevo.')
+        
+        # Verificar si hay error o formato incorrecto
+        if isinstance(recipes_data, dict) and ('error' in recipes_data or 'plan_semanal' not in recipes_data):
+            messages.error(request, 'No se pudieron generar las recetas. Por favor, intenta de nuevo.')
             return redirect('workout')
-        else:
-            # Guarda el JSON completo
-            FoodRecipe.objects.create(user=user, plan_semanal=recipes_data)
-            # Actualizar la variable food_recipes
-            food_recipes = FoodRecipe.objects.filter(user=user)
+            
+        # Si todo está bien, guardar las recetas
+        FoodRecipe.objects.create(user=user, plan_semanal=recipes_data)
+        food_recipes = FoodRecipe.objects.filter(user=user)
 
     # Manejo del formulario de alergias
     if request.method == 'POST':
