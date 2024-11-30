@@ -16,7 +16,6 @@ def create_model(system_instruction):
         "temperature": 0,
         "top_p": 0.95,
         "top_k": 40,
-        "max_output_tokens": 20000,
         "response_mime_type": "application/json",
     }
     return genai.GenerativeModel(
